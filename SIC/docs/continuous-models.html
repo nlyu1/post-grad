@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Continuous models | SIE Notes: Summer 2025</title>
+  <meta name="description" content="2 Continuous models | SIE Notes: Summer 2025" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Continuous models | SIE Notes: Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Continuous models | SIE Notes: Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="discrete-models.html"/>
+<link rel="next" href="application-to-financial-strategies.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="discrete-models.html"><a href="discrete-models.html"><i class="fa fa-check"></i><b>1</b> Discrete models</a>
+<ul>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#teaser-forward-contracts"><i class="fa fa-check"></i>Teaser: forward contracts</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-branch-model"><i class="fa fa-check"></i>Binomial branch model</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-tree-model"><i class="fa fa-check"></i>Binomial tree model</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-tree-pricing"><i class="fa fa-check"></i>Binomial tree pricing</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-models.html"><a href="continuous-models.html"><i class="fa fa-check"></i><b>2</b> Continuous models</a>
+<ul>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#preliminaries"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#brownian-process"><i class="fa fa-check"></i>Brownian process</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#stochastic-calculus"><i class="fa fa-check"></i>Stochastic calculus</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#change-of-process-measure"><i class="fa fa-check"></i>Change of process measure</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#CMG"><i class="fa fa-check"></i>CMG theorem</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#martingales"><i class="fa fa-check"></i>Martingales</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="application-to-financial-strategies.html"><a href="application-to-financial-strategies.html"><i class="fa fa-check"></i><b>3</b> Application to financial strategies</a>
+<ul>
+<li class="chapter" data-level="" data-path="application-to-financial-strategies.html"><a href="application-to-financial-strategies.html#preliminaries-1"><i class="fa fa-check"></i>Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SIE Notes: Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="continuous-models" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Continuous models<a href="continuous-models.html#continuous-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="preliminaries" class="section level2 unnumbered hasAnchor">
+<h2>Preliminaries<a href="continuous-models.html#preliminaries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:unlabeled-div-6" class="definition"><strong>Definition 2.1  (stochastic process) </strong></span>Given a probability space <span class="math inline">\((\Omega, \mathcal F, \mathbb P)\)</span>, where</p>
+<ul>
+<li><span class="math inline">\(\Omega\)</span> is the sample space.</li>
+<li><span class="math inline">\(\mathcal F\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra of events to which probabilities can be assigned.</li>
+<li><span class="math inline">\(\mathbb P\)</span> is a probability measure on <span class="math inline">\(\mathcal F\)</span>.</li>
+<li>A random variable is a measurable function <span class="math inline">\(X: \Omega \to \mathbb R\)</span>. The <span class="math inline">\(\sigma\)</span>-algebra generated by <span class="math inline">\(X\)</span> is <span class="math inline">\(\sigma(X) = \{X^{-1}(B) \mid B\in \mathbb B(\mathbb R)\}\subseteq\mathcal F\)</span>; it encodes the information about <span class="math inline">\(\Omega\)</span> that’s revealable by <span class="math inline">\(X\)</span>; definition extends naturally to vector-valued random variables (or collection of random variables).</li>
+<li><span class="math inline">\(X_1, \dots, X_n\)</span> are <strong>independent</strong> if <span class="math inline">\(\sigma(X_1), \dots, \sigma(X_n)\)</span> are independent:
+<span class="math display">\[
+  P(\{X_j\in A_j\}) = \prod_{j=1}^n P(X_j\in A_j)
+\]</span>
+Independence of random variables are defined analogously.</li>
+</ul>
+<p>Let <span class="math inline">\(T\subseteq \mathbb R_+\)</span> be the time index; a real-valued <strong>stochastic process</strong> is a measurable map
+<span class="math display">\[
+    X: \Omega \times T \to \mathbb R.
+\]</span>
+so that <span class="math inline">\(X_{\forall t\in T}\)</span> is a random variable. A <strong>filtration</strong> <span class="math inline">\((\mathcal F_{t\in T})\)</span> is an increasing family of <span class="math inline">\(\sigma\)</span>-algebras satisfying <span class="math inline">\(\mathcal F_0\subseteq \mathcal F_{0\leq s\leq t}\subseteq \mathcal F_t\subseteq \mathcal F\)</span>.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-7" class="definition"><strong>Definition 2.2  (filtration and processes) </strong></span>The <strong>natural filtration</strong> of a stochastic process <span class="math inline">\(X\)</span> is the filtration <span class="math inline">\((\mathcal F_t)\)</span> defined by
+<span class="math display">\[
+    \mathcal F_t = \sigma(X_s \mid s\leq t).
+\]</span>
+A stochastic process is <strong>adapted</strong> to a filtration <span class="math inline">\((\mathcal F_t)\)</span> if <span class="math inline">\(X_t\)</span> is <span class="math inline">\(\mathcal F_t\)</span>-measurable for all <span class="math inline">\(t\in T\)</span>; this asks that <em>the value of <span class="math inline">\(X_t\)</span> is uniquely determined by distinguishable sample partitions known up to time <span class="math inline">\(t\)</span>.</em></p>
+</div>
+</div>
+<div id="brownian-process" class="section level2 unnumbered hasAnchor">
+<h2>Brownian process<a href="continuous-models.html#brownian-process" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>By intuition, a continuous process should be continuous, variable across time, and real-valued.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 2.1  (tentative random walk) </strong></span>Given a positive integer <span class="math inline">\(n\)</span>, define the binomial process <span class="math inline">\(W_n(t)\)</span> with</p>
+<ul>
+<li><span class="math inline">\(W_n(0) = 0\)</span>.</li>
+<li>Layer spacing <span class="math inline">\(\delta = 1/n\)</span>.</li>
+<li>Up and down jumps with equal size <span class="math inline">\(1/\sqrt n\)</span>.</li>
+<li>Measure <span class="math inline">\(\mathbb P\)</span> uniform between up and down jumps.</li>
+</ul>
+</div>
+<p>In other words, given a sequence of i.i.d. <span class="math inline">\(X_j\)</span> with <span class="math inline">\(\pm 1\)</span>, define
+<span class="math display">\[
+    W_n\left(\dfrac j n\right) = W_n\left(\dfrac{j-1} n\right) + \dfrac{1}{\sqrt n} X_j
+\]</span></p>
+<p>The definition of <span class="math inline">\(W_n(1)\)</span> is (second argument denoting standard deviation):
+<span class="math display">\[
+    W_n(t) = \dfrac{\sum_{j=1}^{nt} X_j}{\sqrt n}\sim \mathcal N\left(
+        0, \sqrt t
+    \right)
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li>Future movements away from a position are independent of the history up to that point.</li>
+<li><span class="math inline">\(W_n(s+t)-W_n(s)\sim \mathcal N(0, \sqrt t)\)</span>.</li>
+</ol>
+<div class="definition">
+<p><span id="def:brownian" class="definition"><strong>Definition 2.3  (Brownian process) </strong></span>A process <span class="math inline">\((W_{t\geq 0})\)</span> is a <span class="math inline">\(\mathbb P\)</span>-Brownian process iff</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(W_t\)</span> is continuous with <span class="math inline">\(W_0=0\)</span>.</li>
+<li>Under <span class="math inline">\(\mathbb P\)</span>, the random variable <span class="math inline">\(W_t\sim \mathcal N(0, t)\)</span>.</li>
+<li>The increment <span class="math inline">\(W_{s+t} - W_s\sim \mathcal N(0, t)\)</span> under <span class="math inline">\(\mathcal P\)</span> and is independent of <span class="math inline">\(\mathcal F_s\)</span>.</li>
+</ol>
+<p>An <strong>exponential Brownian process</strong> is defined by <span class="math inline">\(X_t = \exp(\sigma W_t + \mu t)\)</span>.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-9" class="definition"><strong>Definition 2.4  (standard Brownian process) </strong></span>The <strong>standard Brownian process</strong> (also known as the <strong>Wiener process</strong>) consists of the following components:</p>
+<ul>
+<li><u>Sample space <span class="math inline">\(\Omega\)</span> </u>: <span class="math inline">\(C_0([0, \infty)\to \mathbb R)\)</span></li>
+<li><span class="math inline">\(\sigma\)</span>-algebra generated by the uniform topology; makes “evaluate the path at finitely many points” measurable.</li>
+<li>Probability measure <span class="math inline">\(\mathbb P:\Omega\to [0, 1]\)</span> given by the Wiener measure (see <a href="continuous-models.html#def:wienerMeasure">2.7</a>).</li>
+<li><u> Process </u>: <span class="math inline">\(W_t(\omega) = \omega(t)\)</span> for all <span class="math inline">\(t\geq 0\)</span>. It is simply the coordinate map; the standard Brownian process <span class="math inline">\(W_t\)</span> is canonical due to the canonical coordinate-map process.</li>
+</ul>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-10" class="remark"><em>Remark</em>. </span><span style="color:blue">
+A Brownian process is a <strong>process-measure pair</strong>! Alternative Brownian processs might exist (see <a href="continuous-models.html#CMG">CMG theorem</a>)! A standard Brownian process with previsible drift <span class="math inline">\(W_t+\mu_t\)</span> is not Brownian under the Wiener measure, but is Brownian under a tilted measure.
+</span></p>
+</div>
+</div>
+<div id="stochastic-calculus" class="section level2 unnumbered hasAnchor">
+<h2>Stochastic calculus<a href="continuous-models.html#stochastic-calculus" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Recall the classical, Newtonian differential notations:</p>
+<ol style="list-style-type: decimal">
+<li>If <span class="math inline">\(f_t\)</span> and <span class="math inline">\(\tilde f_t\)</span> are differentiable, agreeing at <span class="math inline">\(0\)</span>, and <span class="math inline">\(df_t = d\tilde f_t\)</span> (here <span class="math inline">\(df_t\)</span> overloads for the derivative function), then <span class="math inline">\(f_t = \tilde f_t\)</span>.</li>
+<li>Given differentiable <span class="math inline">\(f\)</span>, there is a unique drift <span class="math inline">\(\mu_t\)</span> such that <span class="math inline">\(f_t = f_0 + \int_0^t \mu_s\, ds\)</span> for all <span class="math inline">\(t\)</span>.</li>
+</ol>
+<div class="remark">
+<p><span id="unlabeled-div-11" class="remark"><em>Remark</em>. </span>The differential notation <span class="math inline">\(df = \mu(f, t)\, dt\)</span> is a recipe for building differentiable functions from a drift function.</p>
+</div>
+<p>Intuition: differentiable functions zoom to tangent lines, while Brownian process zooms to Brownian process; this inspires the following definition:</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-12" class="definition"><strong>Definition 2.5  (continuous Itô processes, diffusion) </strong></span>A <strong>stochastic process</strong> (more restrictive definition) <span class="math inline">\(X_t\)</span> is a continuous process such that
+<span class="math display">\[\begin{align}
+    dX_t &amp;= \sigma_t\, dW_t + \mu_t\, dt \\
+    X_t &amp;= X_0 + \int_0^t \sigma_s\, dW_s + \int_0^t \mu_s\, ds
+\end{align}\]</span>
+where <span class="math inline">\(\sigma, \mu\)</span> are <span class="math inline">\(\mathcal F\)</span>-previsible processes such that <span class="math inline">\(\int_0^t (\sigma_s^2 + |\mu_s|)\, ds &lt; \infty\)</span> a.s. When <span class="math inline">\(\sigma, \mu\)</span> are only dependent on <span class="math inline">\(X_t\)</span> (instead of the full history), every strong solution is a diffusion.</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-13" class="remark"><em>Remark</em> (justification for Brownian process as fundamental building block). </span>Brownian process is the continuous limit of equi-probable binary branching processes. Any “reasonable” branching can be approximated by an affine transformation of such branching, with offset and scale given by <span class="math inline">\(\mu_t\)</span> and <span class="math inline">\(\sigma_t\)</span>, respectively.
+<span style="color:green"> Any continuous model requiring time-homogeneous, independent shocks and appropriate scale limit dictates Brownian process as the stochastic building block. </span></p>
+</div>
+<p>Consider <span class="math inline">\(d f(W_t)\)</span> for <span class="math inline">\(f(x)=x^2\)</span>. Newtonian intuition suggests <span class="math inline">\(d(W_t^2) = 2W_t\, dW_t\)</span>, but this should be checked by
+<span class="math display">\[
+    \text{whether } W_t^2 = \int_0^t d(W_s^2) =^? 2\int_0^t W_s\, dW_s
+\]</span>
+Define the RHS integral by approximation; note that the square bracket term has mean <span class="math inline">\(0\)</span> and is independent of <span class="math inline">\(W_{jt/n}\)</span>.
+<span class="math display">\[
+    2\int_0^t W_s\, dW_s \approx 2\sum_{j=0}^{n-1} W\left(\dfrac{jt}{n}\right)\left[W\left(\dfrac{(j+1)t}{n}\right) - W\left(\dfrac{jt}{n}\right)\right]_{=0} = 0
+\]</span>
+But <span class="math inline">\(W_t^2\)</span> does not have zero mean, so something is wrong here. Consider the Taylor expansion
+<span class="math display">\[
+    df(W_t) = f&#39;(W_t)\, dW_t + \dfrac 1 2 f&#39;&#39;(W_t)\, (dW_t)^2 + \dots
+\]</span>
+In Newtonian differentials, <span class="math inline">\((dW_t)^2 = 0\)</span>, so are higher-order terms. However,
+recall that <span class="math inline">\(W_t - W_s\sim \mathcal N(0, t-s) = \sqrt{t-s}Z\)</span> and are independent for disjoint partitions:
+<span class="math display">\[\begin{align}
+    \int_0^t (dW_t)^2 &amp;\approx \sum_{j=1}^n \left(
+        W_{tj/n} - W_{t(j-1)/n}
+    \right)^2 \\
+    &amp;= \sum_{j=1}^n \left(Z_j \sqrt{t/n}\right)^2 = t \sum_{j=1}^n \dfrac{Z_j^2}{n}, \quad Z_j\sim \mathcal N(0, 1) \text{ i.i.d.} \\
+    &amp;= t \text{ by law of large numbers} \\
+    (dW_t)^2 &amp;= dt
+\end{align}\]</span>
+Recall that <span class="math inline">\(\mathbb{E}[Z^2] = \mathrm{Var}(Z) + \mathbb{E}[Z]^2 = 1\)</span>. The higher orders <span class="math inline">\((dW_t)^{k\geq 3}\)</span> are negligible. Intuitively, Brownian increments are of order <span class="math inline">\(\sqrt{dt}\)</span>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-14" class="definition"><strong>Definition 2.6  (Itô's formula) </strong></span>Given <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span> and <span class="math inline">\(f\)</span> deterministic twice continuously differentiable:
+<span class="math display">\[
+    df(X_t) = \left[
+        \sigma_t f&#39;(X_t)
+    \right]\, dW_t + \left[
+        \mu_t f&#39;(X_t) + \dfrac 1 2 \sigma_t^2 f&#39;&#39;(X_t)
+    \right]\, dt
+\]</span></p>
+</div>
+<p>For example, substituting <span class="math inline">\(f(x)=x^2\)</span> yields
+<span class="math display">\[
+    d(W_t^2) = 2W_t\, dW_t + dt
+\]</span>
+<span style="color:blue">
+Note that while <span class="math inline">\(dX_t = \sigma\, dW_t + \mu\, dt \implies X_t = X_0 + \sigma W_t + \mu t\)</span>, we have the more general
+<span class="math display">\[
+    dX_t = \sigma_t\, dW_t + \mu_t\, dt \implies X_t = X_0 + \int_0^t \sigma_s\, dW_s + \int_0^t \mu_s\, ds
+\]</span>
+The stochastic integral <span class="math inline">\(\int_0^t \sigma_s\, dW_s \neq \left(\int_0^t \sigma_s\, ds \right)W_t\)</span> <u>in general</u>.
+</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-15" class="example"><strong>Example 2.2  (common differentials) </strong></span>Consider the quadratic and the exponential:</p>
+<ol style="list-style-type: decimal">
+<li>Let <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span>, then
+<span class="math display">\[
+d(X_t^2)
+= \left(2\sigma_t X_t\right) \, dW_t + \left(
+     2 \mu_t X_t  + \sigma_t^2
+\right)\, dt
+\]</span></li>
+<li><span class="math inline">\(d e^{W_t} = e^{W_t}\, dW_t + \dfrac 1 2 e^{W_t}\, dt\)</span>.</li>
+</ol>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-16" class="example"><strong>Example 2.3  (exponential diffusion equation with constant volatility) </strong></span><span class="math display">\[
+    dY_t = Y_t\left(\sigma_t \, dW_t + \mu_t\, dt\right)
+    \implies
+    Y_t = Y_0 \exp \left[
+        \int_0^t \sigma_s\, dW_s + \int_0^t \left(
+            \mu_s - \dfrac 1 2 \sigma_s^2
+        \right)\, ds
+    \right]
+\]</span></p>
+</div>
+<details>
+Let <span class="math inline">\(Y_t = f(X_t)\)</span> with <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span>, matching yields equations
+<span class="math display">\[
+    \hat \sigma_t f&#39;(X_t) = \sigma_t f(X_t), \quad \hat \mu_t f&#39;(X_t) + \dfrac 1 2 \hat \sigma_t^2 f&#39;&#39;(X_t) = f(X_t) \mu_t
+\]</span>
+Solve for <span class="math inline">\(\hat \sigma_t, f(X_t)\)</span>, and <span class="math inline">\(\hat \mu_t\)</span>:
+<span class="math display">\[
+    \hat \sigma_t = \sigma_t, \quad f(X_t) = e^{C X_t}, \quad \hat \mu_t + \dfrac 1 2 \hat \sigma_t^2 = \mu_t \implies \hat \mu_t = \mu_t - \dfrac 1 2 \sigma_t^2
+\]</span>
+This gives <span class="math inline">\(dY_t = d f(X_t)\)</span>, where the RHS is no longer dependent upon <span class="math inline">\(Y_t\)</span>.
+<span class="math display">\[\begin{align}
+    Y_t
+    &amp;= \int_0^t dY_s = \int_0^t Y_s\left(\sigma_s \, dW_s + \mu_s\, ds\right) \\
+    &amp;= \int_0^t d f(X_s)
+    = f(X_t) \\
+    &amp;= C\exp \left[
+        \int_0^t \sigma_s\, dW_s + \int_0^t \left(
+            \mu_s - \dfrac 1 2 \sigma_s^2
+        \right)\, ds
+    \right], \quad C=Y_0
+\end{align}\]</span>
+</details>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-17" class="proposition"><strong>Proposition 2.1  (product rule) </strong></span>When <span class="math inline">\(X_t, Y_t\)</span> are adapted to the <strong>same</strong> Brownian process
+<span class="math display">\[
+    dX_t = \sigma_t\, dW_t + \mu_t\, dt, \quad
+    dY_t = \rho_t\, dW_t + \nu_t\, dt
+\]</span>
+We have <span class="math inline">\(d(X_tY_t) = X_t\, dY_t + Y_t\, dX_t + (dX_t)(dY_t)\)</span>.</p>
+</div>
+<details>
+<span class="math display">\[\begin{align}
+    d(2 X_t Y_t)
+    &amp;= d(X_t + Y_t)^2 - d(X_t^2) - d(Y_t^2) \\
+    &amp;= \left[
+        2(\sigma_t + \rho_t) (X_t + Y_t) \, dW_t + \left(
+        2 (\mu_t + \nu_t) (X_t + Y_t)  + (\sigma_t + \rho_t)^2
+    \right)\, dt
+    \right] \\
+    &amp;\quad - \left[
+        2\sigma_t X_t \, dW_t + \left(
+        2 \mu_t X_t  + \sigma_t^2
+    \right)\, dt
+    \right] \\
+    &amp;\quad - \left[
+        2\rho_t Y_t \, dW_t + \left(
+        2 \nu_t Y_t  + \rho_t^2
+    \right)\, dt
+    \right] \\
+    &amp;= 2 \left(
+        \sigma_t Y_t + \rho_t X_t
+    \right)\, dW_t + \left(
+        2\mu_t Y_t + 2\nu_t X_t + 2 \sigma_t \rho_t
+    \right)\, dt  \\
+    X_t\, dY_t + Y_t\, dX_t
+    &amp;= X_t \left(
+    \rho_t\, dW_t + \nu_t\, dt
+    \right) + Y_t \left(
+        \sigma_t\, dW_t + \mu_t\, dt
+    \right) \\
+    &amp;= d(X_tY_t) - \sigma_t \rho_t\, dt
+\end{align}\]</span>
+This yields the product rule by noting that
+<span class="math inline">\((dX_t)(dY_t) = \sigma_t \rho_t\, dt\)</span> (<span class="math inline">\(dW_t^2 = dt\)</span> and <span class="math inline">\(dt^2 = dt\, dW_t = 0\)</span>).
+</details>
+<p><span style="color:blue">
+Also note that we cannot apply Ito directly to <span class="math inline">\(X_t\mapsto X_tY_t\)</span> because this is not a deterministic function.
+</span></p>
+</div>
+<div id="change-of-process-measure" class="section level2 unnumbered hasAnchor">
+<h2>Change of process measure<a href="continuous-models.html#change-of-process-measure" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Define by <span class="math inline">\(\zeta_t\)</span> the Radon-Nikodym derivative taken up to the horizon <span class="math inline">\(t\)</span>: i.e. it is the likelihood-ratio map measurable by <span class="math inline">\(\mathcal F_t\)</span>. Fixing a horizon <span class="math inline">\(T\)</span> and calculate the Radon-Nikodym derivative <span class="math inline">\(d\mathbb Q/d\mathbb P\)</span> at time <span class="math inline">\(T\)</span>, we have
+<span class="math display">\[
+    \zeta_t = \mathbb E_{\mathbb P} \left[
+    \dfrac{d\mathbb Q}{d\mathbb P} \bigg| \mathcal F_t
+    \right], \quad \forall t\leq T
+\]</span></p>
+<div class="remark">
+<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>The expectation above w.r.t. <span class="math inline">\(\mathcal F_t\)</span> makes sure that <span class="math inline">\(\zeta_t\)</span> is adapted to the information available up to time <span class="math inline">\(t\)</span> only.</p>
+<ol style="list-style-type: decimal">
+<li>In the discrete picture, this expectation equivalently puts a unique value on each node at time <span class="math inline">\(t\)</span>.</li>
+<li>The expectation is taken w.r.t. <span class="math inline">\(\mathbb P\)</span> because <span class="math inline">\(\mathbb Q\)</span> is in the numerator (so conditionals sum to <span class="math inline">\(1\)</span>), while conditionals in <span class="math inline">\(\mathbb P\)</span> are in the denominator. See example below.</li>
+</ol>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-19" class="example"><strong>Example 2.4  (simple illustration) </strong></span>Consider two 2-level binary-tree processes <span class="math inline">\(\mathbb Q, \mathbb P\)</span> with the first level parameterized by <span class="math inline">\(q_1\)</span>, the second by <span class="math inline">\(q_2, q_3\)</span> respectively; same for <span class="math inline">\(p\)</span>.</p>
+<ul>
+<li>Under <span class="math inline">\(\mathbb Q\)</span>, the tail probabilities are <span class="math inline">\(q_1q_2, q_1\bar{q_2}, \bar{q_1}q_3, \bar{q_1}\bar{q_3}\)</span>. Same for <span class="math inline">\(p\)</span>.</li>
+<li>We have <span class="math inline">\(\zeta_2 = \left(\dfrac{q_1q_2}{p_1p_2}, \dfrac{q_1\bar{q_2}}{p_1\bar{p_2}}, \dfrac{\bar{q_1}q_3}{\bar{p_1}p_3}, \dfrac{\bar{q_1}\bar{q_3}}{\bar{p_1}\bar{p_3}}\right)\)</span> and <span class="math inline">\(\zeta_1 = \left(\dfrac{q_1}{p_1}, \dfrac{\bar{q_1}}{\bar{p_1}}\right)\)</span>.</li>
+</ul>
+</div>
+<div class="proposition">
+<p><span id="prp:rdChangeMeasure" class="proposition"><strong>Proposition 2.2  (change of measure) </strong></span>Given equivalent measures <span class="math inline">\(\mathbb P, \mathbb Q\)</span> and process <span class="math inline">\(X_t\)</span> adapted to <span class="math inline">\((\mathcal F_t)\)</span>,
+recall the Radon-Nikodym process <span class="math inline">\(\zeta_t = \mathbb E_{\mathbb P} \left[\dfrac{d\mathbb Q}{d\mathbb P} \bigg| \mathcal F_t\right]\)</span> for the RN-derivative defined at time <span class="math inline">\(T&gt;t\)</span>, we have
+<span class="math display">\[
+    \mathbb E_{\mathbb Q} \left[
+        X_t\mid \mathcal F_s
+    \right] = \mathbb E_{\mathbb P} \left[\zeta_s^{-1} \zeta_t X_t \mid \mathcal F_s\right] = \zeta_s^{-1} \mathbb E_{\mathbb P} \left[\zeta_t X_t \mid \mathcal F_s\right], \quad 0\leq s\leq t\leq T
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li>All of the involved quantities are processes.</li>
+<li><span class="math inline">\(\zeta_s^{-1}\)</span> is extractable since it is known at time <span class="math inline">\(s\)</span>.</li>
+<li>Think as: <span class="math inline">\(\zeta_t X_t\)</span> under <span class="math inline">\(\mathbb E_{\mathbb P}\)</span> converts the transition probabilities in <span class="math inline">\([0, t]\)</span> to measure <span class="math inline">\(\mathbb Q\)</span>, but we over-compensated on the transition in <span class="math inline">\([0, s]\)</span> since we’ve already conditioned on <span class="math inline">\(\mathcal F_s\)</span>.<br />
+</li>
+</ol>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span><span style="color:blue">
+Density of processes along a path <span class="math inline">\(\omega\in \Omega\)</span> is defined as the density of having points <span class="math inline">\(\mathbf x\)</span> at times <span class="math inline">\(\mathbf t\)</span> of the process, in the mesh limit.
+</span></p>
+</div>
+<div class="definition">
+<p><span id="def:wienerMeasure" class="definition"><strong>Definition 2.7  (joint likelihood function for Brownian process) </strong></span>Take <span class="math inline">\(x_0=t_0=0\)</span>. Consider <span class="math inline">\(\{x_0, \dots, x_n\}\in \mathbb R^n\)</span> and increasing <span class="math inline">\(\{t_0, \dots, t_n\}\)</span>. By condition 3 of Brownian definition <a href="continuous-models.html#def:brownian">2.3</a>, we have
+<span class="math display">\[
+    f_{\mathbb P}^n(\mathbf x, \mathbf t) = \prod_{j=1}^n \dfrac{1}{\sqrt{2\pi \Delta t_j}} \exp \left[
+        -\dfrac{(\Delta x_j)^2}{2\Delta t_j}
+    \right]
+\]</span>
+The dense-mesh limit of this expression is also known as the <strong>Wiener measure</strong>.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-21" class="definition"><strong>Definition 2.8  (continuous Radon-Nikodym derivative) </strong></span>Given equivalent measures <span class="math inline">\(\mathbb P, \mathbb Q\)</span> and path <span class="math inline">\(\omega\)</span>,
+given a time mesh <span class="math inline">\(\{t_0=0, t_1, \dots, t_n=T\}\)</span>, define <span class="math inline">\(x_j= W_{t_j}(\omega)\)</span>.
+The RN-derivative up to time <span class="math inline">\(T\)</span> is
+<span class="math display">\[
+    \dfrac{d\mathbb Q}{d\mathbb P}(\omega) = \lim_{n\to \infty} \dfrac{f_{\mathbb Q}^n(\mathbf x, \mathbf t)}{f_{\mathbb P}^n(\mathbf x, \mathbf t)}
+\]</span></p>
+</div>
+</div>
+<div id="CMG" class="section level2 unnumbered hasAnchor">
+<h2>CMG theorem<a href="continuous-models.html#CMG" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider a <span class="math inline">\(\mathbb P\)</span>-Brownian motion <span class="math inline">\(W_t\)</span> and define <span class="math inline">\(\mathbb Q\)</span> up to horizon <span class="math inline">\(T\)</span> by
+<span class="math display">\[
+    \dfrac{d\mathbb Q}{d\mathbb P}(\omega) = \exp \left(
+        -\gamma W_T(\omega) - \dfrac 1 2 \gamma^2 T
+    \right)
+\]</span></p>
+<div class="lemma">
+<p><span id="lem:unlabeled-div-22" class="lemma"><strong>Lemma 2.1  (identifying normals) </strong></span>A random variable <span class="math inline">\(X\sim \mathcal N(\mu, \sigma^2)\)</span> under <span class="math inline">\(\mathbb P\)</span> iff
+<span class="math display">\[
+    \mathbb E_{\mathbb P} \left[
+        \exp \left(
+            \theta X
+        \right)
+    \right] = \exp \left(
+        \theta \mu - \dfrac 1 2 \theta^2 \sigma^2
+    \right), \quad \forall \theta\in \mathbb R
+\]</span></p>
+</div>
+<p>One can verify that the process <span class="math inline">\(W_t\)</span> is Brownian plus constant drift under <span class="math inline">\(\mathbb Q\)</span>.</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-23" class="theorem"><strong>Theorem 2.1  (Cameron-Martin-Girsanov theorem) </strong></span>If <span class="math inline">\(W_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-Brownian motion and <span class="math inline">\(\gamma_t\)</span> is a <span class="math inline">\(\mathcal F\)</span>-previsible process such that
+<span class="math display">\[
+    \mathbb E_{\mathbb P} \exp \left(
+        \dfrac 1 2 \int_0^T \gamma_t^2\, dt
+    \right) &lt; \infty
+\]</span>
+then there exists <span class="math inline">\(\mathbb Q \sim \mathbb P\)</span> such that <span class="math inline">\(\tilde W_t = W_t + \int_0^t \gamma_s\, ds\)</span> is a <span class="math inline">\(\mathbb Q\)</span>-Brownian motion, and
+<span class="math display">\[
+    \dfrac{d\mathbb Q}{d\mathbb P} = \exp \left(
+        -\dfrac 1 2 \int_0^T \gamma_t^2\, dt - \int_0^T \gamma_t\, dW_t
+    \right)
+\]</span>
+<strong>Conversely</strong>, if <span class="math inline">\(W_t\)</span> is <span class="math inline">\(\mathbb P\)</span>-Brownian motion, and <span class="math inline">\(\mathbb Q\sim \mathbb P\)</span>, then there exists previsible <span class="math inline">\(\gamma_t\)</span> such that
+<span class="math display">\[
+    \tilde W_t = W_t + \int_0^t \gamma_s\, ds \text{ is a $\mathbb Q$-Brownian motion}
+\]</span></p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-24" class="remark"><em>Remark</em> (applying CMG to change drift). </span>Given a process <span class="math inline">\(X\)</span> given by <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span> where <span class="math inline">\(W\)</span> is <span class="math inline">\(\mathbb P\)</span>-Brownian motion. Suppose we wish to find measure <span class="math inline">\(\mathbb Q\)</span> such that the drift of <span class="math inline">\(X\)</span> under <span class="math inline">\(\mathbb Q\)</span> is <span class="math inline">\(\mu_t\mapsto \nu_t\)</span>. First write
+<span class="math display">\[
+    dX_t = \sigma_t \left[
+        dW_t + \left(\dfrac{\mu_t - \nu_t}{\sigma_t}\right)_{\equiv \gamma_t}\, dt
+    \right] + \nu_t\, dt
+\]</span>
+If <span class="math inline">\(\gamma_t\)</span> satisfies the CMG condition, then there exists a new measure such that <span class="math inline">\(\tilde W_t = W_t + \int_0^t \gamma_s\, ds\)</span> is a <span class="math inline">\(\mathbb Q\)</span>-Brownian motion, so that
+<span class="math display">\[
+    dX_t = \sigma_t\, d\tilde W_t + \nu_t\, dt
+\]</span></p>
+</div>
+</div>
+<div id="martingales" class="section level2 unnumbered hasAnchor">
+<h2>Martingales<a href="continuous-models.html#martingales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:unlabeled-div-25" class="definition"><strong>Definition 2.9  (martingale) </strong></span>A stochastic process <span class="math inline">\(M_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-<strong>martingale</strong> iff
+<span class="math display">\[
+    \mathbb E_{\mathbb P} |M_{\forall t}| &lt; \infty\quad \text{and}\quad \mathbb E_{\mathbb P} \left[M_t \mid \mathcal F_s\right] = M_s, \quad \forall s\leq t
+\]</span></p>
+<ul>
+<li>Any trivial constant process is a martingale.</li>
+<li><span class="math inline">\(\mathbb P\)</span>-Brownian motion is <span class="math inline">\(\mathbb P\)</span>-martingale:
+<span class="math display">\[
+  \mathbb E \left[
+      W_t \mid \mathcal F_s
+  \right] = \mathbb{E}[W_s | \mathcal F_s] + \mathbb{E}[W_t - W_s | \mathcal F_s]_{=0} = W_s
+\]</span></li>
+<li>Given a claim <span class="math inline">\(X\)</span> taking values at events at time <span class="math inline">\(T\)</span>, the process <span class="math inline">\(N_t = \mathbb{E}_{\mathbb P}[X|\mathcal F_t]\)</span> is a <span class="math inline">\(\mathbb P\)</span>-martingale.</li>
+</ul>
+</div>
+<p>The martingale representation theorem is the continuous generalization of the binomial representation theorem <a href="discrete-models.html#thm:binRepTheorem">1.1</a>.</p>
+<div class="theorem">
+<p><span id="thm:martRep" class="theorem"><strong>Theorem 2.2  (martingale representation theorem) </strong></span>Given a <span class="math inline">\(\mathbb Q\)</span>-martingale <span class="math inline">\(M_t\)</span> with <span class="math inline">\(\sigma_t\neq 0\)</span> a.s., then for any other <span class="math inline">\(\mathbb Q\)</span>-martingale <span class="math inline">\(N_t\)</span>, there exists a (essentially unique), previsible process <span class="math inline">\(\phi_t\)</span> such that <span class="math inline">\(\int_0^t \phi_t^2 \sigma_t^2\, dt &lt; \infty\)</span> a.s. and
+<span class="math display">\[
+    N_t = N_0 + \int_0^t \phi_s\, dM_s
+\]</span></p>
+</div>
+<div class="theorem">
+<p><span id="thm:martingaleChar" class="theorem"><strong>Theorem 2.3  (martingale characterization) </strong></span>If <span class="math inline">\(X\)</span> is a <span class="math inline">\(\mathbb P\)</span>-martingale subject to <span class="math inline">\(\mathbb{E}\left(\int_0^T \sigma_s^2\, ds\right)^{1/2} &lt; \infty\)</span>, then
+<span class="math display">\[
+    X \text{ is a $\mathbb P$-martingale} \iff \mu_t = 0 \text{ a.s.}
+\]</span></p>
+</div>
+<p><em>Proof:</em> In the forward direction, given <span class="math inline">\(X_t\)</span>, consider a <span class="math inline">\(\mathbb P\)</span>-Brownian motion <span class="math inline">\(W_t\)</span>. Apply theorem <a href="continuous-models.html#thm:martRep">2.2</a> to obtain the SDE with zero drift:
+<span class="math display">\[
+    X_t = X_0 + \int_0^t \phi_s\, dW_s \implies dX_t = \phi_t\, dW_t
+\]</span><br />
+The converse is too difficult to prove here.</p>
+<div class="theorem">
+<p><span id="thm:expMartingaleChar" class="theorem"><strong>Theorem 2.4  (exponential martingale characterization) </strong></span>For previsible <span class="math inline">\(\sigma_t\)</span>, consider the process
+<span class="math display">\[
+    dX_t = \sigma_t X_t\, dW_t \iff X_t = X_0 \exp \left(
+        \int_0^t \sigma_s\, dW_s - \dfrac 1 2 \int_0^t \sigma_s^2\, ds
+    \right)
+\]</span>
+Then <span class="math inline">\(\mathbb{E}\exp \left(\dfrac 1 2 \int_0^T \sigma_s^2\, ds\right) &lt; \infty \implies X_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-martingale.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="discrete-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="application-to-financial-strategies.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

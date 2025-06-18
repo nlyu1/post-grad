@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Hamiltonian Mechanics | SIE Notes: Summer 2025</title>
+  <meta name="description" content="5 Hamiltonian Mechanics | SIE Notes: Summer 2025" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Hamiltonian Mechanics | SIE Notes: Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Hamiltonian Mechanics | SIE Notes: Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="noethers-theorem.html"/>
+<link rel="next" href="bibliography.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="market-participants-and-market-structure.html"><a href="market-participants-and-market-structure.html"><i class="fa fa-check"></i><b>1</b> Market Participants and Market Structure</a></li>
+<li class="chapter" data-level="2" data-path="divider.html"><a href="divider.html"><i class="fa fa-check"></i><b>2</b> Divider</a>
+<ul>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#problem-setup"><i class="fa fa-check"></i>Problem setup</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#three-conserved-quantities"><i class="fa fa-check"></i>Three conserved quantities</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#orbits-effective-potential"><i class="fa fa-check"></i>Orbits, effective potential</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#scattering"><i class="fa fa-check"></i>Scattering</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lagranges-equations.html"><a href="lagranges-equations.html"><i class="fa fa-check"></i><b>3</b> Lagrange’s Equations</a>
+<ul>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariant-formulation"><i class="fa fa-check"></i>Covariant formulation</a>
+<ul>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariance-introduction"><i class="fa fa-check"></i>Covariance: introduction</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#euler-lagrange-equations"><i class="fa fa-check"></i>Euler-Lagrange Equations</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariance-of-euler-lagrange-equations"><i class="fa fa-check"></i>Covariance of Euler-Lagrange Equations</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#constraints"><i class="fa fa-check"></i>Constraints</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#extremization-formulation"><i class="fa fa-check"></i>Extremization formulation</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#separability-of-quadratic-lagrangians"><i class="fa fa-check"></i>Separability of quadratic Lagrangians</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="noethers-theorem.html"><a href="noethers-theorem.html"><i class="fa fa-check"></i><b>4</b> Noether’s theorem</a></li>
+<li class="chapter" data-level="5" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html"><i class="fa fa-check"></i><b>5</b> Hamiltonian Mechanics</a>
+<ul>
+<li class="chapter" data-level="" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html#legendre-transform"><i class="fa fa-check"></i>Legendre transform</a></li>
+<li class="chapter" data-level="" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html#hamiltons-equations"><i class="fa fa-check"></i>Hamilton’s equations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SIE Notes: Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hamiltonian-mechanics" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Hamiltonian Mechanics<a href="hamiltonian-mechanics.html#hamiltonian-mechanics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We begin by enumerating three properties of the Legendre
+transform, which relates (convex) Lagrangians and Hamiltonians.</p>
+<p>Key takeaways of this part are:</p>
+<ol style="list-style-type: decimal">
+<li>Fixing <span class="math inline">\(q\)</span>, the quantities <span class="math inline">\(\dot q\)</span> and <span class="math inline">\(p\)</span> are functions
+of each other, related by the equation <span class="math inline">\(\nabla_{\dot q} \mathcal L = p\)</span>.</li>
+<li></li>
+</ol>
+<div id="legendre-transform" class="section level2 unnumbered hasAnchor">
+<h2>Legendre transform<a href="hamiltonian-mechanics.html#legendre-transform" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Legendre transform is a general transform one can do
+to convex functions.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-26" class="definition"><strong>Definition 5.1  (Legendre transform) </strong></span>Given a function <span class="math inline">\(f:\mathbb R^n\to \mathbb R\)</span>, its Legendre transform
+<span class="math inline">\(\mathbb L f: \mathbb R^n\to \mathbb R\)</span> is
+<span class="math display">\[
+    (\mathbb L f)(p) = \sup_x \, \langle x, p\rangle- f(x)
+\]</span></p>
+</div>
+<p>Assuming <span class="math inline">\(f\)</span> well-behaved, the extremality condition is
+<span class="math display">\[
+    \nabla_x \langle x, p\rangle- f(x)
+    = p - \nabla_x f(x) = 0 \iff p = \nabla_x f
+\]</span></p>
+<p>When <span class="math inline">\(f\)</span> is convex, <span class="math inline">\((\mathbb L f)(p)\)</span> encodes the same
+information with argument <span class="math inline">\(\nabla_x f\)</span>, and the <span class="math inline">\(\sup\)</span>
+may be dropped:
+<span class="math display">\[
+    (\mathbb L f)(p=\nabla_x f) = x\cdot p - f(x)
+\]</span>
+As such, the Legendre transform interacts nicely with
+convex functions, since the gradient map is invertible:</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-27" class="proposition"><strong>Proposition 5.1  </strong></span>The gradient map <span class="math inline">\(x\mapsto (\nabla f)(x)\)</span> is invertible
+if <span class="math inline">\(f\)</span> is strictly convex.</p>
+</div>
+<p><em>Proof:</em> For <span class="math inline">\(x\neq y\)</span>, strict convexity implies
+<span class="math display">\[\begin{align}
+    \nabla f(x) \cdot (y-x) &lt; f(y) - f(x), \quad
+    \nabla f(y) \cdot (x-y) &lt; f(x) - f(y)
+\end{align}\]</span>
+Suppose for contradiction that <span class="math inline">\(\nabla f(x) = \nabla f(y)\)</span>,
+substituting <span class="math inline">\(\nabla f(y)=\nabla f(x)\)</span> in the last equation and
+multiplying both sides by <span class="math inline">\(-1\)</span> yields the contradiction
+<span class="math display">\[
+    \nabla f(x) (y-x) &gt; f(y) - f(x)
+\]</span></p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-28" class="proposition"><strong>Proposition 5.2  (Jacobian of Legendre transform) </strong></span>The Jacobian of the Legendre transform <span class="math inline">\(x\to p\)</span> is the Hessian of <span class="math inline">\(f\)</span>
+<span class="math display">\[
+    J_{x\to p} = d_x p = d_x \left(\nabla_x f\right) = \mathcal H_x f
+\]</span></p>
+</div>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-29" class="proposition"><strong>Proposition 5.3  (convexity invariance) </strong></span>Suppose <span class="math inline">\(f(x)\)</span> is convex, so <span class="math inline">\(\mathcal H_x f&gt; 0\)</span>
+(positive-definite) everywhere, then <span class="math inline">\(\mathbb L f\)</span>
+is convex, i.e. <span class="math inline">\(\mathcal H_p (\mathbb L f)&gt;0\)</span>.</p>
+</div>
+<p><em>Proof:</em> Computing the Hessian explicitly and recognize <span class="math inline">\(\nabla_x f = p\)</span>
+<span class="math display">\[\begin{align}
+    \mathcal H_p(\mathbb L f)
+    &amp;= d_p [\nabla_p (\mathbb L f)] = d_p \left[
+        x + J_{p\to x} p - J_{p\to x}\nabla_x f
+    \right] \\
+    &amp;= d_p x = J_{p\to x} = J_{x\to p}^{-1} = \left(\mathcal H_x f\right)^{-1}
+\end{align}\]</span>
+Convexity follows from the convexity of <span class="math inline">\(\mathcal H_x f&gt; 0\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-30" class="proposition"><strong>Proposition 5.4  (involutary) </strong></span>For convex <span class="math inline">\(f\)</span>, the Legendre transform is involutary
+<span class="math display">\[
+    \mathbb L \left[(\mathbb L f)(p)\right] (x) = f(x)
+\]</span></p>
+</div>
+<p><em>Proof:</em> Unroll the definition
+<span class="math display">\[\begin{align}
+    \mathbb L \left[(\mathbb L f)(p)\right] (x)
+    &amp;= \mathbb L \left[p\mapsto xp - f(x)\right] (x)\\
+    &amp;= xp - \left[p\mapsto xp - f(x)\right]\, p
+    = xp - xp - f(x) = f(x)
+\end{align}\]</span>
+Note the dependence here: fixing <span class="math inline">\(x\)</span>, we can fix <span class="math inline">\(p=\nabla_x f\)</span>, which
+in turn determines <span class="math inline">\(x\)</span> in the inner Legendre transform.</p>
+</div>
+<div id="hamiltons-equations" class="section level2 unnumbered hasAnchor">
+<h2>Hamilton’s equations<a href="hamiltonian-mechanics.html#hamiltons-equations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:unlabeled-div-31" class="definition"><strong>Definition 5.2  (Hamiltonian) </strong></span>Given the Lagrangian <span class="math inline">\(\mathcal L(q, \dot q, t)\)</span>, the
+Hamiltonian is the Legendre transform of <span class="math inline">\(\dot q\mapsto p\)</span>
+holding <span class="math inline">\(q\)</span> fixed
+<span class="math display">\[
+        H(q, p, t) = p\cdot \dot q - \mathcal L(q, \dot q(p), t)
+    \]</span>
+where <span class="math inline">\(p = \nabla_{\dot q} \mathcal L\)</span> and <span class="math inline">\(\dot q(p)\)</span>
+is the implicit inverse of this equation.</p>
+</div>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-32" class="theorem"><strong>Theorem 5.1  (Hamilton's equations) </strong></span></p>
+The following equations are equivalent to the Euler-Lagrange
+equations <a href="lagranges-equations.html#def:eulerLagrange">3.2</a>:
+<span class="math display">\[\begin{aligned}
+        \dot p
+        = -\nabla_q H, \quad \dot q
+        = \nabla_p H
+    \end{aligned}\]</span>
+<p>Collecting <span class="math inline">\(\xi = p\oplus q\)</span> and write
+<span class="math inline">\(H(p, q, t) = H(\xi, t)\)</span>, we have the compact expression
+<span class="math display">\[
+        \partial_{t} \xi = J\,  \nabla_\xi H, \quad J
+        = \bigoplus \begin{pmatrix}
+            0 &amp; 1 \\ -1 &amp; 0
+        \end{pmatrix}
+    \]</span></p>
+</div>
+<p><em>Proof:</em> Take care that <span class="math inline">\(\dot q, p\)</span> are implicit functions of each other
+and recognize <span class="math inline">\(p=\nabla_{\dot q}\mathcal L\)</span>; holding <span class="math inline">\(q\)</span> fixed:
+<span class="math display">\[\begin{align}
+        \nabla_p H(q, p, t)
+        &amp;= \nabla_p \left[p\cdot \dot q - \mathcal L(q, \dot q(p), t)\right] \\
+        &amp;= \dot q + J_{p\to \dot q} p - J_{p\to \dot q}(\nabla_{\dot q}\mathcal L)
+        = \dot q
+    \end{align}\]</span>
+For the second equation, we’re holding <span class="math inline">\(p\)</span> fixed, but <span class="math inline">\(\dot q\)</span> is still
+dependent upon <span class="math inline">\(q\)</span>, then
+<span class="math display">\[\begin{align}
+        \nabla_q H(q, p, t)
+        &amp;= \nabla_q \left[
+            p\cdot \dot q - \mathcal L(q, \dot q(p), t)
+        \right] \\
+        &amp;= J_{q\to \dot q}p
+        - \nabla_q \mathcal L - J_{q\to \dot q} (\nabla_{\dot q}\mathcal L)
+        = - \nabla_q \mathcal L  \\
+        \dot p
+        &amp;= d_t \nabla_{\dot q}\mathcal L = \nabla_q \mathcal L
+    \end{align}\]</span>
+the last equation holds by the Euler-Lagrange equations.</p>
+<div class="remark">
+<p><span id="unlabeled-div-33" class="remark"><em>Remark</em>. </span>For those who are interested in differential geometry,
+Hamilton’s equations
+<span class="math display">\[
+    \partial_{t} \xi = J \, \nabla_\xi H
+\]</span>
+is the component representation of the following implicit
+equation which defines the vector field <span class="math inline">\(X_H\)</span>
+<em>generating the time-translation of the system</em>:
+<span class="math display">\[
+    \omega(X_H, \, \cdot\, ) = dH
+\]</span>
+Here <span class="math inline">\(\omega\)</span> is the <em>symplectic form</em> with representation <span class="math inline">\(J\)</span>,
+and <span class="math inline">\(dH\)</span> is the differential of <span class="math inline">\(H\)</span>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="noethers-theorem.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bibliography.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

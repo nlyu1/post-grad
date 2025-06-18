@@ -1,0 +1,170 @@
+# Discrete models
+
+Central takeaways:
+
+- Strong law (expectation) pricing is subjectively fair w.r.t. beliefs, while risk-free arbitrarge pricing is objective. 
+
+## Teaser: forward contracts {-}
+
+A **forward** contract at price $K$ allows the holder to buy an asset at a specified price at a future time for price $K$. 
+Assuming interest rate $r$ so that cash grows as $e^{rt}$, let $\mbf S_t$ denote the price of the asset at time $t$
+
+:::{.remark name="strong law pricing"}
+Using expectation calculus, the rational forward price is $\Exp[S_t]$. 
+
+- For a greater forward price, we can sell the contract and buy the asset. 
+- For a lower forward price, we can buy the contract and sell the asset. 
+:::
+
+:::{.remark name="risk-free arbitrarge pricing"}
+However, we claim that the forward price is $S_0 e^{rt}$. 
+
+- For greater forward price $K$, we lend $S_0$ to buy the asset *right now*, sell a contract, and deliver the asset at time $t$, using the proceeds $K$ to pay the loan $S_0e^{rt}$, gaining $K-S_0e^{rt}$. 
+    - Net: short contract, long stock, short cash. 
+- For lower forward price $K$, we borrow a stock, sell it immediately for $S_0$, and buy a contract right now. At time $t$, we buy the stock for $K$ to pay off the loan, gaining $S_0e^{rt} - K$. 
+
+Note that there are three parties: **us, contract counterparty, and stock counterparty**. Payoffs below are given at time $t$. 
+
+| Party | $K>S_0e^{rt}$ | $K<S_0e^{rt}$ |
+|----------|----------|----------|
+| Me    | <span style="color:green">stock</span>, <span style="color:red">cash, contract</span>. Payoff: $K-S_0e^{rt}>0$   | <span style="color:red">stock</span>, <span style="color:green">cash, contract</span>. Payoff: $S_0e^{rt}-K>0$.    |
+| Stock cpty    | <span style="color:red">stock</span>. Payoff: $S_0e^{rt}-S_t$   | <span style="color:green">stock</span>. Payoff: $S_t-S_0e^{rt}$  |
+| Contract cpty    | <span style="color:green">contract</span>. Payoff: $K-S_t$   | <span style="color:red">contract</span>. Payoff: $S_t-K$   |
+:::
+
+A few salient points:
+
+1. The arbitrarge party is risk-free. The net loss $-|K-S_0e^{rt}|$ is always split between the stock and contract counterparties. 
+2. This **does not contradict** the fact that strong law pricing is fair *in expectation* if $K=\Exp[S_t]$. 
+3. Suppose $\Exp[S_t]>S_0e^{rt}$ (for example, for risk premium), and that this is known by the contract counterparty. They will short the contract at $K=S_0e^{rt}$, and the stock counterparty will lose in expectation. 
+4. Suppose $\Exp[S_t]<S_0e^{rt}$ and that this is known by the contract counterparty, they will long the contract and gain $K-S_0e^{rt}>0$. The stock counterparty will lose in expectation. 
+5. Assuming rational behavior, trade only happens when <span style="color:blue">**stock and contract counterparties disagree on** the relative size of $\Exp[S_t]$ compared to $K$)</span>. 
+
+## Binomial branch model {-}
+
+Assume a simple model where: 
+
+1. Stock has price $s_1$ at $t=0$, and at $t=1$ goes up to $\mbf S_1=s_3$ w.p. $p$ or down to $\mbf S_2=s_2$ w.p. $\bar p$. 
+2. Compound interest rate $r$. 
+
+Question: is it possible to construct a portfolio that pays $f(3)$ when $\mbf S_1=s_3$ and $f(2)$ when $\mbf S_2=s_2$? 
+
+- Consider a portfolio $\phi$ of stocks and $\psi$ of cash worth $\phi s_1 + \psi$ at the beginning. 
+- At $t=1$, the portfolio is worth $\phi s_3 + \psi e^{r}$ if $\mbf S_1=s_3$ and $\phi s_2 + \psi e^{r}$ if $\mbf S_2=s_2$. 
+- Solve for the following system of equations, non-degenerate when stock is different from bond. 
+\[ 
+    \begin{cases}
+        \phi s_2 + \psi e^{r} = f(2) \\
+        \phi s_3 + \psi e^{r} = f(3)
+    \end{cases}
+\] 
+This yields the fair price (at $t=0$)$V=s_1\phi^*+\psi^*$ of the derivative with payoff $f$. 
+\[ 
+    V = e^{-r}(\bar q f_2 + q f_3), \quad q = \df{s_1 e^{rt} - s_2}{s_3 - s_2}. 
+\] 
+
+Looking at $q$, w.l.o.g. assume $s_3>s_2$. This suggests that the risk-free strike price $V$ is a **discounted expectation** w.r.t. some measure $q$, of its possible payoffs. Note that the measure $q$ is not the same as the probability $p$ of the realizations. 
+
+- For $q\leq 0$, we have $s_3>s_2>s_1e^{rt}$. This means that the stock strictly dominates cash (even in the worst payoff). 
+- For $q\geq 1$, rearranging yields $s_1 e^r \geq s_3>s_2$, making cash dominate the stock. 
+
+## Binomial tree model {-}
+
+1. Stock price starts at $s_1$ at $t=0$. If the stock price $\mbf S_t=s_j$, then $\mbf S_{t+1}$ is $s_{2j+1}$ w.p. $p_j$ or $s_{2j}$ w.p. $\bar p_j$.
+2. The cash bond has, for simplicity, constant interest rate $r$. 
+
+Note that in the tree model, the node index $j$ is bijective with the root-to-node path. Thus, a derivative that specifies price at each node is equivalent to a derivative that specifies price for each path. 
+
+:::{.remark name="risk-neutral pricing for tree model"}
+Use backward induction to price the tree-model derivative: the value assigned to each node effectively says: "if I have this much money at this node, I can construct a portfolio that replicates the derivative payoffs which starts at this node". 
+:::
+
+Some preliminary definitions for the **binomial representation theorem**:
+
+1. The set of stock values, and the set of paths, is a **process** $S$. 
+2. The set of probabilities is a **measure** $\mbb P$ or $\mbb Q$. 
+3. A **filtration** $(\mca F_j)$ is the history of the process up to time $j$ (ordered list of visited nodes). 
+4. A **claim** $X$ on the tree is a function of the filtration at some time horizon $T$; it assigns a claim value to each path. 
+5. Denote the conditional expectation operator $\mbb E_{\mbb Q}(\cdot\, | \mca F_j)$.
+6. A **previsible** process $\phi$ is a process whose value at any given node at tick $j$ is only dependent upon its history up to that point. 
+
+:::{.definition #discreteMartingale name="martingale"}
+A process $S$ is a **martingale** w.r.t. $\mbb P$ and filtration $(\mca F_j)$ if 
+\[ 
+    \mbb E_{\mbb P}(S_k|\mca F_j) = S_j, \quad \forall j\leq k
+\] 
+In other words, the future EV of the process under $\mbb P$, conditional on its history up to time $j$, is equal to the process's value at time $j$. 
+:::
+
+One salient example of a martingale: 
+
+:::{.proposition #condExpMartingale name="conditional expectation extension"}
+For any claim $X$ and measure $\mbb P$, the process $\mbb E_{\mbb P}(X|\mca F_j)$ is a martingale. 
+
+_Proof:_ Simply note that for $k\geq j$, by the law of total expectation, we have 
+\[ 
+    \mbb E_{\mbb P} \left[
+    \mbb E_{\mbb P}(X|\mca F_k) \big| \mca F_j 
+    \right] = \mbb E_{\mbb P}(X|\mca F_j)
+\] 
+:::
+
+:::{.theorem #binRepTheorem name="binomial representation theorem"}
+Suppose there exists $\mbb Q$ such that the binomial price process $S$ is a $\mbb Q$-martingale. Then, for any other $\mbb Q$-martingale $N$, there exists a previsible process $\phi$ such that 
+\[ 
+    N_j = N_0 + \sum_{k=1}^j \phi_k \Delta S_k 
+\] 
+where $\Delta S_k = S_k - S_{k-1}$ and $\phi_j$ is the value of $\phi$ at the appropriate node at time $j$. Note that $N_0$ is a fixed value, and that based on the definition of $\Delta S$, the process value $\phi_k$ is computable at time $k-1$. 
+:::
+
+In other words, any $\mbb Q$-martingale is equivalent (up to constant) to the accumulation of a **previsible** adjusting process (this would inform our purchase of the stock), times the stock price change, **if the stock price is a $\mbb Q$-martingale**. 
+
+<div style="color:blue">
+1. $\phi_k$ provides for the degrees of freedom to adjust the magnitude of the process changes in a previsible manner, and there is no price-dependent term due to the martingale property. 
+2. The martingale property eliminates the price-dependent "constant" degrees of freedom, leaving only the previsible, scaling degrees of freedom which are *only dependent upon the price change*. The scaling process $\phi$ denotes the previsible stock allocation. 
+</div>
+
+_Proof:_ For the simple $2$-branch case, denote $s_{\mrm{now}}, s_{\mrm{up}}, s_{\mrm{down}}$ and $n_{\mrm{now}}, n_{\mrm{up}}, n_{\mrm{down}}$, solve for 
+\[ 
+    n_{\mrm{up}} = N_0 + \phi_1 (s_{\mrm{up}} - s_{\mrm{now}}), \quad n_{\mrm{down}} = N_0 + \phi_1 (s_{\mrm{down}} - s_{\mrm{now}})
+\] 
+The scaling $\phi_1$ will be $(n_{\mrm{up}} - n_{\mrm{down}}) / (s_{\mrm{up}} - s_{\mrm{down}})$. Inductively, consider 
+\[ 
+    \Delta N_j = \phi_j \Delta S_j + k 
+\] 
+where $\phi_j$ is the ratio of the up-down difference of $N$ versus $S$ at the node under consideration at time $j$. Next, take the expectation of both sides and use the martingale property 
+\[ 
+    \mbb E_{\mbb Q} \left[ \Delta N_j \big| \mca F_{j-1} \right]_{=0} = \mbb E_{\mbb Q} \left[ \phi_j \Delta S_j\big| \mca F_{j-1} \right]_{=0} + k \implies k = 0 
+\] 
+
+## Binomial tree pricing {-} 
+
+Assume in full generality a stock process $S$ and a bond process $B$ (with $B_0=1$). Fixing claim $X$ and time horizon $T$: 
+
+1. First, annul the time growth of money: define the discounted claim $B_T^{-1}X$ and the discounted stock process $Z_j=(B_j^{-1}S_j)$. 
+2. <u> Assumption </u>: in a sensible world, there is a measure $\mbb Q$ such that the discounted stock process $Z_j$ is a $\mbb Q$-martingale (see discussion in branch case). This is known as the **fundamental theorem of asset pricing** and provable by the separating hyperplane theorem, which introduces the existence of a positive linear functional. 
+3. Extend the discounted claim $B_T^{-1}X$ to a $\mbb Q$-martingale $E$ (proposition \@ref(prp:condExpMartingale)). 
+4. Write $E_j = E_0 + \sum_{k=1}^j \phi_k \Delta Z_k$ by theorem \@ref(thm:binRepTheorem). Here $E_0 = \mbb E_{\mbb Q}(B_T^{-1}X) = \mbb E_{\mbb Q}(E)$. 
+5. Construction as follows: at time $j$, but portfolio $\Pi_j$ consisting of $\phi_{j+1}$ units of stock and $\psi_{j+1} = E_j - \phi_{j+1} Z_j$ units of cash. 
+    - At time $0$, $\Pi_0$ is worth $\phi_1 S_0 + \psi_1 = E_0$. 
+    - <div style="color:blue">The value of $\Pi_{\forall j}$ (from the POV of $t=0$) is always $E_j$. </div>
+    - At time $1$, $\Pi_0$ is worth $\phi_1 S_1 + \psi_1 = E_0 + \phi_1 \Delta Z_1 = E_1$. This is enough to finance $\Pi_1$. 
+
+The strategy $(\psi, \phi)$ defined as such is **self-financing**, in that holding $\Pi_t$ from $t\mapsto t+1$ is sufficient to finance $\Pi_{t+1}$. 
+
+:::{.theorem name="claim pricing formula"}
+By the risk-free construction, the value at tick-time $j$ of a claim $X$ maturing at some time $T$ is 
+\[ 
+    \mbb E_{\mbb Q}\left[
+    (B_j B_T^{-1}) X \big| \mca F_j
+    \right]
+\] 
+In other words, it is the conditional expectation of the cash-discounted claim w.r.t. the martingale measure $\mbb Q$ for the underlying. The value above is observed at time $j$. Note that $B_j B_T^{-1}$ is the normalized discount factor w.r.t. this value observation. 
+:::
+
+:::{.example name="trivial example"}
+Consider cash without interest and a stock priced at $1$. At the end, the stock is worth either $2$ or $0.5$. What is the worth of a bet which pays $1$ if the stock goes up? 
+
+- The ratio of (the up-down difference of the claim) to (the up-down difference of the stock) is $1/(3/2)=2/3$. To fulfill the claim when the stock goes up, we need to hold $1 - 2/3\cdot 2 = -1/3$ of cash. 
+- Thet net portfolio is then $(-1/3, 2/3)$ of cash and stock, worth $1/3$ at the beginning. 
+:::

@@ -1,0 +1,42 @@
+---
+title: "SIE Notes: Summer 2025"
+author: "Nicholas Lyu"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [refs.bib]
+biblio-style: "numeric"
+split_bib: yes
+link-citations: true
+---
+
+\usepackage{cancel}
+\usepackage{amsmath}
+\usepackage{bm}
+\newcommand{\pd}[1]{\partial_{#1}}
+
+\newcommand{\mbb}{\mathbb}
+\newcommand{\mbf}{\mathbf}
+\newcommand{\mb}{\boldsymbol}
+\newcommand{\mrm}{\mathrm}
+\newcommand{\mca}{\mathcal}
+\newcommand{\mfk}{\mathfrak}
+\newcommand{\tr}{\mrm{tr}} 
+\newcommand{\df}{\dfrac}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\dag}{\dagger}
+
+\newcommand{\Cl}{\mca C}
+\newcommand{\Gr}{\mca G}
+\newcommand{\Pf}{\mrm{Pf}}
+\newcommand{\Pa}{\mca P}
+\newcommand{\R}{\mbb R}
+\newcommand{\Exp}{\mbb{E}}
+
+\newcommand{\poly}{\mrm{poly}}
+
+
+
+# Preface {-}
+These notes accompany the summer 2025 self-learning for the _Securities Industry Exam_ (SIE). 

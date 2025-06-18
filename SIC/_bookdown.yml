@@ -1,0 +1,4 @@
+book_filename: "SIE Notes: Summer 2025"
+language:
+output_dir: "docs"
+delete_merged_file: true

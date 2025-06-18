@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Lagrange’s Equations | SIE Notes: Summer 2025</title>
+  <meta name="description" content="3 Lagrange’s Equations | SIE Notes: Summer 2025" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Lagrange’s Equations | SIE Notes: Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Lagrange’s Equations | SIE Notes: Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="divider.html"/>
+<link rel="next" href="noethers-theorem.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="market-participants-and-market-structure.html"><a href="market-participants-and-market-structure.html"><i class="fa fa-check"></i><b>1</b> Market Participants and Market Structure</a></li>
+<li class="chapter" data-level="2" data-path="divider.html"><a href="divider.html"><i class="fa fa-check"></i><b>2</b> Divider</a>
+<ul>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#problem-setup"><i class="fa fa-check"></i>Problem setup</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#three-conserved-quantities"><i class="fa fa-check"></i>Three conserved quantities</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#orbits-effective-potential"><i class="fa fa-check"></i>Orbits, effective potential</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#scattering"><i class="fa fa-check"></i>Scattering</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lagranges-equations.html"><a href="lagranges-equations.html"><i class="fa fa-check"></i><b>3</b> Lagrange’s Equations</a>
+<ul>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariant-formulation"><i class="fa fa-check"></i>Covariant formulation</a>
+<ul>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariance-introduction"><i class="fa fa-check"></i>Covariance: introduction</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#euler-lagrange-equations"><i class="fa fa-check"></i>Euler-Lagrange Equations</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariance-of-euler-lagrange-equations"><i class="fa fa-check"></i>Covariance of Euler-Lagrange Equations</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#constraints"><i class="fa fa-check"></i>Constraints</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#extremization-formulation"><i class="fa fa-check"></i>Extremization formulation</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#separability-of-quadratic-lagrangians"><i class="fa fa-check"></i>Separability of quadratic Lagrangians</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="noethers-theorem.html"><a href="noethers-theorem.html"><i class="fa fa-check"></i><b>4</b> Noether’s theorem</a></li>
+<li class="chapter" data-level="5" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html"><i class="fa fa-check"></i><b>5</b> Hamiltonian Mechanics</a>
+<ul>
+<li class="chapter" data-level="" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html#legendre-transform"><i class="fa fa-check"></i>Legendre transform</a></li>
+<li class="chapter" data-level="" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html#hamiltons-equations"><i class="fa fa-check"></i>Hamilton’s equations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SIE Notes: Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lagranges-equations" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Lagrange’s Equations<a href="lagranges-equations.html#lagranges-equations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this section we develop two perspectives on Lagrange’s equations:</p>
+<ol style="list-style-type: decimal">
+<li>A “covariant” formulation of Newton Cartesian equations.</li>
+<li>Equation of the trajectory satisfying the principle of least action.</li>
+</ol>
+<p>Both perspectives are extremely important to the
+development of modern theoretical physics.</p>
+<div id="covariant-formulation" class="section level2 unnumbered hasAnchor">
+<h2>Covariant formulation<a href="lagranges-equations.html#covariant-formulation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="covariance-introduction" class="section level3 unnumbered hasAnchor">
+<h3>Covariance: introduction<a href="lagranges-equations.html#covariance-introduction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>What do we mean by something covariant?</p>
+<p>Consider a function <span class="math inline">\(f:\mathbb R^2\to \mathbb R\)</span> defined on the 2D plane according to
+<span class="math display">\[
+    f_1(x, y) = x^2+y^2
+\]</span>
+This function is, in a sense, “equivalent” to the definition
+<span class="math display">\[
+    f_2(r, \theta) = r^2
+\]</span>
+Although <span class="math inline">\(f_1, f_2\)</span> are defined on different domains,
+they represent the same function <span class="math inline">\(f\)</span> defined on the <span class="math inline">\(2D\)</span> plane:
+the choice of <span class="math inline">\((x, y)\)</span> versus <span class="math inline">\((r, \theta)\)</span> are simply different
+choices of “charts” to represent the same underlying
+geometric object (manifold). When we specify <span class="math inline">\(f(r, \theta)=r^2\)</span> and
+understand <span class="math inline">\((r, \theta)\)</span> as a chart for <span class="math inline">\(\mathbb R^2\)</span>,
+we have equivalently defined <span class="math inline">\(f(x, y)=x^2+y^2\)</span>.
+In this sense, <span class="math inline">\(f\)</span> is <em>covariant</em>.</p>
+<div class="remark">
+<p><span id="unlabeled-div-14" class="remark"><em>Remark</em>. </span>Covariant objects are, in a sense, analogous to “platonic ideas.”
+Another prime example of a covariant object is an abstract linear
+transformation (e.g. rotation): in this case the matrix representations
+are obtained after fixing a chart (basis).</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-15" class="remark"><em>Remark</em>. </span>If you want to dig deeper, study differential geometry!</p>
+</div>
+</div>
+<div id="euler-lagrange-equations" class="section level3 unnumbered hasAnchor">
+<h3>Euler-Lagrange Equations<a href="lagranges-equations.html#euler-lagrange-equations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let <span class="math inline">\((q_j)=\{q_1, \cdots, q_N\}\)</span> denote the degrees of freedom.
+A trajectory’s “snapshot” at a single time is completely
+captured by <span class="math inline">\(((q_j), (\dot q_j))\)</span>. A Lagrangian is a scalar
+(function) which looks at such snapshots and evaluates to a number.</p>
+<div class="definition">
+<p><span id="def:lagrangian" class="definition"><strong>Definition 3.1  (Lagrangian) </strong></span>The Lagrangian of a physical system is a map of type
+<span class="math display">\[  
+    \mathcal L: \mathbb R^n\times \mathbb R^n \times \mathbb R\to \mathbb R
+\]</span>
+Its arguments are abbreviated <span class="math inline">\(\mathcal L(q, \dot q, t)\)</span> but expands to
+<span class="math display">\[
+    \mathcal L(q_1, \cdots, q_n, \dot q_1, \cdots, \dot q_n, t)
+\]</span></p>
+</div>
+<p>To be precise, the Lagrangian is a function on the <em>tangent bundle</em> <span class="math inline">\(TM\)</span>
+of the configuration manifold <span class="math inline">\(TM\)</span>.</p>
+<div class="definition">
+<p><span id="def:eulerLagrange" class="definition"><strong>Definition 3.2  (Euler-Lagrange Equations) </strong></span>According to the EL-equations, a trajectory <span class="math inline">\(q(t)\)</span> is physical if
+<span class="math display">\[
+    0 = \mathbb L_q(t) = (d_t \nabla_{\dot q} - \nabla_q)\mathcal L(q, \dot q, t) \in \mathbb R^n
+\]</span>
+for all <span class="math inline">\(t\)</span>. The notation above unpacks to <span class="math inline">\(\forall j=1, \cdots, n\)</span>.
+<span class="math display">\[
+    d_t (\partial_{\dot q_j} \mathcal L) = \partial_{q_j} \mathcal L
+\]</span>
+the time-dependent Euler-Lagrange vector <span class="math inline">\(\mathbb L_q\)</span>
+captures the deviation from <span class="math inline">\(0\)</span>;
+we use the subscript to denote explicit dependence on the coordinates <span class="math inline">\(q\)</span>.</p>
+</div>
+<p>In Cartesian coordinates, define the Newtonian Lagrangian to be
+<span class="math display">\[
+    \mathcal L(x, \dot x, t) = T - V = \dfrac m 2 \dot q^2 - V(q, t)
+\]</span>
+Then Lagrange’s equations (definition <a href="lagranges-equations.html#def:eulerLagrange">3.2</a>)
+simplify exactly to Newton’s equations.
+<span class="math display" id="eq:NewtonEquations">\[
+    m\ddot x = \nabla_x V
+    \tag{3.1}
+\]</span></p>
+</div>
+<div id="covariance-of-euler-lagrange-equations" class="section level3 unnumbered hasAnchor">
+<h3>Covariance of Euler-Lagrange Equations<a href="lagranges-equations.html#covariance-of-euler-lagrange-equations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The following theorem establishes that the following statements are equivalent:</p>
+<ol style="list-style-type: decimal">
+<li>Newton’s equations <a href="lagranges-equations.html#eq:NewtonEquations">(3.1)</a> are true in Cartesian
+coordinates</li>
+<li>Lagrange’s equations are true in arbitrary invertible coordinates.</li>
+</ol>
+<div class="theorem">
+<p><span id="thm:covarianceEL" class="theorem"><strong>Theorem 3.1  (Covariance of Euler-Lagrange equations) </strong></span>Given a coordinate transform <span class="math inline">\(x\to q\)</span>, the EL-vector transforms covariantly
+according to
+<span class="math display">\[
+    \mathbb L_q(t) = J_{q\to x} \mathbb L_x(t)
+\]</span></p>
+</div>
+<p>To prove this, we need to establish several lemmas.
+We begin by looking at how the change of coordinates <span class="math inline">\(q\to x\)</span>
+determines <span class="math inline">\((q, \dot q)\to (x, \dot x)\)</span>.</p>
+<div class="lemma">
+<p><span id="lem:dotCancellation" class="lemma"><strong>Lemma 3.1  (dot cancellation) </strong></span><span class="math inline">\(J_{\dot q\to \dot x} = J_{q\to x}\)</span>.</p>
+</div>
+<p><em>Proof:</em> Follows from chain rule:
+<span class="math display">\[\begin{align}
+    \dot x_j
+    &amp;= d_t x_j(q_1, \cdots, q_j)
+    = (\partial_{q_k} x_j) \dot q_k \implies
+    \dot x = J_{q\to x} \dot q
+\end{align}\]</span>
+Now, <span class="math inline">\(J_{q\to x}\)</span> is independent of <span class="math inline">\(\dot q\)</span>, so
+<span class="math inline">\(J_{\dot q\to \dot x} = J_{q\to x}\)</span>.</p>
+<div class="lemma">
+<p><span id="lem:absorbDer" class="lemma"><strong>Lemma 3.2  </strong></span><span class="math inline">\(J_{q\to \dot x} = d_t J_{q\to x}\)</span></p>
+</div>
+<p><em>Proof:</em>
+On the LHS, <span class="math inline">\(\partial_{q_i} \dot x_j = \partial_{q_i} (\dot q_k \partial_{q_k} x_j)
+= \dot q_k (\partial_{q_iq_k}^2 x_j)\)</span>.
+On the RHS, <span class="math inline">\((d_t J_{q\to x}(q_1, \cdots, q_n))_{ij} = (\partial_{q_i q_k}^2 x_j) \dot q_k\)</span>.</p>
+<p>The next two lemmas essentially restate the chain rule for <span class="math inline">\(q(x)\)</span>
+and <span class="math inline">\(\dot q(x, \dot x)\)</span>.</p>
+<div class="lemma">
+<p><span id="lem:gradient1" class="lemma"><strong>Lemma 3.3  </strong></span><span class="math inline">\(\nabla_{\dot x} = J_{\dot q\to \dot x} \nabla_{\dot q}\)</span>.</p>
+</div>
+<div class="lemma">
+<p><span id="lem:gradient2" class="lemma"><strong>Lemma 3.4  </strong></span><span class="math inline">\(\nabla_x = J_{\dot q\to x} \nabla_q + J_{q\to x}\nabla_x\)</span>.</p>
+</div>
+<p>We are now ready to prove theorem <a href="lagranges-equations.html#thm:covarianceEL">3.1</a>
+by expanding the operator <span class="math inline">\(d_t\nabla_{\dot x} - \nabla_x\)</span>:
+<span class="math display">\[\begin{align}
+    d_t \nabla_{\dot x} - \nabla_x
+    &amp;= d_t (J_{\dot q\to \dot x} \nabla_{\dot q})
+    - J_{q\to x}\nabla_q - J_{x\to \dot q}\nabla_{\dot q} \\
+    &amp;= (d_t J_{\dot q\to \dot x})\nabla_{\dot q}
+    + J_{\dot q\to \dot x} d_t\nabla_{\dot q}
+    - J_{q\to x}\nabla_q - J_{q\to \dot x}\nabla_{\dot q} \\
+    &amp;= (d_tJ_{x\to q})\nabla_{\dot q}
+    + J_{q\to x} d_t\nabla_{\dot q}
+    - J_{q\to x}\nabla_q - J_{q\to \dot x}\nabla_{\dot q} \\
+    &amp;= J_{q\to \dot x}\nabla_{\dot q}
+    + J_{q\to x} d_t\nabla_{\dot q}
+    - J_{q\to x}\nabla_q - J_{q\to \dot x}\nabla_{\dot q} \\
+    &amp;= J_{q\to x} d_t\nabla_{\dot q}
+    - J_{q\to x}\nabla_q \\
+    &amp;= J_{q\to x}(d_t \nabla_{\dot q} - \nabla_q)
+\end{align}\]</span>
+We applied lemmas <a href="lagranges-equations.html#lem:gradient1">3.3</a> and <a href="lagranges-equations.html#lem:gradient2">3.4</a> on line <span class="math inline">\(1\)</span>,
+applied the product rule to <span class="math inline">\(J_{\dot x\to \dot q}\nabla_{\dot q}\)</span> to obtain line <span class="math inline">\(2\)</span>
+line <span class="math inline">\(2\)</span>, then cancelled the dots by lemma <a href="lagranges-equations.html#lem:dotCancellation">3.1</a>
+to obtain line <span class="math inline">\(3\)</span>. Finally, we applied lemma <a href="lagranges-equations.html#lem:absorbDer">3.2</a> to
+line <span class="math inline">\(3\)</span>, cancelled terms, and regrouped.</p>
+</div>
+<div id="constraints" class="section level3 unnumbered hasAnchor">
+<h3>Constraints<a href="lagranges-equations.html#constraints" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sometimes it is convenient to consider an over-parameterized
+change of coordinates <span class="math inline">\(x\to q\)</span>. In this case,
+<span class="math inline">\(J_{q\to x}\)</span> is “lean and tall”, while <span class="math inline">\(J_{x\to q}\)</span> “short and wide.”
+Recall the covariant formula
+<span class="math display">\[\begin{align}
+    \mathbb L_x &amp;= J_{x\to q} \mathbb L_q
+\end{align}\]</span>
+When <span class="math inline">\(J_{x\to q}\)</span> is full rank, the physicality condition
+<span class="math display">\[
+    \mathbb L_x = 0 \iff \mathbb L_q=0
+\]</span>
+When <span class="math inline">\(q\)</span> is overparameterized, however, requiring
+<span class="math inline">\(\mathbb L_q=0\)</span> is too strong: the correct condition is
+<span class="math display">\[
+    \mathbb L_x = 0 \iff \mathbb L_q\in \ker J_{x\to q}
+\]</span></p>
+<p>Consider a single constraint enforced by some constraint function <span class="math inline">\(f(q)=0\)</span> of signature
+<span class="math inline">\(f:\mathbb R^n\to \mathbb R\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-16" class="proposition"><strong>Proposition 3.1  </strong></span>Given a constraint <span class="math inline">\(f:\mathbb R^N\to \mathbb R\)</span> and a trajectory <span class="math inline">\(q(t)\)</span>,
+if <span class="math inline">\(f(q(t))=0\)</span> for all points on the trajectory, then
+<span class="math display">\[
+    \nabla f \in \ker J_{x\to q}
+\]</span>
+To be precise, the gradient <span class="math inline">\((\nabla f)(q(t))\)</span> evaluated
+at all points <span class="math inline">\(q(t)\)</span> for all <span class="math inline">\(t\)</span> is in the kernel of <span class="math inline">\(J_{x\to q}(q(t))\)</span>
+evaluated at <span class="math inline">\(q(t)\)</span>.</p>
+</div>
+<p><em>Proof:</em> Recognizing the chain rule:
+<span class="math inline">\(J_{x\to q} \nabla\big|_q f = J_{x\to f}=0\)</span> since <span class="math inline">\(f\)</span> is constant.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-17" class="definition"><strong>Definition 3.3  (complete, independent constraints) </strong></span>Given an over-parameterized system with configuration in <span class="math inline">\(\mathbb R^{m&gt;n}\)</span>, where
+there are only <span class="math inline">\(n\)</span> true degrees of freedom, a set
+of constraints <span class="math inline">\(\{f_j:\mathbb R^m\to \mathbb R\}_{j=1}^k\)</span> is independent
+if for all possible configurations <span class="math inline">\(q\in \mathbb R^m\)</span>, the set of vectors
+<span class="math display">\[
+    C(q) = \{\nabla f_j\big|_q\}_{j=1}^k
+\]</span>
+are linearly independent. They are complete if <span class="math inline">\(C(q)\)</span> spans <span class="math inline">\(\ker J_{x\to q}(q)\)</span>
+for all points <span class="math inline">\(q\)</span>.</p>
+</div>
+<p>All of this is a fancy way of saying that <span class="math inline">\(f\)</span> is complete and independent
+iff they provide necessary and sufficient information to discern physicality
+<span class="math inline">\(\mathbb L_q\in \ker J_{x\to q}\)</span>. Given these constraints, <span class="math inline">\(\mathbb L_x=0\)</span> iff
+<span class="math display">\[\begin{align}
+    \mathbb L_q(q, \dot q) &amp;= \sum_j \lambda_j \nabla_q f_j(q) \in \ker J_{x\to q},
+        \quad \lambda_j \in \mathbb R\\
+    f_j(q) &amp;= 0
+\end{align}\]</span>
+This constrained problem can be solved by the
+standard Lagrange multiplier method.</p>
+</div>
+</div>
+<div id="extremization-formulation" class="section level2 unnumbered hasAnchor">
+<h2>Extremization formulation<a href="lagranges-equations.html#extremization-formulation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this subsection, we show that the Euler-Lagrange
+equations are fulfilled if and only if a certain action functional
+is extremized. This yields a powerful variational perspective on
+physicality.</p>
+<div class="definition">
+<p><span id="def:actionFunctional" class="definition"><strong>Definition 3.4  (action functional) </strong></span>Given a Lagrangian $L(q, q, t) (definition <a href="lagranges-equations.html#def:lagrangian">3.1</a>),
+its associated action functional <span class="math inline">\(\mathcal S_{[a, b]}(p)\)</span> takes in <span class="math inline">\(3\)</span> arguments:</p>
+<ol style="list-style-type: decimal">
+<li>Begining time <span class="math inline">\(a\in \mathbb R\)</span>.</li>
+<li>End time <span class="math inline">\(b\in \mathbb R\)</span>.</li>
+<li>A path <span class="math inline">\(q:[a, b]\to \mathbb R^n\)</span>.</li>
+</ol>
+<p>and outputs the scalar
+<span class="math display">\[
+    \mathcal S_{[a, b]}(p) = \int_a^b \mathcal L(q(t), \dot q(t), t)\, dt
+\]</span></p>
+</div>
+<p>To properly define extremization, we need the directional derivative.
+Fixing <span class="math inline">\(a, b\)</span>, the directional derivative <span class="math inline">\((D_\eta \mathcal S_{[a, b]})(q)\)</span>
+tells us how much <span class="math inline">\(\mathcal S(q)\)</span> changes if we nudge <span class="math inline">\(q\)</span> in the direction of
+<span class="math inline">\(\eta\)</span> infinitesimally.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-18" class="definition"><strong>Definition 3.5  (directional derivative of action) </strong></span>Fixing <span class="math inline">\(a, b\)</span>, the directional derivative
+<span class="math inline">\((D_\eta \mathcal S_{[a, b]})(q)\)</span> takes in two arguments:</p>
+<ol style="list-style-type: decimal">
+<li>The perturbing path <span class="math inline">\(\eta: [a, b]\to \mathbb R^n\)</span>.</li>
+<li>The path at which the perturbation is evaluated <span class="math inline">\(q:[a, b]\to \mathbb R^n\)</span>.</li>
+</ol>
+<p>and outputs the scalar slope of <span class="math inline">\(\mathcal S_{[a, b]}(q+\epsilon \eta)\)</span> w.r.t <span class="math inline">\(\epsilon\)</span>,
+evaluated at <span class="math inline">\(0\)</span>:
+<span class="math display">\[
+    (D_\eta \mathcal S_{[a, b]})(q) = \lim_{\epsilon \to 0}
+    \dfrac{\mathcal S_{[a, b]}(q) + \mathcal S_{[a, b]}(q+\epsilon \eta)}{\epsilon}
+\]</span>
+To reduce notation clutter, we abbreviate this as
+<span class="math display">\[
+    D_\eta S(q) = d_\epsilon \big|_0 S(q+\epsilon \eta)
+\]</span></p>
+</div>
+<p>The magic in the air is that the Euler-Lagrange vector
+(definition <a href="lagranges-equations.html#def:eulerLagrange">3.2</a>) <span class="math inline">\(\mathbb L_q\)</span>
+gives us the directional derivative when the input perturbation
+is endpoint-preserving.</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-19" class="theorem"><strong>Theorem 3.2  (endpoint-preserving derivative) </strong></span>For endpoint-preserving <span class="math inline">\(\eta:[a, b]\to \mathbb R\)</span> such that
+<span class="math inline">\(\eta(a)=\eta(b)=0\)</span>, the directional derivative of <span class="math inline">\(\mathcal S\)</span> is given by
+<span class="math display">\[
+    (D_\eta \mathcal S)(q) = -\int_a^b \mathbb L_q(t) \eta(t)\, dt
+\]</span></p>
+</div>
+<p><em>Proof:</em> Fixing <span class="math inline">\(q, \eta\)</span>, for any <span class="math inline">\(\epsilon&gt;0\)</span> let
+<span class="math inline">\(q_\epsilon:[a, b]\to \mathbb R^n\)</span> denote the family of paths given by
+<span class="math display" id="eq:pathFamily">\[
+    q_\epsilon(t) = q(t) + \epsilon \eta(t)
+    \tag{3.2}
+\]</span>
+Slide <span class="math inline">\(d_\epsilon\)</span> into the integral and apply lemma
+<a href="lagranges-equations.html#lem:calcVariation">3.5</a>, then apply the endpoint-vanishing condition
+<span class="math display">\[\begin{align}
+    (D_\eta \mathcal S)(q)
+    &amp;= d_\epsilon \big|_{\epsilon=0} \mathcal S(q+\epsilon \eta)
+    = \int_a^b d_\epsilon \mathcal L(q_\epsilon, \dot q_\epsilon, t)\, dt \\
+    &amp;= \int_a^b \left[
+        -\eta \cdot \mathbb L_q + d_t \left(\eta \cdot \nabla_{\dot q}\mathcal L\right)
+    \right]\, dt \\
+    &amp;= \left(\eta \cdot \nabla_{\dot q}\mathcal L\right)\big|^b_a
+    -\int_a^b \eta \cdot \mathbb L_q\, dt
+    = -\int_a^b \eta \cdot \mathbb L_q\, dt
+\end{align}\]</span></p>
+<p>The following lemma is the key component in the calculus
+of variations. Make sure it is read carefully.</p>
+<div class="lemma">
+<p><span id="lem:calcVariation" class="lemma"><strong>Lemma 3.5  (ε-derivative of the perturbed Lagrangian) </strong></span>With <span class="math inline">\(q_\epsilon=q + \epsilon \eta\)</span> given in <a href="lagranges-equations.html#eq:pathFamily">(3.2)</a>
+<span class="math display">\[
+    d_\epsilon \mathcal L(q_\epsilon, \dot q_\epsilon)
+    = -\eta \cdot \mathbb L_q + d_t \left(\eta \cdot \nabla_{\dot q}\mathcal L\right)
+\]</span></p>
+</div>
+<p><em>Proof:</em> Using the dependence
+<span class="math inline">\(\epsilon \to (q_\epsilon, \dot q_\epsilon) \to \mathcal L\)</span>, apply the chain rule
+<span class="math display">\[\begin{align}
+    d_\epsilon \mathcal L(q_\epsilon, \dot q_\epsilon)
+    &amp;= (d_\epsilon q_\epsilon) \cdot (\nabla_q \mathcal L) +
+    (d_\epsilon \dot q_\epsilon) \cdot (\nabla_{\dot q} \mathcal L) \\
+    &amp;= \eta \cdot \nabla_q \mathcal L + d_t \eta \cdot \nabla_{\dot q} \mathcal L \\
+    &amp;= \eta \cdot \nabla_q \mathcal L
+    + d_t \left(\eta \cdot \nabla_{\dot q}\mathcal L \right)
+    - \eta \cdot d_t \nabla_{\dot q}\mathcal L \\
+    &amp;= \eta \cdot (\nabla_q - d_t \nabla_{\dot q})\mathcal L     
+    + d_t \left(\eta \cdot \nabla_{\dot q} \mathcal L\right)\\
+    &amp;= -\eta \cdot \mathbb L_q + d_t
+    \left(\eta \cdot \nabla_{\dot q}\mathcal L\right)
+\end{align}\]</span>
+On the second line, we used integration by parts on the time-derivative
+to transfer the time-derivative on <span class="math inline">\(\eta\)</span> (which we don’t like)
+to <span class="math inline">\(\nabla_{\dot q}\mathcal L\)</span> (which we like, since it appears in <span class="math inline">\(\mathbb L_q\)</span>.</p>
+<p>It is a standard result in real analysis (fundamental lemma of the
+calculus of variations) that for
+<span class="math display">\[
+    (D_\eta \mathcal S)(q) = -\int_a^b \mathbb L_q(t) \eta(t)\, dt
+\]</span>
+to be <span class="math inline">\(0\)</span> for all reasonable endpoint-preserving perturbations <span class="math inline">\(\eta\)</span>
+(which includes, in particular, compactly supported smoth functions),
+<span class="math inline">\(\mathbb L_q(t)\)</span> must be <span class="math inline">\(0\)</span>. This allows us to prove another
+equivalence result.</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-20" class="theorem"><strong>Theorem 3.3  (Hamilton's principle) </strong></span>Recall that, given a Lagrangian <span class="math inline">\(\mathcal L(q, \dot q, \epsilon)\)</span>,
+we call a path <span class="math inline">\(q:[a, b]\to \mathbb R^n\)</span> physical iff
+<span class="math display">\[
+    \mathbb L_q(t)=0, \quad t\in [a, b], \quad
+    \mathbb L_q(t) = (d_t \nabla_{\dot q} - \nabla_q) \mathcal L(q(t), \dot q(t), t)
+\]</span>
+Then a path <span class="math inline">\(q\)</span> is physical iff it extremizes the action functional
+at <span class="math inline">\(\mathcal S_{[a, b]}(q)\)</span> (definition <a href="lagranges-equations.html#def:actionFunctional">3.4</a>)
+w.r.t all endpoint-preserving perturbations
+<span class="math inline">\(\eta:[a, b]\to \mathbb R^n, \eta(a)=\eta(b)=0\)</span>
+<span class="math display">\[
+    (D_\eta \mathcal S)(q) = 0
+\]</span></p>
+</div>
+</div>
+<div id="separability-of-quadratic-lagrangians" class="section level2 unnumbered hasAnchor">
+<h2>Separability of quadratic Lagrangians<a href="lagranges-equations.html#separability-of-quadratic-lagrangians" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The following result is also used in the
+path integral formulation of quantum mechanics.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-21" class="proposition"><strong>Proposition 3.2  (Actions of quadratic Lagrangians are separable about the classical trajectory) </strong></span>Given a quadratic Lagrangian
+<span class="math display">\[
+    \mathcal L(q, \dot q) = u\, \dot q^2 + v\, q^2
+\]</span>
+for path <span class="math inline">\(q\)</span> wich satisfies the Euler-Lagrange equations,
+the Lagrangian satisfies
+<span class="math display">\[
+    \mathcal L(q+\eta, \dot q + \dot \eta)
+    = \mathcal L(q, \dot q) + \mathcal L(\eta, \dot \eta)
+    = \mathcal L(q, \dot q) + \epsilon \mathcal L(\eta, \dot \eta) +
+    d_t \left[\eta \cdot \nabla_{\dot q}\mathcal L(q, \dot q)\right]
+\]</span>
+In particular, if the perturbation <span class="math inline">\(\eta:[a, b]\to \mathbb R^n\)</span>
+is additionally endpoint preserving so <span class="math inline">\(\eta(a)=\eta(b)=0\)</span>, then
+<span class="math display">\[
+    \mathcal S(q+\eta) = \mathcal S(q)+\mathcal S(\eta)
+\]</span></p>
+</div>
+<p><em>Proof:</em> Consider the function in <span class="math inline">\(\epsilon:\mathbb R\to \mathbb R\)</span> defined by
+<span class="math display">\[\begin{align}
+    \mathcal L(\epsilon)
+    &amp;= \mathcal L(q + \epsilon \eta, \dot q + \epsilon \dot \eta)
+    = u (\dot q + \epsilon \dot \eta)^2 + v(q + \epsilon \eta)^2 \\
+\end{align}\]</span>
+It helps at this point to compute some of its derivatives
+<span class="math display">\[\begin{align}
+    \eta \cdot \nabla_q \mathcal L
+    &amp;=  \eta \cdot 2v\epsilon (q + \epsilon \eta), \quad
+    \eta \cdot \nabla_{\dot q} \mathcal L
+    =  \dot \eta \cdot 2u\epsilon (\dot q + \epsilon \dot \eta) \\
+    \dfrac 1 2 (\eta \cdot \nabla_q)^2 \mathcal L
+    &amp;= (\eta \cdot \nabla_q)\left[
+        \eta \cdot 2v\epsilon (q + \epsilon \eta)
+    \right]
+    = \epsilon v \, \eta^2 \\
+    \dfrac 1 2 (\eta \cdot \nabla_{\dot q})^2 \mathcal L
+    &amp;= (\dot \eta \cdot \nabla_{\dot q})
+    \left[\dot \eta \cdot 2u\epsilon (\dot q + \epsilon \dot \eta) \right]
+    = \epsilon u \, \dot \eta^2 \\
+    [(\nabla \cdot \nabla_q)(\dot \eta \cdot \nabla_{\dot q})] \mathcal L
+    &amp;= [(\dot \eta \cdot \nabla_{\dot q})(\nabla \cdot \nabla_q)] \mathcal L = 0 \\
+    \dfrac 1 2 (\eta \cdot \nabla_q + \dot \eta \cdot \nabla_{\dot q})^2 \mathcal L(\epsilon)
+    &amp;= \epsilon \mathcal L(\eta, \dot \eta)
+\end{align}\]</span>
+Taylor expanding about <span class="math inline">\(\epsilon=0\)</span> yields
+<span class="math display" id="eq:separationEquation">\[\begin{align}
+    \mathcal L(q + \epsilon \eta, \dot q + \epsilon \dot \eta)
+    &amp;= \mathcal L(q, \dot q)
+        + \sum_{k=1}^\infty
+            \dfrac{
+                (\eta \cdot \nabla_q + \dot \eta \cdot \nabla_{\dot q})^k
+            } {k!}
+        \mathcal L(q + \epsilon \eta, \dot q + \epsilon \dot \eta) \\
+    &amp;= \mathcal L(0)
+    + (\eta \cdot \nabla_q + \dot \eta \cdot \nabla_{\dot q}) \mathcal L
+    + \dfrac 1 2 (\eta \cdot \nabla_q + \dot \eta \cdot \nabla_{\dot q})^2 \mathcal L \\
+    &amp;= \mathcal L(q, \dot q) + \epsilon \mathcal L(\eta, \dot \eta)
+    + (\eta \cdot \nabla_q + \dot \eta \cdot \nabla_{\dot q}) \mathcal L
+    \tag{3.3}
+\end{align}\]</span>
+We will now show that the extra last term (which came from the linear expansion)
+is zero when <span class="math inline">\(\eta\)</span> is time-dependent. We do this by using the product
+rule and the condition that at <span class="math inline">\(\epsilon=0\)</span>, the path satisfies the Euler-Lagrange equation
+<span class="math display">\[\begin{align}
+    (\eta \cdot \nabla_q + \dot \eta \cdot \nabla_{\dot q})\mathcal L
+    &amp;= [\eta \cdot \nabla_q + d_t(\eta \cdot \nabla_{\dot q}) -
+    \eta \cdot d_t \nabla_{\dot q}] \mathcal L \\
+    &amp;= d_t(\eta \cdot \nabla_{\dot q})\mathcal L
+\end{align}\]</span>
+Where we recognized
+<span class="math inline">\(\eta \cdot \nabla_q - \eta \cdot (d_t\nabla_{\dot q})\mathcal L
+= -\eta \cdot \mathbb L = 0\)</span>. Substituting back into equation <a href="lagranges-equations.html#eq:separationEquation">(3.3)</a>
+<span class="math display">\[
+    \mathcal L(q + \epsilon \eta, \dot q + \epsilon \dot \eta)
+    = \mathcal L(q, \dot q) + \epsilon \mathcal L(\eta, \dot \eta) +
+    d_t \left[\eta \cdot \nabla_{\dot q}\mathcal L(q, \dot q)\right]
+\]</span>
+Substitute <span class="math inline">\(\epsilon=1\)</span> and integrate to obtain the action.
+The last total-derivative term vanishes by endpoint-preserving
+property of <span class="math inline">\(\eta\)</span>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="divider.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="noethers-theorem.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

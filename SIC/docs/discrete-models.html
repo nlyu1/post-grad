@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Discrete models | SIE Notes: Summer 2025</title>
+  <meta name="description" content="1 Discrete models | SIE Notes: Summer 2025" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Discrete models | SIE Notes: Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Discrete models | SIE Notes: Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="continuous-models.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="discrete-models.html"><a href="discrete-models.html"><i class="fa fa-check"></i><b>1</b> Discrete models</a>
+<ul>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#teaser-forward-contracts"><i class="fa fa-check"></i>Teaser: forward contracts</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-branch-model"><i class="fa fa-check"></i>Binomial branch model</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-tree-model"><i class="fa fa-check"></i>Binomial tree model</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-tree-pricing"><i class="fa fa-check"></i>Binomial tree pricing</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-models.html"><a href="continuous-models.html"><i class="fa fa-check"></i><b>2</b> Continuous models</a>
+<ul>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#preliminaries"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#brownian-process"><i class="fa fa-check"></i>Brownian process</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#stochastic-calculus"><i class="fa fa-check"></i>Stochastic calculus</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#change-of-process-measure"><i class="fa fa-check"></i>Change of process measure</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#CMG"><i class="fa fa-check"></i>CMG theorem</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#martingales"><i class="fa fa-check"></i>Martingales</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="application-to-financial-strategies.html"><a href="application-to-financial-strategies.html"><i class="fa fa-check"></i><b>3</b> Application to financial strategies</a>
+<ul>
+<li class="chapter" data-level="" data-path="application-to-financial-strategies.html"><a href="application-to-financial-strategies.html#preliminaries-1"><i class="fa fa-check"></i>Preliminaries</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SIE Notes: Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="discrete-models" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Discrete models<a href="discrete-models.html#discrete-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Central takeaways:</p>
+<ul>
+<li>Strong law (expectation) pricing is subjectively fair w.r.t. beliefs, while risk-free arbitrarge pricing is objective.</li>
+</ul>
+<div id="teaser-forward-contracts" class="section level2 unnumbered hasAnchor">
+<h2>Teaser: forward contracts<a href="discrete-models.html#teaser-forward-contracts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A <strong>forward</strong> contract at price <span class="math inline">\(K\)</span> allows the holder to buy an asset at a specified price at a future time for price <span class="math inline">\(K\)</span>.
+Assuming interest rate <span class="math inline">\(r\)</span> so that cash grows as <span class="math inline">\(e^{rt}\)</span>, let <span class="math inline">\(\mathbf S_t\)</span> denote the price of the asset at time <span class="math inline">\(t\)</span></p>
+<div class="remark">
+<p><span id="unlabeled-div-1" class="remark"><em>Remark</em> (strong law pricing). </span>Using expectation calculus, the rational forward price is <span class="math inline">\(\mathbb{E}[S_t]\)</span>.</p>
+<ul>
+<li>For a greater forward price, we can sell the contract and buy the asset.</li>
+<li>For a lower forward price, we can buy the contract and sell the asset.</li>
+</ul>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-2" class="remark"><em>Remark</em> (risk-free arbitrarge pricing). </span>However, we claim that the forward price is <span class="math inline">\(S_0 e^{rt}\)</span>.</p>
+<ul>
+<li>For greater forward price <span class="math inline">\(K\)</span>, we lend <span class="math inline">\(S_0\)</span> to buy the asset <em>right now</em>, sell a contract, and deliver the asset at time <span class="math inline">\(t\)</span>, using the proceeds <span class="math inline">\(K\)</span> to pay the loan <span class="math inline">\(S_0e^{rt}\)</span>, gaining <span class="math inline">\(K-S_0e^{rt}\)</span>.
+<ul>
+<li>Net: short contract, long stock, short cash.</li>
+</ul></li>
+<li>For lower forward price <span class="math inline">\(K\)</span>, we borrow a stock, sell it immediately for <span class="math inline">\(S_0\)</span>, and buy a contract right now. At time <span class="math inline">\(t\)</span>, we buy the stock for <span class="math inline">\(K\)</span> to pay off the loan, gaining <span class="math inline">\(S_0e^{rt} - K\)</span>.</li>
+</ul>
+<p>Note that there are three parties: <strong>us, contract counterparty, and stock counterparty</strong>. Payoffs below are given at time <span class="math inline">\(t\)</span>.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Party</th>
+<th><span class="math inline">\(K&gt;S_0e^{rt}\)</span></th>
+<th><span class="math inline">\(K&lt;S_0e^{rt}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Me</td>
+<td><span style="color:green">stock</span>, <span style="color:red">cash, contract</span>. Payoff: <span class="math inline">\(K-S_0e^{rt}&gt;0\)</span></td>
+<td><span style="color:red">stock</span>, <span style="color:green">cash, contract</span>. Payoff: <span class="math inline">\(S_0e^{rt}-K&gt;0\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Stock cpty</td>
+<td><span style="color:red">stock</span>. Payoff: <span class="math inline">\(S_0e^{rt}-S_t\)</span></td>
+<td><span style="color:green">stock</span>. Payoff: <span class="math inline">\(S_t-S_0e^{rt}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Contract cpty</td>
+<td><span style="color:green">contract</span>. Payoff: <span class="math inline">\(K-S_t\)</span></td>
+<td><span style="color:red">contract</span>. Payoff: <span class="math inline">\(S_t-K\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A few salient points:</p>
+<ol style="list-style-type: decimal">
+<li>The arbitrarge party is risk-free. The net loss <span class="math inline">\(-|K-S_0e^{rt}|\)</span> is always split between the stock and contract counterparties.</li>
+<li>This <strong>does not contradict</strong> the fact that strong law pricing is fair <em>in expectation</em> if <span class="math inline">\(K=\mathbb{E}[S_t]\)</span>.</li>
+<li>Suppose <span class="math inline">\(\mathbb{E}[S_t]&gt;S_0e^{rt}\)</span> (for example, for risk premium), and that this is known by the contract counterparty. They will short the contract at <span class="math inline">\(K=S_0e^{rt}\)</span>, and the stock counterparty will lose in expectation.</li>
+<li>Suppose <span class="math inline">\(\mathbb{E}[S_t]&lt;S_0e^{rt}\)</span> and that this is known by the contract counterparty, they will long the contract and gain <span class="math inline">\(K-S_0e^{rt}&gt;0\)</span>. The stock counterparty will lose in expectation.</li>
+<li>Assuming rational behavior, trade only happens when <span style="color:blue"><strong>stock and contract counterparties disagree on</strong> the relative size of <span class="math inline">\(\mathbb{E}[S_t]\)</span> compared to <span class="math inline">\(K\)</span>)</span>.</li>
+</ol>
+</div>
+<div id="binomial-branch-model" class="section level2 unnumbered hasAnchor">
+<h2>Binomial branch model<a href="discrete-models.html#binomial-branch-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Assume a simple model where:</p>
+<ol style="list-style-type: decimal">
+<li>Stock has price <span class="math inline">\(s_1\)</span> at <span class="math inline">\(t=0\)</span>, and at <span class="math inline">\(t=1\)</span> goes up to <span class="math inline">\(\mathbf S_1=s_3\)</span> w.p. <span class="math inline">\(p\)</span> or down to <span class="math inline">\(\mathbf S_2=s_2\)</span> w.p. <span class="math inline">\(\bar p\)</span>.</li>
+<li>Compound interest rate <span class="math inline">\(r\)</span>.</li>
+</ol>
+<p>Question: is it possible to construct a portfolio that pays <span class="math inline">\(f(3)\)</span> when <span class="math inline">\(\mathbf S_1=s_3\)</span> and <span class="math inline">\(f(2)\)</span> when <span class="math inline">\(\mathbf S_2=s_2\)</span>?</p>
+<ul>
+<li>Consider a portfolio <span class="math inline">\(\phi\)</span> of stocks and <span class="math inline">\(\psi\)</span> of cash worth <span class="math inline">\(\phi s_1 + \psi\)</span> at the beginning.</li>
+<li>At <span class="math inline">\(t=1\)</span>, the portfolio is worth <span class="math inline">\(\phi s_3 + \psi e^{r}\)</span> if <span class="math inline">\(\mathbf S_1=s_3\)</span> and <span class="math inline">\(\phi s_2 + \psi e^{r}\)</span> if <span class="math inline">\(\mathbf S_2=s_2\)</span>.</li>
+<li>Solve for the following system of equations, non-degenerate when stock is different from bond.
+<span class="math display">\[
+  \begin{cases}
+      \phi s_2 + \psi e^{r} = f(2) \\
+      \phi s_3 + \psi e^{r} = f(3)
+  \end{cases}
+\]</span>
+This yields the fair price (at <span class="math inline">\(t=0\)</span>)<span class="math inline">\(V=s_1\phi^*+\psi^*\)</span> of the derivative with payoff <span class="math inline">\(f\)</span>.
+<span class="math display">\[
+  V = e^{-r}(\bar q f_2 + q f_3), \quad q = \dfrac{s_1 e^{rt} - s_2}{s_3 - s_2}.
+\]</span></li>
+</ul>
+<p>Looking at <span class="math inline">\(q\)</span>, w.l.o.g. assume <span class="math inline">\(s_3&gt;s_2\)</span>. This suggests that the risk-free strike price <span class="math inline">\(V\)</span> is a <strong>discounted expectation</strong> w.r.t. some measure <span class="math inline">\(q\)</span>, of its possible payoffs. Note that the measure <span class="math inline">\(q\)</span> is not the same as the probability <span class="math inline">\(p\)</span> of the realizations.</p>
+<ul>
+<li>For <span class="math inline">\(q\leq 0\)</span>, we have <span class="math inline">\(s_3&gt;s_2&gt;s_1e^{rt}\)</span>. This means that the stock strictly dominates cash (even in the worst payoff).</li>
+<li>For <span class="math inline">\(q\geq 1\)</span>, rearranging yields <span class="math inline">\(s_1 e^r \geq s_3&gt;s_2\)</span>, making cash dominate the stock.</li>
+</ul>
+</div>
+<div id="binomial-tree-model" class="section level2 unnumbered hasAnchor">
+<h2>Binomial tree model<a href="discrete-models.html#binomial-tree-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Stock price starts at <span class="math inline">\(s_1\)</span> at <span class="math inline">\(t=0\)</span>. If the stock price <span class="math inline">\(\mathbf S_t=s_j\)</span>, then <span class="math inline">\(\mathbf S_{t+1}\)</span> is <span class="math inline">\(s_{2j+1}\)</span> w.p. <span class="math inline">\(p_j\)</span> or <span class="math inline">\(s_{2j}\)</span> w.p. <span class="math inline">\(\bar p_j\)</span>.</li>
+<li>The cash bond has, for simplicity, constant interest rate <span class="math inline">\(r\)</span>.</li>
+</ol>
+<p>Note that in the tree model, the node index <span class="math inline">\(j\)</span> is bijective with the root-to-node path. Thus, a derivative that specifies price at each node is equivalent to a derivative that specifies price for each path.</p>
+<div class="remark">
+<p><span id="unlabeled-div-3" class="remark"><em>Remark</em> (risk-neutral pricing for tree model). </span>Use backward induction to price the tree-model derivative: the value assigned to each node effectively says: “if I have this much money at this node, I can construct a portfolio that replicates the derivative payoffs which starts at this node”.</p>
+</div>
+<p>Some preliminary definitions for the <strong>binomial representation theorem</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>The set of stock values, and the set of paths, is a <strong>process</strong> <span class="math inline">\(S\)</span>.</li>
+<li>The set of probabilities is a <strong>measure</strong> <span class="math inline">\(\mathbb P\)</span> or <span class="math inline">\(\mathbb Q\)</span>.</li>
+<li>A <strong>filtration</strong> <span class="math inline">\((\mathcal F_j)\)</span> is the history of the process up to time <span class="math inline">\(j\)</span> (ordered list of visited nodes).</li>
+<li>A <strong>claim</strong> <span class="math inline">\(X\)</span> on the tree is a function of the filtration at some time horizon <span class="math inline">\(T\)</span>; it assigns a claim value to each path.</li>
+<li>Denote the conditional expectation operator <span class="math inline">\(\mathbb E_{\mathbb Q}(\cdot\, | \mathcal F_j)\)</span>.</li>
+<li>A <strong>previsible</strong> process <span class="math inline">\(\phi\)</span> is a process whose value at any given node at tick <span class="math inline">\(j\)</span> is only dependent upon its history up to that point.</li>
+</ol>
+<div class="definition">
+<p><span id="def:discreteMartingale" class="definition"><strong>Definition 1.1  (martingale) </strong></span>A process <span class="math inline">\(S\)</span> is a <strong>martingale</strong> w.r.t. <span class="math inline">\(\mathbb P\)</span> and filtration <span class="math inline">\((\mathcal F_j)\)</span> if
+<span class="math display">\[
+    \mathbb E_{\mathbb P}(S_k|\mathcal F_j) = S_j, \quad \forall j\leq k
+\]</span>
+In other words, the future EV of the process under <span class="math inline">\(\mathbb P\)</span>, conditional on its history up to time <span class="math inline">\(j\)</span>, is equal to the process’s value at time <span class="math inline">\(j\)</span>.</p>
+</div>
+<p>One salient example of a martingale:</p>
+<div class="proposition">
+<p><span id="prp:condExpMartingale" class="proposition"><strong>Proposition 1.1  (conditional expectation extension) </strong></span>For any claim <span class="math inline">\(X\)</span> and measure <span class="math inline">\(\mathbb P\)</span>, the process <span class="math inline">\(\mathbb E_{\mathbb P}(X|\mathcal F_j)\)</span> is a martingale.</p>
+<p><em>Proof:</em> Simply note that for <span class="math inline">\(k\geq j\)</span>, by the law of total expectation, we have
+<span class="math display">\[
+    \mathbb E_{\mathbb P} \left[
+    \mathbb E_{\mathbb P}(X|\mathcal F_k) \big| \mathcal F_j
+    \right] = \mathbb E_{\mathbb P}(X|\mathcal F_j)
+\]</span></p>
+</div>
+<div class="theorem">
+<p><span id="thm:binRepTheorem" class="theorem"><strong>Theorem 1.1  (binomial representation theorem) </strong></span>Suppose there exists <span class="math inline">\(\mathbb Q\)</span> such that the binomial price process <span class="math inline">\(S\)</span> is a <span class="math inline">\(\mathbb Q\)</span>-martingale. Then, for any other <span class="math inline">\(\mathbb Q\)</span>-martingale <span class="math inline">\(N\)</span>, there exists a previsible process <span class="math inline">\(\phi\)</span> such that
+<span class="math display">\[
+    N_j = N_0 + \sum_{k=1}^j \phi_k \Delta S_k
+\]</span>
+where <span class="math inline">\(\Delta S_k = S_k - S_{k-1}\)</span> and <span class="math inline">\(\phi_j\)</span> is the value of <span class="math inline">\(\phi\)</span> at the appropriate node at time <span class="math inline">\(j\)</span>. Note that <span class="math inline">\(N_0\)</span> is a fixed value, and that based on the definition of <span class="math inline">\(\Delta S\)</span>, the process value <span class="math inline">\(\phi_k\)</span> is computable at time <span class="math inline">\(k-1\)</span>.</p>
+</div>
+<p>In other words, any <span class="math inline">\(\mathbb Q\)</span>-martingale is equivalent (up to constant) to the accumulation of a <strong>previsible</strong> adjusting process (this would inform our purchase of the stock), times the stock price change, <strong>if the stock price is a <span class="math inline">\(\mathbb Q\)</span>-martingale</strong>.</p>
+<div style="color:blue">
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\phi_k\)</span> provides for the degrees of freedom to adjust the magnitude of the process changes in a previsible manner, and there is no price-dependent term due to the martingale property.</li>
+<li>The martingale property eliminates the price-dependent “constant” degrees of freedom, leaving only the previsible, scaling degrees of freedom which are <em>only dependent upon the price change</em>. The scaling process <span class="math inline">\(\phi\)</span> denotes the previsible stock allocation.</li>
+</ol>
+</div>
+<p><em>Proof:</em> For the simple <span class="math inline">\(2\)</span>-branch case, denote <span class="math inline">\(s_{\mathrm{now}}, s_{\mathrm{up}}, s_{\mathrm{down}}\)</span> and <span class="math inline">\(n_{\mathrm{now}}, n_{\mathrm{up}}, n_{\mathrm{down}}\)</span>, solve for
+<span class="math display">\[
+    n_{\mathrm{up}} = N_0 + \phi_1 (s_{\mathrm{up}} - s_{\mathrm{now}}), \quad n_{\mathrm{down}} = N_0 + \phi_1 (s_{\mathrm{down}} - s_{\mathrm{now}})
+\]</span>
+The scaling <span class="math inline">\(\phi_1\)</span> will be <span class="math inline">\((n_{\mathrm{up}} - n_{\mathrm{down}}) / (s_{\mathrm{up}} - s_{\mathrm{down}})\)</span>. Inductively, consider
+<span class="math display">\[
+    \Delta N_j = \phi_j \Delta S_j + k
+\]</span>
+where <span class="math inline">\(\phi_j\)</span> is the ratio of the up-down difference of <span class="math inline">\(N\)</span> versus <span class="math inline">\(S\)</span> at the node under consideration at time <span class="math inline">\(j\)</span>. Next, take the expectation of both sides and use the martingale property
+<span class="math display">\[
+    \mathbb E_{\mathbb Q} \left[ \Delta N_j \big| \mathcal F_{j-1} \right]_{=0} = \mathbb E_{\mathbb Q} \left[ \phi_j \Delta S_j\big| \mathcal F_{j-1} \right]_{=0} + k \implies k = 0
+\]</span></p>
+</div>
+<div id="binomial-tree-pricing" class="section level2 unnumbered hasAnchor">
+<h2>Binomial tree pricing<a href="discrete-models.html#binomial-tree-pricing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Assume in full generality a stock process <span class="math inline">\(S\)</span> and a bond process <span class="math inline">\(B\)</span> (with <span class="math inline">\(B_0=1\)</span>). Fixing claim <span class="math inline">\(X\)</span> and time horizon <span class="math inline">\(T\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>First, annul the time growth of money: define the discounted claim <span class="math inline">\(B_T^{-1}X\)</span> and the discounted stock process <span class="math inline">\(Z_j=(B_j^{-1}S_j)\)</span>.</li>
+<li><u> Assumption </u>: in a sensible world, there is a measure <span class="math inline">\(\mathbb Q\)</span> such that the discounted stock process <span class="math inline">\(Z_j\)</span> is a <span class="math inline">\(\mathbb Q\)</span>-martingale (see discussion in branch case). This is known as the <strong>fundamental theorem of asset pricing</strong> and provable by the separating hyperplane theorem, which introduces the existence of a positive linear functional.</li>
+<li>Extend the discounted claim <span class="math inline">\(B_T^{-1}X\)</span> to a <span class="math inline">\(\mathbb Q\)</span>-martingale <span class="math inline">\(E\)</span> (proposition <a href="discrete-models.html#prp:condExpMartingale">1.1</a>).</li>
+<li>Write <span class="math inline">\(E_j = E_0 + \sum_{k=1}^j \phi_k \Delta Z_k\)</span> by theorem <a href="discrete-models.html#thm:binRepTheorem">1.1</a>. Here <span class="math inline">\(E_0 = \mathbb E_{\mathbb Q}(B_T^{-1}X) = \mathbb E_{\mathbb Q}(E)\)</span>.</li>
+<li>Construction as follows: at time <span class="math inline">\(j\)</span>, but portfolio <span class="math inline">\(\Pi_j\)</span> consisting of <span class="math inline">\(\phi_{j+1}\)</span> units of stock and <span class="math inline">\(\psi_{j+1} = E_j - \phi_{j+1} Z_j\)</span> units of cash.
+<ul>
+<li>At time <span class="math inline">\(0\)</span>, <span class="math inline">\(\Pi_0\)</span> is worth <span class="math inline">\(\phi_1 S_0 + \psi_1 = E_0\)</span>.</li>
+<li><div style="color:blue">
+The value of <span class="math inline">\(\Pi_{\forall j}\)</span> (from the POV of <span class="math inline">\(t=0\)</span>) is always <span class="math inline">\(E_j\)</span>.
+</div></li>
+<li>At time <span class="math inline">\(1\)</span>, <span class="math inline">\(\Pi_0\)</span> is worth <span class="math inline">\(\phi_1 S_1 + \psi_1 = E_0 + \phi_1 \Delta Z_1 = E_1\)</span>. This is enough to finance <span class="math inline">\(\Pi_1\)</span>.</li>
+</ul></li>
+</ol>
+<p>The strategy <span class="math inline">\((\psi, \phi)\)</span> defined as such is <strong>self-financing</strong>, in that holding <span class="math inline">\(\Pi_t\)</span> from <span class="math inline">\(t\mapsto t+1\)</span> is sufficient to finance <span class="math inline">\(\Pi_{t+1}\)</span>.</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-4" class="theorem"><strong>Theorem 1.2  (claim pricing formula) </strong></span>By the risk-free construction, the value at tick-time <span class="math inline">\(j\)</span> of a claim <span class="math inline">\(X\)</span> maturing at some time <span class="math inline">\(T\)</span> is
+<span class="math display">\[
+    \mathbb E_{\mathbb Q}\left[
+    (B_j B_T^{-1}) X \big| \mathcal F_j
+    \right]
+\]</span>
+In other words, it is the conditional expectation of the cash-discounted claim w.r.t. the martingale measure <span class="math inline">\(\mathbb Q\)</span> for the underlying. The value above is observed at time <span class="math inline">\(j\)</span>. Note that <span class="math inline">\(B_j B_T^{-1}\)</span> is the normalized discount factor w.r.t. this value observation.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-5" class="example"><strong>Example 1.1  (trivial example) </strong></span>Consider cash without interest and a stock priced at <span class="math inline">\(1\)</span>. At the end, the stock is worth either <span class="math inline">\(2\)</span> or <span class="math inline">\(0.5\)</span>. What is the worth of a bet which pays <span class="math inline">\(1\)</span> if the stock goes up?</p>
+<ul>
+<li>The ratio of (the up-down difference of the claim) to (the up-down difference of the stock) is <span class="math inline">\(1/(3/2)=2/3\)</span>. To fulfill the claim when the stock goes up, we need to hold <span class="math inline">\(1 - 2/3\cdot 2 = -1/3\)</span> of cash.</li>
+<li>Thet net portfolio is then <span class="math inline">\((-1/3, 2/3)\)</span> of cash and stock, worth <span class="math inline">\(1/3\)</span> at the beginning.</li>
+</ul>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="continuous-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

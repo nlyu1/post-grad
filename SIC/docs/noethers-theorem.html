@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Noether’s theorem | SIE Notes: Summer 2025</title>
+  <meta name="description" content="4 Noether’s theorem | SIE Notes: Summer 2025" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Noether’s theorem | SIE Notes: Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Noether’s theorem | SIE Notes: Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lagranges-equations.html"/>
+<link rel="next" href="hamiltonian-mechanics.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="market-participants-and-market-structure.html"><a href="market-participants-and-market-structure.html"><i class="fa fa-check"></i><b>1</b> Market Participants and Market Structure</a></li>
+<li class="chapter" data-level="2" data-path="divider.html"><a href="divider.html"><i class="fa fa-check"></i><b>2</b> Divider</a>
+<ul>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#problem-setup"><i class="fa fa-check"></i>Problem setup</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#three-conserved-quantities"><i class="fa fa-check"></i>Three conserved quantities</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#orbits-effective-potential"><i class="fa fa-check"></i>Orbits, effective potential</a></li>
+<li class="chapter" data-level="" data-path="divider.html"><a href="divider.html#scattering"><i class="fa fa-check"></i>Scattering</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lagranges-equations.html"><a href="lagranges-equations.html"><i class="fa fa-check"></i><b>3</b> Lagrange’s Equations</a>
+<ul>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariant-formulation"><i class="fa fa-check"></i>Covariant formulation</a>
+<ul>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariance-introduction"><i class="fa fa-check"></i>Covariance: introduction</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#euler-lagrange-equations"><i class="fa fa-check"></i>Euler-Lagrange Equations</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#covariance-of-euler-lagrange-equations"><i class="fa fa-check"></i>Covariance of Euler-Lagrange Equations</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#constraints"><i class="fa fa-check"></i>Constraints</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#extremization-formulation"><i class="fa fa-check"></i>Extremization formulation</a></li>
+<li class="chapter" data-level="" data-path="lagranges-equations.html"><a href="lagranges-equations.html#separability-of-quadratic-lagrangians"><i class="fa fa-check"></i>Separability of quadratic Lagrangians</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="noethers-theorem.html"><a href="noethers-theorem.html"><i class="fa fa-check"></i><b>4</b> Noether’s theorem</a></li>
+<li class="chapter" data-level="5" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html"><i class="fa fa-check"></i><b>5</b> Hamiltonian Mechanics</a>
+<ul>
+<li class="chapter" data-level="" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html#legendre-transform"><i class="fa fa-check"></i>Legendre transform</a></li>
+<li class="chapter" data-level="" data-path="hamiltonian-mechanics.html"><a href="hamiltonian-mechanics.html#hamiltons-equations"><i class="fa fa-check"></i>Hamilton’s equations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SIE Notes: Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="noethers-theorem" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Noether’s theorem<a href="noethers-theorem.html#noethers-theorem" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Noether’s theorem elucidates how continuous symmetries
+result in conserved quantities; the converse will be given
+by Hamiltonian mechanics.
+The key points in this section are:</p>
+<ol style="list-style-type: decimal">
+<li>The definition of a continuous symmetry.</li>
+<li>Noether’s theorem.</li>
+<li>The conserved-quantity when <span class="math inline">\(\mathcal L\)</span> is time-invariant: the Hamiltonian.</li>
+</ol>
+<p>It’s convenient to now define a quantity we’ll be using later very often:</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-22" class="definition"><strong>Definition 4.1  (canonical momentum) </strong></span>Given the Lagrangian <span class="math inline">\(\mathcal L(q, \dot q, t)\)</span> of a system,
+its canonical momentum is
+<span class="math display">\[
+    p = \nabla_{\dot q} \mathcal L(q, \dot q, t)
+\]</span>
+In terms of the canonical momentum, the Euler-Lagrange
+equations read
+<span class="math display">\[
+    \mathbb L_q = \dot p - \nabla_q \mathcal L = 0
+\]</span></p>
+</div>
+<p>We will make extensive use of lemma <a href="lagranges-equations.html#lem:calcVariation">3.5</a>, which
+we state here again using the canonical momentum for convenience:</p>
+<div class="lemma">
+<p><span id="lem:calcVariation1" class="lemma"><strong>Lemma 4.1  (ε-derivative of the perturbed Lagrangian) </strong></span>Given a path <span class="math inline">\(q:[a, b]\to \mathbb R\)</span> and a perturbation path <span class="math inline">\(\eta:[a, b]\to \mathbb R\)</span>,
+define the parameterized family of paths <span class="math inline">\(q_\epsilon=q + \epsilon \eta\)</span>, then
+<span class="math display">\[
+    d_\epsilon \mathcal L(q_\epsilon, \dot q_\epsilon)
+    = -\eta \cdot \mathbb L_q + d_t \left(\eta \cdot p\right)
+\]</span></p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-23" class="definition"><strong>Definition 4.2  (continuous symmetry) </strong></span>Consider a family of maps <span class="math inline">\(q_\epsilon\)</span> such that <span class="math inline">\(q_0\)</span> is the classical
+trajectory w.r.t. the Lagrangian <span class="math inline">\(\mathcal L\)</span>. Define
+<span class="math display">\[
+    \mathcal L_\epsilon = \mathcal L(q_\epsilon, \dot q_\epsilon, t)
+\]</span>
+as well as the parameterized action function
+<span class="math display">\[
+    S_\epsilon = \int_a^b \mathcal L(q_\epsilon, \dot q_\epsilon, t)\, dt
+\]</span>
+The physical system has continuous symmetry under the transformation
+parameterized by <span class="math inline">\(q\mapsto q_\epsilon\)</span> if
+<span class="math display">\[
+    d_\epsilon \big|_0 S_\epsilon = C
+\]</span>
+where <span class="math inline">\(C\)</span> is a constant independent of the dynamical variables <span class="math inline">\(q, \dot q, t\)</span>.
+In other words, infinitesimal reparameterization by <span class="math inline">\(\epsilon\)</span>
+leaves the equations of motion unchanged.</p>
+</div>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-24" class="proposition"><strong>Proposition 4.1  (characterization of continuous symmetry via Lagrangian) </strong></span><span class="math inline">\(\epsilon \mapsto q_\epsilon\)</span> is a continuous symmetry if
+<span class="math display">\[
+    d_\epsilon \big|_0 \mathcal L_\epsilon = d_t F(q, \dot q, t)
+\]</span>
+Note that the right-hand side must be a <strong>total time derivative.</strong></p>
+</div>
+<p><em>Proof:</em> Direct computation:
+<span class="math display">\[
+    d_\epsilon \big|_0 S_\epsilon =
+    \int_a^b d_\epsilon \big|_0 \mathcal L_\epsilon \, dt
+    = \int_a^b d_t(F) \, dt = F(b)-F(a)
+\]</span></p>
+<div class="theorem">
+<p><span id="thm:noether" class="theorem"><strong>Theorem 4.1  (Noether's theorem) </strong></span>Given a continuous symmetry <span class="math inline">\(q_\epsilon\)</span> such that
+<span class="math display">\[
+    d_\epsilon \big|_0 \mathcal L(q_\epsilon, \dot q_\epsilon, t)
+    = d_t F(q, \dot q, t)
+\]</span>
+THe following Noether change is conserved along a classical
+trajectory obeying the Euler-Lagrange equations
+<span class="math display">\[
+    Q = \left(d_\epsilon \big|_0 q_\epsilon \right) \cdot
+    \nabla_{\dot q}\mathcal L(q, \dot q, t) - F(q, \dot q, t)
+\]</span>
+Let <span class="math inline">\(q_\epsilon = q + \epsilon \eta\)</span> for small <span class="math inline">\(\epsilon\)</span>
+(this is effectively adapting vector field perspective),
+the Noether charge is
+<span class="math display">\[
+    Q = \eta \cdot p - F(q, \dot q, t)
+\]</span></p>
+</div>
+<p><em>Proof:</em> Direct computation invoking lemma <a href="noethers-theorem.html#lem:calcVariation1">4.1</a>:
+the <span class="math inline">\(\mathbb L_q\)</span> term vanishes on the classical trajectory
+<span class="math display">\[\begin{align}
+    d_t F
+    &amp;= d_\epsilon \big|_0 \mathcal L(q_\epsilon, \dot q_\epsilon)
+    = - \eta \cdot \mathbb L_q + d_t(\eta \cdot p)
+    = d_t(\eta \cdot p)
+\end{align}\]</span>
+This implies that the time-derivative of the Noether charge is <span class="math inline">\(0\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-25" class="proposition"><strong>Proposition 4.2  (conservation of energy) </strong></span>Let <span class="math inline">\(\mathcal L\)</span> be independent of time and denote the
+time-translation transform
+<span class="math display">\[
+    q_\epsilon(t) = q(t+\epsilon)
+\]</span>
+This is a continuous symmetry with <span class="math inline">\(F(q, \dot q) = \mathcal L(q, \dot q)\)</span>
+<span class="math display">\[
+    d_\epsilon \big|_0 \mathcal L(q_\epsilon, \dot q_\epsilon)
+    = d_t \mathcal L
+\]</span>
+The associated <span class="math inline">\(\eta = d_\epsilon \big|_0 q_\epsilon
+= d_\epsilon \big|_0 q(t+\epsilon) = \dot q\)</span>. Substituting
+into Noether’s theorem yields the conserved quantity
+<span class="math display">\[
+    H = \dot q\cdot p - \mathcal L(q, \dot q)
+\]</span></p>
+</div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lagranges-equations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="hamiltonian-mechanics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

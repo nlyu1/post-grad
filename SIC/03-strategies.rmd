@@ -1,0 +1,9 @@
+# Application to financial strategies
+
+## Preliminaries {-}
+
+:::{.definition name="portfolio"}
+A (stock-bond) portfolio is a pair $(\phi_t, \psi_t)$ of real-valued processes. The security component $\phi$ should be $\mca F$-previsible. 
+:::
+
+Note that left-continuous (left-limit approaches correctly) $\phi_t(\forall \omega)$ is previsible.  
