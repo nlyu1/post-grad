@@ -134,7 +134,7 @@ recall that $W_t - W_s\sim \mca N(0, t-s) = \sqrt{t-s}Z$ and are independent for
 \end{align}
 Recall that $\Exp[Z^2] = \mrm{Var}(Z) + \Exp[Z]^2 = 1$. The higher orders $(dW_t)^{k\geq 3}$ are negligible. Intuitively, Brownian increments are of order $\sqrt{dt}$. 
 
-:::{.definition name="Itô's formula"}
+:::{.definition #itoFormula name="Itô's formula"}
 Given $dX_t = \sigma_t\, dW_t + \mu_t\, dt$ and $f$ deterministic twice continuously differentiable: 
 \[ 
     df(X_t) = \left[
@@ -339,7 +339,7 @@ A random variable $X\sim \mca N(\mu, \sigma^2)$ under $\mbb P$ iff
 
 One can verify that the process $W_t$ is Brownian plus constant drift under $\mbb Q$. 
 
-:::{.theorem name="Cameron-Martin-Girsanov theorem"}
+:::{.theorem #cmg name="Cameron-Martin-Girsanov theorem"}
 If $W_t$ is a $\mbb P$-Brownian motion and $\gamma_t$ is a $\mca F$-previsible process such that 
 \[ 
     \mbb E_{\mbb P} \exp \left(

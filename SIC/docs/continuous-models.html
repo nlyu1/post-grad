@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Continuous models | SIE Notes: Summer 2025</title>
   <meta name="description" content="2 Continuous models | SIE Notes: Summer 2025" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Continuous models | SIE Notes: Summer 2025" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Nicholas Lyu" />
 
 
-<meta name="date" content="2025-06-13" />
+<meta name="date" content="2025-06-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="discrete-models.html"/>
-<link rel="next" href="application-to-financial-strategies.html"/>
+<link rel="next" href="options-pricing.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -89,9 +89,24 @@
 <li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#CMG"><i class="fa fa-check"></i>CMG theorem</a></li>
 <li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#martingales"><i class="fa fa-check"></i>Martingales</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="application-to-financial-strategies.html"><a href="application-to-financial-strategies.html"><i class="fa fa-check"></i><b>3</b> Application to financial strategies</a>
+<li class="chapter" data-level="3" data-path="options-pricing.html"><a href="options-pricing.html"><i class="fa fa-check"></i><b>3</b> Options Pricing</a>
 <ul>
-<li class="chapter" data-level="" data-path="application-to-financial-strategies.html"><a href="application-to-financial-strategies.html#preliminaries-1"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#preliminaries-1"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#black-scholes"><i class="fa fa-check"></i>Black-Scholes</a>
+<ul>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#zero-rates"><i class="fa fa-check"></i>Zero rates</a></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#non-zero-rates"><i class="fa fa-check"></i>Non-zero rates</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#final-words"><i class="fa fa-check"></i>Final words</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="pricing-examples.html"><a href="pricing-examples.html"><i class="fa fa-check"></i><b>4</b> Pricing examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="pricing-examples.html"><a href="pricing-examples.html#foreign-exchange"><i class="fa fa-check"></i>Foreign exchange</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>5</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="" data-path="interest-rates.html"><a href="interest-rates.html#bond-basics"><i class="fa fa-check"></i>Bond basics</a></li>
+<li class="chapter" data-level="" data-path="interest-rates.html"><a href="interest-rates.html#simple-rate-model"><i class="fa fa-check"></i>Simple rate model</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 </ul>
@@ -239,7 +254,7 @@ recall that <span class="math inline">\(W_t - W_s\sim \mathcal N(0, t-s) = \sqrt
 \end{align}\]</span>
 Recall that <span class="math inline">\(\mathbb{E}[Z^2] = \mathrm{Var}(Z) + \mathbb{E}[Z]^2 = 1\)</span>. The higher orders <span class="math inline">\((dW_t)^{k\geq 3}\)</span> are negligible. Intuitively, Brownian increments are of order <span class="math inline">\(\sqrt{dt}\)</span>.</p>
 <div class="definition">
-<p><span id="def:unlabeled-div-14" class="definition"><strong>Definition 2.6  (Itô's formula) </strong></span>Given <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span> and <span class="math inline">\(f\)</span> deterministic twice continuously differentiable:
+<p><span id="def:itoFormula" class="definition"><strong>Definition 2.6  (Itô's formula) </strong></span>Given <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span> and <span class="math inline">\(f\)</span> deterministic twice continuously differentiable:
 <span class="math display">\[
     df(X_t) = \left[
         \sigma_t f&#39;(X_t)
@@ -260,7 +275,7 @@ Note that while <span class="math inline">\(dX_t = \sigma\, dW_t + \mu\, dt \imp
 The stochastic integral <span class="math inline">\(\int_0^t \sigma_s\, dW_s \neq \left(\int_0^t \sigma_s\, ds \right)W_t\)</span> <u>in general</u>.
 </span></p>
 <div class="example">
-<p><span id="exm:unlabeled-div-15" class="example"><strong>Example 2.2  (common differentials) </strong></span>Consider the quadratic and the exponential:</p>
+<p><span id="exm:unlabeled-div-14" class="example"><strong>Example 2.2  (common differentials) </strong></span>Consider the quadratic and the exponential:</p>
 <ol style="list-style-type: decimal">
 <li>Let <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span>, then
 <span class="math display">\[
@@ -273,7 +288,7 @@ d(X_t^2)
 </ol>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-16" class="example"><strong>Example 2.3  (exponential diffusion equation with constant volatility) </strong></span><span class="math display">\[
+<p><span id="exm:unlabeled-div-15" class="example"><strong>Example 2.3  (exponential diffusion equation with constant volatility) </strong></span><span class="math display">\[
     dY_t = Y_t\left(\sigma_t \, dW_t + \mu_t\, dt\right)
     \implies
     Y_t = Y_0 \exp \left[
@@ -306,7 +321,7 @@ This gives <span class="math inline">\(dY_t = d f(X_t)\)</span>, where the RHS i
 \end{align}\]</span>
 </details>
 <div class="proposition">
-<p><span id="prp:unlabeled-div-17" class="proposition"><strong>Proposition 2.1  (product rule) </strong></span>When <span class="math inline">\(X_t, Y_t\)</span> are adapted to the <strong>same</strong> Brownian process
+<p><span id="prp:unlabeled-div-16" class="proposition"><strong>Proposition 2.1  (product rule) </strong></span>When <span class="math inline">\(X_t, Y_t\)</span> are adapted to the <strong>same</strong> Brownian process
 <span class="math display">\[
     dX_t = \sigma_t\, dW_t + \mu_t\, dt, \quad
     dY_t = \rho_t\, dW_t + \nu_t\, dt
@@ -361,14 +376,14 @@ Also note that we cannot apply Ito directly to <span class="math inline">\(X_t\m
     \right], \quad \forall t\leq T
 \]</span></p>
 <div class="remark">
-<p><span id="unlabeled-div-18" class="remark"><em>Remark</em>. </span>The expectation above w.r.t. <span class="math inline">\(\mathcal F_t\)</span> makes sure that <span class="math inline">\(\zeta_t\)</span> is adapted to the information available up to time <span class="math inline">\(t\)</span> only.</p>
+<p><span id="unlabeled-div-17" class="remark"><em>Remark</em>. </span>The expectation above w.r.t. <span class="math inline">\(\mathcal F_t\)</span> makes sure that <span class="math inline">\(\zeta_t\)</span> is adapted to the information available up to time <span class="math inline">\(t\)</span> only.</p>
 <ol style="list-style-type: decimal">
 <li>In the discrete picture, this expectation equivalently puts a unique value on each node at time <span class="math inline">\(t\)</span>.</li>
 <li>The expectation is taken w.r.t. <span class="math inline">\(\mathbb P\)</span> because <span class="math inline">\(\mathbb Q\)</span> is in the numerator (so conditionals sum to <span class="math inline">\(1\)</span>), while conditionals in <span class="math inline">\(\mathbb P\)</span> are in the denominator. See example below.</li>
 </ol>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-19" class="example"><strong>Example 2.4  (simple illustration) </strong></span>Consider two 2-level binary-tree processes <span class="math inline">\(\mathbb Q, \mathbb P\)</span> with the first level parameterized by <span class="math inline">\(q_1\)</span>, the second by <span class="math inline">\(q_2, q_3\)</span> respectively; same for <span class="math inline">\(p\)</span>.</p>
+<p><span id="exm:unlabeled-div-18" class="example"><strong>Example 2.4  (simple illustration) </strong></span>Consider two 2-level binary-tree processes <span class="math inline">\(\mathbb Q, \mathbb P\)</span> with the first level parameterized by <span class="math inline">\(q_1\)</span>, the second by <span class="math inline">\(q_2, q_3\)</span> respectively; same for <span class="math inline">\(p\)</span>.</p>
 <ul>
 <li>Under <span class="math inline">\(\mathbb Q\)</span>, the tail probabilities are <span class="math inline">\(q_1q_2, q_1\bar{q_2}, \bar{q_1}q_3, \bar{q_1}\bar{q_3}\)</span>. Same for <span class="math inline">\(p\)</span>.</li>
 <li>We have <span class="math inline">\(\zeta_2 = \left(\dfrac{q_1q_2}{p_1p_2}, \dfrac{q_1\bar{q_2}}{p_1\bar{p_2}}, \dfrac{\bar{q_1}q_3}{\bar{p_1}p_3}, \dfrac{\bar{q_1}\bar{q_3}}{\bar{p_1}\bar{p_3}}\right)\)</span> and <span class="math inline">\(\zeta_1 = \left(\dfrac{q_1}{p_1}, \dfrac{\bar{q_1}}{\bar{p_1}}\right)\)</span>.</li>
@@ -390,7 +405,7 @@ recall the Radon-Nikodym process <span class="math inline">\(\zeta_t = \mathbb E
 </ol>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-20" class="remark"><em>Remark</em>. </span><span style="color:blue">
+<p><span id="unlabeled-div-19" class="remark"><em>Remark</em>. </span><span style="color:blue">
 Density of processes along a path <span class="math inline">\(\omega\in \Omega\)</span> is defined as the density of having points <span class="math inline">\(\mathbf x\)</span> at times <span class="math inline">\(\mathbf t\)</span> of the process, in the mesh limit.
 </span></p>
 </div>
@@ -404,7 +419,7 @@ Density of processes along a path <span class="math inline">\(\omega\in \Omega\)
 The dense-mesh limit of this expression is also known as the <strong>Wiener measure</strong>.</p>
 </div>
 <div class="definition">
-<p><span id="def:unlabeled-div-21" class="definition"><strong>Definition 2.8  (continuous Radon-Nikodym derivative) </strong></span>Given equivalent measures <span class="math inline">\(\mathbb P, \mathbb Q\)</span> and path <span class="math inline">\(\omega\)</span>,
+<p><span id="def:unlabeled-div-20" class="definition"><strong>Definition 2.8  (continuous Radon-Nikodym derivative) </strong></span>Given equivalent measures <span class="math inline">\(\mathbb P, \mathbb Q\)</span> and path <span class="math inline">\(\omega\)</span>,
 given a time mesh <span class="math inline">\(\{t_0=0, t_1, \dots, t_n=T\}\)</span>, define <span class="math inline">\(x_j= W_{t_j}(\omega)\)</span>.
 The RN-derivative up to time <span class="math inline">\(T\)</span> is
 <span class="math display">\[
@@ -421,7 +436,7 @@ The RN-derivative up to time <span class="math inline">\(T\)</span> is
     \right)
 \]</span></p>
 <div class="lemma">
-<p><span id="lem:unlabeled-div-22" class="lemma"><strong>Lemma 2.1  (identifying normals) </strong></span>A random variable <span class="math inline">\(X\sim \mathcal N(\mu, \sigma^2)\)</span> under <span class="math inline">\(\mathbb P\)</span> iff
+<p><span id="lem:unlabeled-div-21" class="lemma"><strong>Lemma 2.1  (identifying normals) </strong></span>A random variable <span class="math inline">\(X\sim \mathcal N(\mu, \sigma^2)\)</span> under <span class="math inline">\(\mathbb P\)</span> iff
 <span class="math display">\[
     \mathbb E_{\mathbb P} \left[
         \exp \left(
@@ -434,7 +449,7 @@ The RN-derivative up to time <span class="math inline">\(T\)</span> is
 </div>
 <p>One can verify that the process <span class="math inline">\(W_t\)</span> is Brownian plus constant drift under <span class="math inline">\(\mathbb Q\)</span>.</p>
 <div class="theorem">
-<p><span id="thm:unlabeled-div-23" class="theorem"><strong>Theorem 2.1  (Cameron-Martin-Girsanov theorem) </strong></span>If <span class="math inline">\(W_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-Brownian motion and <span class="math inline">\(\gamma_t\)</span> is a <span class="math inline">\(\mathcal F\)</span>-previsible process such that
+<p><span id="thm:cmg" class="theorem"><strong>Theorem 2.1  (Cameron-Martin-Girsanov theorem) </strong></span>If <span class="math inline">\(W_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-Brownian motion and <span class="math inline">\(\gamma_t\)</span> is a <span class="math inline">\(\mathcal F\)</span>-previsible process such that
 <span class="math display">\[
     \mathbb E_{\mathbb P} \exp \left(
         \dfrac 1 2 \int_0^T \gamma_t^2\, dt
@@ -452,7 +467,7 @@ then there exists <span class="math inline">\(\mathbb Q \sim \mathbb P\)</span> 
 \]</span></p>
 </div>
 <div class="remark">
-<p><span id="unlabeled-div-24" class="remark"><em>Remark</em> (applying CMG to change drift). </span>Given a process <span class="math inline">\(X\)</span> given by <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span> where <span class="math inline">\(W\)</span> is <span class="math inline">\(\mathbb P\)</span>-Brownian motion. Suppose we wish to find measure <span class="math inline">\(\mathbb Q\)</span> such that the drift of <span class="math inline">\(X\)</span> under <span class="math inline">\(\mathbb Q\)</span> is <span class="math inline">\(\mu_t\mapsto \nu_t\)</span>. First write
+<p><span id="unlabeled-div-22" class="remark"><em>Remark</em> (applying CMG to change drift). </span>Given a process <span class="math inline">\(X\)</span> given by <span class="math inline">\(dX_t = \sigma_t\, dW_t + \mu_t\, dt\)</span> where <span class="math inline">\(W\)</span> is <span class="math inline">\(\mathbb P\)</span>-Brownian motion. Suppose we wish to find measure <span class="math inline">\(\mathbb Q\)</span> such that the drift of <span class="math inline">\(X\)</span> under <span class="math inline">\(\mathbb Q\)</span> is <span class="math inline">\(\mu_t\mapsto \nu_t\)</span>. First write
 <span class="math display">\[
     dX_t = \sigma_t \left[
         dW_t + \left(\dfrac{\mu_t - \nu_t}{\sigma_t}\right)_{\equiv \gamma_t}\, dt
@@ -467,7 +482,7 @@ If <span class="math inline">\(\gamma_t\)</span> satisfies the CMG condition, th
 <div id="martingales" class="section level2 unnumbered hasAnchor">
 <h2>Martingales<a href="continuous-models.html#martingales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="definition">
-<p><span id="def:unlabeled-div-25" class="definition"><strong>Definition 2.9  (martingale) </strong></span>A stochastic process <span class="math inline">\(M_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-<strong>martingale</strong> iff
+<p><span id="def:unlabeled-div-23" class="definition"><strong>Definition 2.9  (martingale) </strong></span>A stochastic process <span class="math inline">\(M_t\)</span> is a <span class="math inline">\(\mathbb P\)</span>-<strong>martingale</strong> iff
 <span class="math display">\[
     \mathbb E_{\mathbb P} |M_{\forall t}| &lt; \infty\quad \text{and}\quad \mathbb E_{\mathbb P} \left[M_t \mid \mathcal F_s\right] = M_s, \quad \forall s\leq t
 \]</span></p>
@@ -518,7 +533,7 @@ Then <span class="math inline">\(\mathbb{E}\exp \left(\dfrac 1 2 \int_0^T \sigma
         </div>
       </div>
 <a href="discrete-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="application-to-financial-strategies.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="options-pricing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
