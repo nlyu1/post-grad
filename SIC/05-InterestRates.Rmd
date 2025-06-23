@@ -1,0 +1,170 @@
+# Interest rates
+
+## Bond basics {-} 
+
+:::{.definition name="discount bond"}
+A discount bond is a promise to pay $1$ dollar at time $T$ for a discounted price $P(0, T)$, so $P(T, T)=1$. The market price is denoted $P(t, T)$. 
+:::
+
+1. Bond prices is a two-dimensional surface. 
+2. The more distant the payment maturity, less current worth. 
+3. Boundary condition $P(\forall T, T)=1$. 
+
+:::{.definition name="yield"}
+Given current price $P(t, T)$, its compounded price at $T=t$ is (assuming constant compounding) 
+\[ 
+    P(T, T) = 1 = e^{R(t, T)(T-t)}P(t, T)\implies R(t, T) = -\df{\log P(t, T)}{T-t}
+\]
+The **yield** $R(t, T)$ is the implied continuous compounding rate to justify the price of the bond beginning at $t$ and maturing at $T$. We can recover the price by 
+\[ 
+    P(t, T) = \exp \left[
+        -(T-t)R(t, T)
+    \right]
+\] 
+
+1. Assuming stable interest rates, long-term yields are generally higher. 
+2. If long-term rates are expected to fall, yield curve becomes inverted. 
+:::
+
+The **instantaneous rate**, or **short rate**, is the rate of borrowing money _at the present_ at time $t$. It is given by 
+\[ 
+    r_1(t) = \lim_{\epsilon\to 0} R(t, t+\epsilon) = -\pd 2 \log P(t, t)
+\] 
+
+The short rate entails the instantaneous rate of borrowing _right now_, but what about the projected instantaneous rate at some future time $T$? 
+
+:::{.definition name="forward rate"}
+The projected (at time $t$) rate of instantaneous borrowing at time $T$ is 
+\[ 
+    f(t, T) = -\pd T \log P(t, T)
+\] 
+To compute this, consider a forward contract which entails agreeing at time $t$ to make a payment at $T_1>t$ and receive payment at $T_2$. 
+
+- To replicate the ability to fulfill this contract at $t$, we need to buy $T_2$ bond and short some $k$ units of $T_1$ bond. 
+- The current price of this portfolio is $P(t, T_2) - kP(t, T_1)$. 
+- Setting this to $0$ yields the arbitrage price (at reference $t$) $k=P(t, T_2)/P(t, T_1)$. 
+- Then $k=P_t(T_1, T_2)$ is the **forward price** of purchasing $T_2$-bond at $T_1$, striked at time $t$. The corresponding implied yield of this price is 
+\[ 
+    R_t(T_1, T_2) = -\df{\log k}{T_2-T_1} = -\df{\log P(t, T_2) - \log P(t, T_1)}{T_2-T_1} 
+\] 
+Take $T_2\to T_1$ to obtain the instantaneous rate. The bond price can be recovered by 
+\[ 
+    P(t, T) = \exp \left(
+        -\int_t^T f(t, u)\, du 
+    \right)
+\] 
+:::
+
+<span style="color:blue">
+The yield curve $T\mapsto R(t, T)$ measures the cumulative effect of forward rates (e.g. yield of $3$-year bond cumulatively accounts for rates at $1, 2, 3$ years. The forward rate isolates this effect. 
+</span>
+
+## Simple rate model {-}
+
+:::{.definition name="simple rate model"}
+Given an integrable forward rate curve $f(0, T)$, the forward curve evolves as 
+\begin{align}
+    d_t f(t, T) 
+    &= \sigma\, dW_t + \alpha(t, T)\, dt \\ 
+    f(t, T) 
+    &= \sigma W_t + f(0, T) + \int_0^t \alpha(s, T)\, ds 
+\end{align}
+Here we ask $\alpha$ to be a bounded, deterministic function. 
+:::
+
+1. Fixing $t$, forward rates at different maturities are deterministic 
+\[ 
+    f(t, S) - f(t, T) = \int_0^t \alpha(s, S) - \alpha(s, T)\, ds 
+\] 
+2. Differences throughout time: all bonds share the same random source of movement $\sigma W_{\delta t}$. 
+\begin{align}
+    f(t_1, S) - f(t_0, S) 
+    &= \sigma (W_{t_1} - W_{t_0}) + \int_{t_0}^{t_1} \alpha(s, S)\, dS 
+\end{align}
+
+Let's consider two tradable securities:
+
+1. <u> Numeraire</u>: cash bond formed by the instantaneous rate $r_t$:
+\[ 
+    dB_t = r_t B_t\, dt, \quad B_0 = 1
+\] 
+Noting that $r_t = f(t, T)$ yields $r_t = \sigma W_t + f(0, t) + \int_0^t \alpha(s, t)\, ds$. Substitute
+\begin{align}
+    B_t 
+    &= \exp \left(\int_0^t r_s\, ds\right) = \exp \left(
+        \sigma\, \int_0^t W_s\, ds + \int_0^t f(0, s)\, ds + \int_0^t \int_0^s \alpha(u, s)\, du \, ds 
+    \right) \\ 
+    &= \exp \left(
+        \sigma\, \int_0^t W_s\, ds + \int_0^t f(0, s)\, ds + \int_0^t \int_s^t \alpha(s, u)\, du \, ds 
+    \right)
+\end{align}
+Note that the last two double-integrals are equivalent by $(0\leq u\leq s\leq t)\cong (\leq s\leq u\leq t)$. 
+2. For the other tradable, pick bond at price $T$ and compute 
+\begin{align}
+    P(t, T) 
+    &= \exp \left(-\int_t^T f(t, u)\, du\right) \\ 
+    &= \exp \left[-\int_t^T \left(
+        \sigma W_t + f(0, u) + \int_0^t \alpha(s, u)\, ds 
+    \right)\, du\right] \\ 
+    &= \exp -\left[
+        \sigma (T-t) W_t + \int_t^T f(0, u)\, du + \int_0^t \int_t^T \alpha(s, u)\, du\, ds 
+    \right]
+\end{align}
+
+Compute the discounted "stock" $Z_t=B_t^{-1} P(t, T)$: 
+\begin{align}
+    -\log Z_t 
+    &= \sigma(T-t)W_t + \sigma\int_0^t W_s\, ds + \underbrace{\int_0^T f(0, s)\, ds}_{\text{constant}} + \int_0^t \int_s^T \alpha(s, u)\, du\, ds  \\ 
+    d[(T-t)W_t] 
+    &= -W_t\, dt + (T-t)\, dW_t, \quad 
+    d\left[ 
+        \int_0^t W_s\, ds 
+    \right]
+    = W_t\, dt \\ 
+    -\df{dZ_t}{Z_t} &= \sigma(T-t)\, dW_t + \left[ \int_t^T \alpha(t, u)\, du - \df{\sigma^2(T-t)^2}{2}\right]\, dt 
+\end{align}
+Invoke CMG theorem to shift to a measure $\mbb Q$ such that $\mbb P\mapsto \mbb Q$ effects $dZ_t = -\sigma(T-t) Z_t\, d\tilde W_t$ by 
+\[ 
+    d\tilde W_t = dW_t - \left[\df{1}{\sigma(T-t)} \int_t^T \alpha(t, u)\, du - \df{\sigma(T-t)}{2}\right]_{\gamma_t}\, dt 
+\] 
+Take any claim $X$ expiring at time $S$ and take the form the discounted claim process $E_t = \mbb E_{\mbb Q}(B_S^{-1}X\mid \mca F_t)$ and let $dE_t = \phi_t\, dZ_t$. 
+
+:::{.remark name="replicating short-maturity bonds"}
+Take $X=1$ expiring at time $S$ --- this instrument corresponds to a $S$-bond. The claim above implies that <span style="color:green"> _every $S$-bond can be constructed from a $T_{\geq S}$ bond and compounding cash_. </span> To prevent arbitrage, these prices must be the same. Let's consider the implications: 
+
+1. The discounted process $Y_t=B_t^{-1}P(t, S)$ of the $S$-bond satisfies 
+\[ 
+    -\df{dY_t}{Y_t} = \sigma(S-t)\, dW_t + \left[ \int_t^S \alpha(t, u)\, du - \df{\sigma^2(S-t)^2}{2}\right]\, dt 
+\] 
+2. Define the (term, time)-dependent drift function 
+\[ 
+    (S, t)\mapsto \gamma_t^S 
+    = -\df{\sigma(S-t)}{2} + \df{1}{\sigma(S-t)} \int_t^S \alpha(t, u)\, du 
+\] 
+such that $dY_t = -\sigma (S-t) Y_t(dW_t+\gamma_t^S\, dt)$. 
+3. Equivalently using $\mbb Q$ for martingale-ing the $T$-bond, we have 
+\[ 
+    dY_t = -\sigma(S-t)Y_t[d\tilde W_t + (\gamma_t^S - \gamma_t^T)\, dt]
+\] 
+Recall that no-arbitrage implies that every tradable instrument must be driftless (martingale) under the risk-neutral measure, which means that $\gamma_t^S = \gamma_t^T$. <span style="color:blue"> In particular, this implies that $\pd T \gamma_t^T = 0$</span>. 
+4. Use the definition for $\gamma_t^T$ and differentiate upon multiplying both sides by $\sigma(T-t)$ to obtain 
+\begin{align}
+    \sigma \gamma_t^T 
+    &= \pd T \left[\sigma(T-t) \gamma_t^T\right] \\ 
+    &= \pd T \left[
+        -\df{\sigma^2(T-t)^2}{2} + \int_t^T \alpha(t, u)\, du 
+    \right] \\ 
+    &= -\sigma^2(T-t) + \alpha(t, T) \\ 
+    \alpha(t, T) 
+    &= \sigma^2(T-t) + \sigma \gamma_t 
+\end{align} 
+Two salient takeaways:
+
+1. The drift is constrained to be the sum of a maturity-independent term $\sigma\gamma_t$ plus a particular function $\sigma^2(T-t)$. 
+2. The time-dependent $\gamma_t$ is, again the **market price of risk** upon recognizing, for $\Sigma = \sigma(T-t)$. 
+\[
+    \df{d_t P(t, T)}{P(t, T)} = -\Sigma(t, T)\, dW_t + (r_t - \Sigma(t, T) \gamma_t)\, dt 
+\] 
+:::
+
+Models with weaker assumptions (HJM for forward rate) or equivalent characterizations (e.g. using short-rates). 

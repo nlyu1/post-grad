@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Options Pricing | SIE Notes: Summer 2025</title>
+  <meta name="description" content="3 Options Pricing | SIE Notes: Summer 2025" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Options Pricing | SIE Notes: Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Options Pricing | SIE Notes: Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="continuous-models.html"/>
+<link rel="next" href="pricing-examples.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="discrete-models.html"><a href="discrete-models.html"><i class="fa fa-check"></i><b>1</b> Discrete models</a>
+<ul>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#teaser-forward-contracts"><i class="fa fa-check"></i>Teaser: forward contracts</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-branch-model"><i class="fa fa-check"></i>Binomial branch model</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-tree-model"><i class="fa fa-check"></i>Binomial tree model</a></li>
+<li class="chapter" data-level="" data-path="discrete-models.html"><a href="discrete-models.html#binomial-tree-pricing"><i class="fa fa-check"></i>Binomial tree pricing</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-models.html"><a href="continuous-models.html"><i class="fa fa-check"></i><b>2</b> Continuous models</a>
+<ul>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#preliminaries"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#brownian-process"><i class="fa fa-check"></i>Brownian process</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#stochastic-calculus"><i class="fa fa-check"></i>Stochastic calculus</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#change-of-process-measure"><i class="fa fa-check"></i>Change of process measure</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#CMG"><i class="fa fa-check"></i>CMG theorem</a></li>
+<li class="chapter" data-level="" data-path="continuous-models.html"><a href="continuous-models.html#martingales"><i class="fa fa-check"></i>Martingales</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="options-pricing.html"><a href="options-pricing.html"><i class="fa fa-check"></i><b>3</b> Options Pricing</a>
+<ul>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#preliminaries-1"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#black-scholes"><i class="fa fa-check"></i>Black-Scholes</a>
+<ul>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#zero-rates"><i class="fa fa-check"></i>Zero rates</a></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#non-zero-rates"><i class="fa fa-check"></i>Non-zero rates</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="options-pricing.html"><a href="options-pricing.html#final-words"><i class="fa fa-check"></i>Final words</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="pricing-examples.html"><a href="pricing-examples.html"><i class="fa fa-check"></i><b>4</b> Pricing examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="pricing-examples.html"><a href="pricing-examples.html#foreign-exchange"><i class="fa fa-check"></i>Foreign exchange</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>5</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="" data-path="interest-rates.html"><a href="interest-rates.html#bond-basics"><i class="fa fa-check"></i>Bond basics</a></li>
+<li class="chapter" data-level="" data-path="interest-rates.html"><a href="interest-rates.html#simple-rate-model"><i class="fa fa-check"></i>Simple rate model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SIE Notes: Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="options-pricing" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Options Pricing<a href="options-pricing.html#options-pricing" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Salient takeaways:</p>
+<ol style="list-style-type: decimal">
+<li>Two approaches to the Black-Scholes equation: they are related by the Feynmann-Kac conditions.
+<ol style="list-style-type: decimal">
+<li></li>
+<li></li>
+</ol></li>
+<li>Martingales:</li>
+</ol>
+<div id="preliminaries-1" class="section level2 unnumbered hasAnchor">
+<h2>Preliminaries<a href="options-pricing.html#preliminaries-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:unlabeled-div-24" class="definition"><strong>Definition 3.1  (portfolio) </strong></span>A (stock-bond) portfolio is a pair <span class="math inline">\((\phi_t, \psi_t)\)</span> of real-valued processes. The security component <span class="math inline">\(\phi\)</span> should be <span class="math inline">\(\mathcal F\)</span>-previsible.</p>
+<p>A portfolio is <strong>self-financing</strong> if
+<span class="math display">\[
+    dV_t = \phi_t\, dS_t + \psi_t\, dB_t
+\]</span>
+Note that the value of the portfolio is
+<span class="math display">\[
+    V_t = \phi_t\, S_t + \psi_t\, B_t
+\]</span>
+The self-financing equation is <strong>non-trivial</strong> (trivial only when <span class="math inline">\(\phi, \psi\)</span> are constant), else the time-derivatives of the product rules must cancel out.</p>
+</div>
+<p>Note that left-continuous (left-limit approaches correctly) <span class="math inline">\(\phi_t(\forall \omega)\)</span> is previsible.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-25" class="example"><strong>Example 3.1  (non-trivial self-financing strategy) </strong></span>Consider <span class="math inline">\((\phi_t = 2W_t, \psi_t = -t - W_t^2)\)</span>. Here we hold double the stock price’s amount of shares, and short <span class="math inline">\(t+W_t^2\)</span> amount of cash. Calculating <span class="math inline">\(V_t = 2W_t^2 - W_t^2 - t = W_t^2 - t\)</span> and checking the SDE:
+<span class="math display">\[\begin{align}
+    dV_t
+    &amp;= d(W_t^2 - t) = 2W_t\, dW_t \\
+    \phi_t\, dW_t + (\psi_t\, dB_t)_{=0}
+    &amp;= 2W_t\, dW_t
+\end{align}\]</span></p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-26" class="definition"><strong>Definition 3.2  (replicating strategy) </strong></span>A <strong>replicating strategy</strong> for a claim <span class="math inline">\(X\)</span> which depends up to time <span class="math inline">\(T\)</span> is a self-financing portfolio <span class="math inline">\((\phi, \psi)\)</span> such that <span class="math inline">\(\|\sigma\phi\|_{T, 2} &lt; \infty\)</span> and <span class="math inline">\(V_t = \phi_tS_t + \psi_T B_t = X\)</span>.</p>
+</div>
+</div>
+<div id="black-scholes" class="section level2 unnumbered hasAnchor">
+<h2>Black-Scholes<a href="options-pricing.html#black-scholes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:blackScholes" class="definition"><strong>Definition 3.3  (Black-Scholes model) </strong></span>Assuming deterministic <span class="math inline">\(r, \mu, \sigma\)</span> such that the bond price <span class="math inline">\(B_t\)</span> and stock price <span class="math inline">\(S_t\)</span> follows
+<span class="math display">\[
+    B_t = e^{rt}, \quad S_t = S_0 \exp(\sigma W_t + \mu t)
+\]</span></p>
+</div>
+<div id="zero-rates" class="section level3 unnumbered hasAnchor">
+<h3>Zero rates<a href="options-pricing.html#zero-rates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For simplicity, first assume that <span class="math inline">\(r=0\)</span>. The three steps to replication are:</p>
+<ol style="list-style-type: decimal">
+<li>Find a risk-free measure <span class="math inline">\(\mathbb Q\)</span> under which <span class="math inline">\(S_t\)</span> is a martingale.</li>
+<li>Form the claim process <span class="math inline">\(E_t = \mathbb E_{\mathbb Q}[X|\mathcal F_t]\)</span>.</li>
+<li>Find a previsible process such that <span class="math inline">\(dE_t = \phi_t\, dS_t\)</span>. Then <span class="math inline">\(\phi_t\)</span> is the stock holding.</li>
+</ol>
+<p>For step 1, construct the SDE using Ito (definition <a href="continuous-models.html#def:itoFormula">2.6</a>):
+<span class="math display">\[\begin{align}
+    dS_t
+    &amp;= S_t \left[\sigma\, dW_t + \left(\mu + \dfrac {\sigma^2} 2\right)\, dt\right]
+\end{align}\]</span>
+Next, kill the <span class="math inline">\((\mu + \sigma^2/2)/\sigma\)</span> drift by shifting to a <span class="math inline">\(\mathbb Q\)</span>-measure using CMG theorem <a href="continuous-models.html#thm:cmg">2.1</a> under which <span class="math inline">\((\mathbb P, W_t)\mapsto (\mathbb Q, \tilde W_t=W_t + (\mu/\sigma + \sigma/2)t)\)</span> and
+<span class="math display">\[
+    dS_t = \sigma S_t\, d \tilde W_t
+\]</span><br />
+Then <span class="math inline">\(S_t\)</span> is a martingale under theorem <a href="continuous-models.html#thm:expMartingaleChar">2.4</a>.</p>
+<p>For steps <span class="math inline">\(2\)</span> and <span class="math inline">\(3\)</span>, form the martingale claim process <span class="math inline">\(E_t\)</span> and invoke the martingale representation theorem to obtain <span class="math inline">\(dE_t = \phi_t\, dS_t\)</span>. Consider the portfolio
+<span class="math display">\[
+    \left(\phi_t, \psi_t = E_t - \phi_t S_t \right)
+\]</span>
+Note that for <span class="math inline">\(r=0\)</span>, we have <span class="math inline">\(B_t=1\)</span> so <span class="math inline">\(V_t = \phi_t S_t + \psi_t B_t = E_t\)</span>, so <span class="math inline">\(dV_t = dE_t = \phi_t\, dS_t\)</span> by construction in step <span class="math inline">\(3\)</span>, so the portfolio is self-financing.</p>
+<div style="color:blue">
+<ol style="list-style-type: decimal">
+<li>Under the exponential-Brownian assumption, <span class="math inline">\(\mathbb Q=\mathbb P\iff \mu = -\dfrac 1 2 \sigma^2\)</span>.</li>
+<li>Substituting <span class="math inline">\(\sigma \tilde W_t = \sigma W_t + (\mu + \sigma^2/2) t\)</span>, we find that <span class="math inline">\(S_t\)</span> is tractable under the new measure:
+<span class="math display">\[
+S_t = S_0 \exp \left(
+     \sigma \tilde W_t - \dfrac{\sigma^2}{2} t
+\right)
+\]</span></li>
+</ol>
+</div>
+</div>
+<div id="non-zero-rates" class="section level3 unnumbered hasAnchor">
+<h3>Non-zero rates<a href="options-pricing.html#non-zero-rates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider constant, nonzero rates <span class="math inline">\(r\)</span>. Form a <strong>discounted stock</strong> <span class="math inline">\(Z_t = B_t^{-1} S_t\)</span> and <strong>discounted claim</strong> <span class="math inline">\(B_T^{-1}X\)</span>. These values are discounted w.r.t. <span class="math inline">\(t=0\)</span>. Then
+<span class="math display">\[\begin{align}
+    Z_t &amp;= S_0 \exp \left[
+        \sigma W_t + (\mu - r) t
+    \right] \\
+    dZ_t &amp;= Z_t \left[
+        \sigma\, dW_t + \left(\mu - r + \dfrac{\sigma^2}{2}\right)\, dt
+    \right]
+\end{align}\]</span>
+In short, <span class="math inline">\((S_t, \mu)\mapsto (Z_t, \mu - r)\)</span>. The new martingale measure <span class="math inline">\(\mathbb Q\)</span> is formed analogously. Similarly construct <span class="math inline">\(E_t = \mathbb E_{\mathbb Q}[B_T^{-1}X \mid \mathcal F_t]\)</span> and use the martingale representation theorem to form <span class="math inline">\(dE_t = \phi_t\, dZ_t\)</span>.</p>
+<ul>
+<li>Let’s assess holding <span class="math inline">\(\phi_t, \psi_t=E_t - \phi_t Z_t\)</span> (stock, bond) in the real world. <span style="color:blue">Note that bond holding is calculated based on discounted stock <span class="math inline">\(Z_t\)</span>, not original stock.</span></li>
+<li>Value process <span class="math inline">\(V_t = \phi_t S_t + (E_t - \phi_t B_t^{-1} S_t) B_t = E_t\, B_t \implies dV_t = B_t \, dE_t + E_t\, dB_t\)</span>
+<ul>
+<li>Product rule follows from the zero-volatility assumption for the <span class="math inline">\(B_t\)</span> process.</li>
+</ul></li>
+<li>On the other hand, note that <span class="math inline">\(dS_t = d(B_tZ_t)\)</span> and <span class="math inline">\(\phi_t\, dZ_t = dE_t\)</span> to match:
+<span class="math display">\[\begin{align}
+  \phi_t\, dS_t + \psi_t\, dB_t
+  &amp;= \phi_t\, dS_t + E_t\, dB_t - \phi_t Z_t\, dB_t \\
+  &amp;= \phi_t B_t\, dZ_t + \phi_t Z_t\, dB_t + E_t\, dB_t - \phi_t Z_t\, dB_t \\
+  &amp;= B_t\, dE_t + E_t\, dB_t = dV_t
+\end{align}\]</span></li>
+</ul>
+<p>Details of the discount process:</p>
+<ul>
+<li>The martingale construction <span class="math inline">\(dE_t = \phi_t\, dZ_t\)</span> says that changes in the discounted claim’s value should be equivalent to changes in the discounted stock’s value. <strong>Both are discounted</strong>.</li>
+<li>From <span class="math inline">\(V_t=E_tB_t\)</span>, changes in the portfolio price (which is the undiscounted <span class="math inline">\(\mathbb Q\)</span>-value of the claim measured at time <span class="math inline">\(t\)</span> is due to two pieces:
+<ul>
+<li><span class="math inline">\(B_t\, dE_t\)</span> (change in discounted value).</li>
+<li><span class="math inline">\(E_t\, dB_t\)</span> (interest rate effect).</li>
+</ul></li>
+<li>From a holdings perspective, changes in the stock price <span class="math inline">\(\phi_t\, dS_t\)</span> contributes a <span class="math inline">\(B_t\, dE_t\)</span> term (desired) and a <span class="math inline">\(\phi_t Z_t\, dB_t\)</span> term which counteracts the relevant term in cash holding value difference.</li>
+</ul>
+<div class="theorem">
+<p><span id="thm:blackScholesPricing" class="theorem"><strong>Theorem 3.1  (Black-Scholes pricing) </strong></span>Under Black-Scholes assumptions for prices and interest rates, all integrable claims <span class="math inline">\(X\)</span> at horizon <span class="math inline">\(T\)</span> have replicating strategies with arbitrage price (at time <span class="math inline">\(t\)</span>):
+<span class="math display">\[
+    V_t = B_t \mathbb E_{\mathbb Q}[B_T^{-1}X \mid \mathcal F_t] = e^{-r(T-t)} \mathbb E_{\mathbb Q}[X\mid \mathcal F_t]
+\]</span>
+where <span class="math inline">\(\mathbb Q\)</span> is the martingale measure for the discounted stock <span class="math inline">\(B_t^{-1}S_t\)</span>.</p>
+</div>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-27" class="proposition"><strong>Proposition 3.1  (European call) </strong></span>Consider the call option payout <span class="math inline">\(X(S_T) = (S_T-k)^+\)</span>.
+<span class="math display">\[
+    V = e^{-rT} \mathbb E_{\mathbb Q} (S_T-k)^+
+\]</span></p>
+</div>
+<p>Proceeding to calculation, recall that
+<span class="math display">\[\begin{align}
+    d Z_t &amp;= Z_t \left[
+        \sigma\, dW_t + \left(\mu - r + \dfrac{\sigma^2}{2}\right)\, dt
+    \right] = \sigma Z_t \, d\tilde W_t \\
+    \sigma\, dW_t &amp;= \sigma\, d\tilde W_t - \left(\mu - r + \dfrac{\sigma^2}{2}\right)\, dt \\
+    d\log S_t
+    &amp;= \sigma\, dW_t + \mu\, dt
+    = \sigma\, d\tilde W_t + \left(r - \dfrac{\sigma^2}{2}\right)\, dt
+\end{align}\]</span>
+Under the martingale measure <span class="math inline">\(\mathbb Q\)</span>, <span class="math inline">\(\log S_t\sim \mathcal N((r-\sigma^2/2)t, \sigma^2)\)</span>.</p>
+<ul>
+<li>The greater the volatility, the lower the drift.</li>
+</ul>
+<p>Fix horizon <span class="math inline">\(T\)</span> and introduce <span class="math inline">\(Z\sim \mathcal N(-\sigma^2t/2, \sigma^2)\)</span>, we have
+<span class="math display">\[\begin{align}
+    V &amp;= e^{-rT} \mathbb E_{\mathbb Q} (S_T-k)^+ \\
+    &amp;= e^{-rT} \mathbb E_{\mathbb Q} (S_0 e^{Z+rT}-k)^+
+    = \mathbb E_{\mathbb Q} (S_0 e^{Z}-k e^{-rT})^+
+\end{align}\]</span></p>
+</div>
+</div>
+<div id="final-words" class="section level2 unnumbered hasAnchor">
+<h2>Final words<a href="options-pricing.html#final-words" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="remark">
+<p><span id="unlabeled-div-28" class="remark"><em>Remark</em>. </span>To price an instrument with exercising optionality: suppose the claim purchaser has a set of options <span class="math inline">\(A\)</span> and receives payoff <span class="math inline">\(X_a\)</span> at time <span class="math inline">\(T(a)\)</span>, the issuer should charge
+<span class="math display">\[
+    V = \sup_{a\in A} \mathbb E_{\mathbb Q}[B_{T(a)}^{-1} X_a]
+\]</span></p>
+</div>
+<p>Although the martingale representation theorem does not explicitly provide <span class="math inline">\(\phi_t\)</span>, we can use <span class="math inline">\(dE_t = \phi_t\, dS_t\implies \phi_t = \partial_{S} E {\big|}_t\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-29" class="proposition"><strong>Proposition 3.2  (terminal value pricing) </strong></span>Let <span class="math inline">\(X=f(S_T)\)</span>. Denote the value of derivative at time <span class="math inline">\(t\)</span> by
+<span class="math display">\[
+    V_t(s_t)=V(S_t, t) = B_t \,\mathbb E_{\mathbb Q} \left[
+        B_T^{-1} f(S_T) \mid S_t =s_t
+    \right]
+\]</span>
+The trading strategy is given by
+<span class="math inline">\(\phi_t = \partial_{S_t} V_t {\big|}_{s_t, t}\)</span>.
+<span style="color:blue">This amount of stock holdings correctly equates the change in replicating portfolio price relative to stock price change</span></p>
+</div>
+<p>Recall that <span class="math inline">\(\sigma\, dW_t = \sigma\, d\tilde W_t + \dots\)</span>, then <span class="math inline">\(S_t = e^{\sigma W_t + \mu t}\)</span> implies the SDE form
+<span class="math display">\[
+    dS_t = S_t \left[
+        \sigma \, dW_t + \left(\mu + \dfrac{\sigma^2}{2}\right) t
+    \right]
+    = S_t (\sigma\, d\tilde W_t + r\, dt)
+\]</span>
+Directly applying Ito <span class="math inline">\(V(S_t, t)\)</span> yields (here derivatives are taken w.r.t. <span class="math inline">\(S_t=s_t\)</span>) the SDE:
+<span class="math display">\[\begin{align}
+    dV_t
+    &amp;= \left(
+        \sigma S_t\, \partial_{S} V
+    \right)\, d\tilde W_t + \left(
+        \dfrac{\sigma^2 S_t^2}{2} \partial_S^2 V + r S_t\, \partial_{S} V + \partial_{t} V
+    \right)\, dt
+\end{align}\]</span>
+On the other hand, using the self-financing condition yields
+<span class="math display">\[\begin{align}
+    dV_t
+    &amp;= \phi_t\, dS_t + \psi_t\, (dB_t)_{=rB_t\, dt} \\
+    &amp;= (\sigma S_t \phi_t)\, d\tilde W_t + (rS_t\phi_t + r\psi_tB_t)\, dt \\
+    &amp;= (\sigma S_t \phi_t)\, d\tilde W_t + rV_t\, dt
+\end{align}\]</span></p>
+<ol style="list-style-type: decimal">
+<li>Matching the volatility terms yield <span class="math inline">\(\phi_t = \partial_{S} V\)</span>.</li>
+<li>Matching the drift terms yield
+<span class="math display">\[
+\dfrac{\sigma^2 S_t^2}{2} \partial_S^2 V + rS_t \, \partial_{S} V - r V + \partial_{t} V = 0
+\]</span>
+Coupling with the boundary condition <span class="math inline">\(V(s, T)=f(s)\)</span> yields the pricing equation.</li>
+</ol>
+<div class="remark">
+<p><span id="unlabeled-div-30" class="remark"><em>Remark</em> (miscellany). </span>If an option is out of the money, both bond and stock holdings go to zerl. When option approaches expiration in-the-money, stock holding goes to <span class="math inline">\(1\)</span> and bond to <span class="math inline">\(-k\)</span>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="continuous-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pricing-examples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+# Pricing examples 
+
+## Foreign exchange {-}
+
+:::{.definition name="Black-Scholes currency model"}
+Consider the dollar cash bond $B_t$, its sterling counterpart $D_t$, and the dollar worth $C_t$ of one pound. We assume 
+\[ 
+    B_t = e^{rt}, \quad D_t = e^{ut}
+\] 
+\[ 
+    C_t = C_0 \exp(\sigma W_t + \mu t) 
+\] 
+:::
+How should we price a claim $X$ denominated in pound units? 
+
+<span style="color:blue">
+Intuition: the $S_tD_t$, the dollar price of the pound bond, is a stock-like tradable. 
+</span>
+
+Pricing proceeds by identifying the discounted pound process, zeroing the drift, and identifying $C_t$ under the risk-neutral measure $\mbb Q$: 
+\begin{align}
+    Z_t 
+    &= B_t^{-1} D_t C_t \\ 
+    &= C_0 \exp \left(
+        \sigma W_t + (\mu + u - r)t 
+    \right) \\ 
+    dZ_t 
+    &= Z_t \left[
+        \sigma\, dW_t + \left(
+            \mu + u - r + \df{\sigma^2}{2}
+        \right)\, dt 
+    \right] 
+    = Z_t \sigma d\tilde W_t \\ 
+    Z_t 
+    &= C_0 \exp \left(
+        \sigma \tilde W_t - \df{\sigma^2}{2}\, t 
+    \right) 
+\end{align}
+Define the discounted claim $E_t = \mbb E_{\mbb Q}(B_T^{-1} X\mid \mca F_t)$ and use martingale representation to obtain $dE_t = \phi_t\, dZ_t$. 
+
+:::{.definition name="FX claim pricing"}
+Claims in foreign currency have arbitrage value 
+\[ 
+    V_t = B_t \mbb E_{\mbb Q}[B_T^{-1} X\mid \mca F_t]
+\] 
+where $\mbb Q$ is the martingale measure for $Z_t$. 
+:::
+
+:::{.example name="forward contract"}
+Consider the forward contract payoff $X=C_t-k$: calculate 
+\[ 
+    V_t = e^{-r(T-t)} \mbb E_{\mbb Q}[C_T - k\mid \mca F_t] 
+\] 
+Let's first determine the arbitrage strike $k$: recalling $C_t = Z_t B_t D_t^{-1}$ yields (arbitrage price means that value of claim at expiry is $0$): 
+\begin{align}
+    k&=\mbb E_{\mbb Q}[C_T\mid \mca F_T] 
+    = C_0 \, \mbb E_{\mbb Q} \exp\left[
+        \sigma \tilde W_T + \left(
+           r - u - \df{\sigma^2}{2}
+        \right) T 
+    \right] = C_0 e^{(r-u)T} 
+\end{align}
+<span style="color:green"> Note that $\mbb E_{\mbb Q}[C_T\mid \mca F_t] 
+= e^{(r-u)(T-t)} C_t$ since $C_t=Z_tB_tD_t^{-1}$ carries drift.  </span> 
+Under this strike, the contract's price at time $t$ is 
+\begin{align}
+    V_t 
+    &= e^{-r(T-t)}\mbb E_{\mbb Q}[C_T - C_0 e^{(r-u)T} \mid \mca F_t]  \\ 
+    &= \mbb E_{\mbb Q}[e^{rt - rT} e^{(r-u)(T-t)} C_t - C_0 e^{rt - uT} \mid \mca F_t] \\ 
+    &= e^{-uT}\left(
+        e^{ut} C_t - e^{rt}C_0 
+    \right)
+\end{align}
+To obtain the portfolio, calculate the discounted value and calculate $dE_t / dZ_t = e^{-uT}$: this is the amount of pound sterling needed to replicate the claim. 
+\begin{align}
+    E_t 
+    &= B_t^{-1}V_t = e^{-uT}(e^{(u-r)t} C_t - C_0) = e^{-uT}(Z_t - Z_0)
+\end{align}
+The dollar cash position is $E_t = \phi_t Z_t = -e^{-uT}C_0$. 
+:::

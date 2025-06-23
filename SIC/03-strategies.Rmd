@@ -1,0 +1,207 @@
+# Options Pricing 
+
+Salient takeaways:
+
+1. Two approaches to the Black-Scholes equation: they are related by the Feynmann-Kac conditions. 
+    1. 
+    2. 
+2. Martingales: 
+
+## Preliminaries {-}
+
+:::{.definition name="portfolio"}
+A (stock-bond) portfolio is a pair $(\phi_t, \psi_t)$ of real-valued processes. The security component $\phi$ should be $\mca F$-previsible. 
+
+A portfolio is **self-financing** if 
+\[ 
+    dV_t = \phi_t\, dS_t + \psi_t\, dB_t 
+\] 
+Note that the value of the portfolio is 
+\[ 
+    V_t = \phi_t\, S_t + \psi_t\, B_t 
+\] 
+The self-financing equation is **non-trivial** (trivial only when $\phi, \psi$ are constant), else the time-derivatives of the product rules must cancel out. 
+:::
+
+Note that left-continuous (left-limit approaches correctly) $\phi_t(\forall \omega)$ is previsible.  
+
+:::{.example name="non-trivial self-financing strategy"}
+Consider $(\phi_t = 2W_t, \psi_t = -t - W_t^2)$. Here we hold double the stock price's amount of shares, and short $t+W_t^2$ amount of cash. Calculating $V_t = 2W_t^2 - W_t^2 - t = W_t^2 - t$ and checking the SDE:
+\begin{align}
+    dV_t 
+    &= d(W_t^2 - t) = 2W_t\, dW_t \\ 
+    \phi_t\, dW_t + (\psi_t\, dB_t)_{=0}
+    &= 2W_t\, dW_t 
+\end{align}
+:::
+
+:::{.definition name="replicating strategy"}
+A **replicating strategy** for a claim $X$ which depends up to time $T$ is a self-financing portfolio $(\phi, \psi)$ such that $\|\sigma\phi\|_{T, 2} < \infty$ and $V_t = \phi_tS_t + \psi_T B_t = X$. 
+:::
+
+## Black-Scholes {-}
+
+:::{.definition #blackScholes name="Black-Scholes model"}
+Assuming deterministic $r, \mu, \sigma$ such that the bond price $B_t$ and stock price $S_t$ follows 
+\[ 
+    B_t = e^{rt}, \quad S_t = S_0 \exp(\sigma W_t + \mu t) 
+\] 
+:::
+
+### Zero rates {-}
+For simplicity, first assume that $r=0$. The three steps to replication are: 
+
+1. Find a risk-free measure $\mbb Q$ under which $S_t$ is a martingale. 
+2. Form the claim process $E_t = \mbb E_{\mbb Q}[X|\mca F_t]$. 
+3. Find a previsible process such that $dE_t = \phi_t\, dS_t$. Then $\phi_t$ is the stock holding. 
+
+For step 1, construct the SDE using Ito (definition \@ref(def:itoFormula)): 
+\begin{align}
+    dS_t 
+    &= S_t \left[\sigma\, dW_t + \left(\mu + \dfrac {\sigma^2} 2\right)\, dt\right]
+\end{align}
+Next, kill the $(\mu + \sigma^2/2)/\sigma$ drift by shifting to a $\mbb Q$-measure using CMG theorem \@ref(thm:cmg) under which $(\mbb P, W_t)\mapsto (\mbb Q, \tilde W_t=W_t + (\mu/\sigma + \sigma/2)t)$ and 
+\[ 
+    dS_t = \sigma S_t\, d \tilde W_t 
+\]   
+Then $S_t$ is a martingale under theorem \@ref(thm:expMartingaleChar). 
+
+For steps $2$ and $3$, form the martingale claim process $E_t$ and invoke the martingale representation theorem to obtain $dE_t = \phi_t\, dS_t$. Consider the portfolio 
+\[ 
+    \left(\phi_t, \psi_t = E_t - \phi_t S_t \right)
+\] 
+Note that for $r=0$, we have $B_t=1$ so $V_t = \phi_t S_t + \psi_t B_t = E_t$, so $dV_t = dE_t = \phi_t\, dS_t$ by construction in step $3$, so the portfolio is self-financing. 
+
+<div style="color:blue">
+1. Under the exponential-Brownian assumption, $\mbb Q=\mbb P\iff \mu = -\df 1 2 \sigma^2$. 
+2. Substituting $\sigma \tilde W_t = \sigma W_t + (\mu + \sigma^2/2) t$, we find that $S_t$ is tractable under the new measure: 
+\[ 
+    S_t = S_0 \exp \left(
+        \sigma \tilde W_t - \dfrac{\sigma^2}{2} t 
+    \right)
+\] 
+</div>
+
+### Non-zero rates {-}
+
+Consider constant, nonzero rates $r$. Form a **discounted stock** $Z_t = B_t^{-1} S_t$ and **discounted claim** $B_T^{-1}X$. These values are discounted w.r.t. $t=0$. Then 
+\begin{align}
+    Z_t &= S_0 \exp \left[
+        \sigma W_t + (\mu - r) t 
+    \right] \\ 
+    dZ_t &= Z_t \left[
+        \sigma\, dW_t + \left(\mu - r + \dfrac{\sigma^2}{2}\right)\, dt 
+    \right]
+\end{align}
+In short, $(S_t, \mu)\mapsto (Z_t, \mu - r)$. The new martingale measure $\mbb Q$ is formed analogously. Similarly construct $E_t = \mbb E_{\mbb Q}[B_T^{-1}X \mid \mca F_t]$ and use the martingale representation theorem to form $dE_t = \phi_t\, dZ_t$. 
+
+- Let's assess holding $\phi_t, \psi_t=E_t - \phi_t Z_t$ (stock, bond) in the real world. <span style="color:blue">Note that bond holding is calculated based on discounted stock $Z_t$, not original stock.</span>
+- Value process $V_t = \phi_t S_t + (E_t - \phi_t B_t^{-1} S_t) B_t = E_t\, B_t \implies dV_t = B_t \, dE_t + E_t\, dB_t$ 
+    - Product rule follows from the zero-volatility assumption for the $B_t$ process. 
+- On the other hand, note that $dS_t = d(B_tZ_t)$ and $\phi_t\, dZ_t = dE_t$ to match: 
+\begin{align}
+    \phi_t\, dS_t + \psi_t\, dB_t 
+    &= \phi_t\, dS_t + E_t\, dB_t - \phi_t Z_t\, dB_t \\ 
+    &= \phi_t B_t\, dZ_t + \phi_t Z_t\, dB_t + E_t\, dB_t - \phi_t Z_t\, dB_t \\ 
+    &= B_t\, dE_t + E_t\, dB_t = dV_t 
+\end{align}
+
+Details of the discount process: 
+
+- The martingale construction $dE_t = \phi_t\, dZ_t$ says that changes in the discounted claim's value should be equivalent to changes in the discounted stock's value. **Both are discounted**. 
+- From $V_t=E_tB_t$, changes in the portfolio price (which is the undiscounted $\mbb Q$-value of the claim measured at time $t$ is due to two pieces: 
+    - $B_t\, dE_t$ (change in discounted value). 
+    - $E_t\, dB_t$ (interest rate effect). 
+- From a holdings perspective, changes in the stock price $\phi_t\, dS_t$ contributes a $B_t\, dE_t$ term (desired) and a $\phi_t Z_t\, dB_t$ term which counteracts the relevant term in cash holding value difference. 
+
+:::{.theorem #blackScholesPricing name="Black-Scholes pricing"}
+Under Black-Scholes assumptions for prices and interest rates, all integrable claims $X$ at horizon $T$ have replicating strategies with arbitrage price (at time $t$): 
+\[ 
+    V_t = B_t \mbb E_{\mbb Q}[B_T^{-1}X \mid \mca F_t] = e^{-r(T-t)} \mbb E_{\mbb Q}[X\mid \mca F_t]
+\] 
+where $\mbb Q$ is the martingale measure for the discounted stock $B_t^{-1}S_t$. 
+:::
+
+:::{.proposition name="European call"}
+Consider the call option payout $X(S_T) = (S_T-k)^+$. 
+\[ 
+    V = e^{-rT} \mbb E_{\mbb Q} (S_T-k)^+
+\] 
+:::
+Proceeding to calculation, recall that 
+\begin{align}
+    d Z_t &= Z_t \left[
+        \sigma\, dW_t + \left(\mu - r + \dfrac{\sigma^2}{2}\right)\, dt 
+    \right] = \sigma Z_t \, d\tilde W_t \\ 
+    \sigma\, dW_t &= \sigma\, d\tilde W_t - \left(\mu - r + \dfrac{\sigma^2}{2}\right)\, dt \\ 
+    d\log S_t 
+    &= \sigma\, dW_t + \mu\, dt 
+    = \sigma\, d\tilde W_t + \left(r - \df{\sigma^2}{2}\right)\, dt 
+\end{align}
+Under the martingale measure $\mbb Q$, $\log S_t\sim \mca N((r-\sigma^2/2)t, \sigma^2)$. 
+
+- The greater the volatility, the lower the drift. 
+
+Fix horizon $T$ and introduce $Z\sim \mca N(-\sigma^2t/2, \sigma^2)$, we have 
+\begin{align}
+    V &= e^{-rT} \mbb E_{\mbb Q} (S_T-k)^+ \\ 
+    &= e^{-rT} \mbb E_{\mbb Q} (S_0 e^{Z+rT}-k)^+ 
+    = \mbb E_{\mbb Q} (S_0 e^{Z}-k e^{-rT})^+ 
+\end{align}
+
+## Final words {-}
+
+:::{.remark}
+To price an instrument with exercising optionality: suppose the claim purchaser has a set of options $A$ and receives payoff $X_a$ at time $T(a)$, the issuer should charge 
+\[
+    V = \sup_{a\in A} \mbb E_{\mbb Q}[B_{T(a)}^{-1} X_a]
+\] 
+:::
+
+Although the martingale representation theorem does not explicitly provide $\phi_t$, we can use $dE_t = \phi_t\, dS_t\implies \phi_t = \pd S E {\big|}_t$. 
+
+:::{.proposition name="terminal value pricing"}
+Let $X=f(S_T)$. Denote the value of derivative at time $t$ by 
+\[ 
+    V_t(s_t)=V(S_t, t) = B_t \,\mbb E_{\mbb Q} \left[
+        B_T^{-1} f(S_T) \mid S_t =s_t 
+    \right]
+\] 
+The trading strategy is given by 
+$\phi_t = \pd {S_t} V_t {\big|}_{s_t, t}$. 
+<span style="color:blue">This amount of stock holdings correctly equates the change in replicating portfolio price relative to stock price change</span>
+:::
+Recall that $\sigma\, dW_t = \sigma\, d\tilde W_t + \dots$, then $S_t = e^{\sigma W_t + \mu t}$ implies the SDE form 
+\[ 
+    dS_t = S_t \left[
+        \sigma \, dW_t + \left(\mu + \df {\sigma^2}{2}\right) t 
+    \right] 
+    = S_t (\sigma\, d\tilde W_t + r\, dt)
+\] 
+Directly applying Ito $V(S_t, t)$ yields (here derivatives are taken w.r.t. $S_t=s_t$) the SDE: 
+\begin{align}
+    dV_t 
+    &= \left(
+        \sigma S_t\, \pd S V
+    \right)\, d\tilde W_t + \left(
+        \df {\sigma^2 S_t^2}{2} \partial_S^2 V + r S_t\, \pd S V + \pd t V
+    \right)\, dt 
+\end{align}
+On the other hand, using the self-financing condition yields 
+\begin{align}
+    dV_t 
+    &= \phi_t\, dS_t + \psi_t\, (dB_t)_{=rB_t\, dt} \\ 
+    &= (\sigma S_t \phi_t)\, d\tilde W_t + (rS_t\phi_t + r\psi_tB_t)\, dt \\ 
+    &= (\sigma S_t \phi_t)\, d\tilde W_t + rV_t\, dt 
+\end{align}
+
+1. Matching the volatility terms yield $\phi_t = \pd S V$. 
+2. Matching the drift terms yield 
+\[ 
+    \dfrac{\sigma^2 S_t^2}{2} \partial_S^2 V + rS_t \, \pd S V - r V + \pd t V = 0 
+\] 
+Coupling with the boundary condition $V(s, T)=f(s)$ yields the pricing equation. 
+
+:::{.remark name="miscellany"}
+If an option is out of the money, both bond and stock holdings go to zerl. When option approaches expiration in-the-money, stock holding goes to $1$ and bond to $-k$. 
+:::
