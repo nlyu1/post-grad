@@ -1,0 +1,7 @@
+prefix=/home/nlyu/Code/post-grad/RL/.conda
+includedir=${prefix}/include
+
+Name: DPMSProto
+Description: DPMS extension headers
+Version: 1.2
+Cflags: -I${includedir}
