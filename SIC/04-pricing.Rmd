@@ -1,6 +1,10 @@
 # Pricing examples 
 
-## Foreign exchange {-}
+1. [Foreign-exchange model](#blackScholesFX): two separately compounding currencies with volatile exchange rate. 
+    - Use (dollar cash bond) and (dollar price of pound) as Black-Scholes instruments to price claims. 
+    - Example \@ref(exm:fxForwardPricing) to price forward exchange rate contracts, and portfolio construction using terminal value pricing. 
+
+## Foreign exchange {#blackScholesFX -}
 
 :::{.definition name="Black-Scholes currency model"}
 Consider the dollar cash bond $B_t$, its sterling counterpart $D_t$, and the dollar worth $C_t$ of one pound. We assume 
@@ -46,7 +50,7 @@ Claims in foreign currency have arbitrage value
 where $\mbb Q$ is the martingale measure for $Z_t$. 
 :::
 
-:::{.example name="forward contract"}
+:::{.example #fxForwardPricing name="forward FX contract"}
 Consider the forward contract payoff $X=C_t-k$: calculate 
 \[ 
     V_t = e^{-r(T-t)} \mbb E_{\mbb Q}[C_T - k\mid \mca F_t] 

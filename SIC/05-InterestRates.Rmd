@@ -1,6 +1,15 @@
 # Interest rates
 
-## Bond basics {-} 
+1. [Bond framework](#bondDefinitions): $P(t, T)$ with $P(T, T)=1$. 
+    - **Yield** \@ref(def:yield): $P(t, T)\mapsto R(t, T)=$ effective rate of continuous compounding. 
+    - **Short rate**: instantaneous rate of borrowing money. 
+    - **Forward rate** \@ref(def:forwardRate): projected rate of instantaneous borrowing at time $T$. 
+        - Pricing by striking a forward contract at time $t$ to make payment at $T_1>t$ and receive unit payment at $T_2\to T_1^+$. 
+2. Simplified definition of forward-rate model \@ref(def:impleRateModel):
+    - Same Black-Scholes construction, except with stochastic cash bond. 
+    - In particular, (price of $S$-bond) $=$ (arbitrage price of replicating $S$-bond using $T>S$-bond implies nontrivial structure for drift. 
+
+## Bond basics {#bondDefinitions -} 
 
 :::{.definition name="discount bond"}
 A discount bond is a promise to pay $1$ dollar at time $T$ for a discounted price $P(0, T)$, so $P(T, T)=1$. The market price is denoted $P(t, T)$. 
@@ -10,7 +19,7 @@ A discount bond is a promise to pay $1$ dollar at time $T$ for a discounted pric
 2. The more distant the payment maturity, less current worth. 
 3. Boundary condition $P(\forall T, T)=1$. 
 
-:::{.definition name="yield"}
+:::{.definition #yield name="yield"}
 Given current price $P(t, T)$, its compounded price at $T=t$ is (assuming constant compounding) 
 \[ 
     P(T, T) = 1 = e^{R(t, T)(T-t)}P(t, T)\implies R(t, T) = -\df{\log P(t, T)}{T-t}
@@ -33,7 +42,7 @@ The **instantaneous rate**, or **short rate**, is the rate of borrowing money _a
 
 The short rate entails the instantaneous rate of borrowing _right now_, but what about the projected instantaneous rate at some future time $T$? 
 
-:::{.definition name="forward rate"}
+:::{.definition #forwardRate name="forward rate"}
 The projected (at time $t$) rate of instantaneous borrowing at time $T$ is 
 \[ 
     f(t, T) = -\pd T \log P(t, T)
@@ -61,7 +70,7 @@ The yield curve $T\mapsto R(t, T)$ measures the cumulative effect of forward rat
 
 ## Simple rate model {-}
 
-:::{.definition name="simple rate model"}
+:::{.definition #simpleRateModel name="simple rate model"}
 Given an integrable forward rate curve $f(0, T)$, the forward curve evolves as 
 \begin{align}
     d_t f(t, T) 

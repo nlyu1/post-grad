@@ -2,9 +2,19 @@
 
 Central takeaways:
 
-- Strong law (expectation) pricing is subjectively fair w.r.t. beliefs, while risk-free arbitrarge pricing is objective. 
+1. A simple forward contract pricing [example](#forwardExample) demonstrates that **arbitrage dominates expected value** in pricing, and they might differ. 
+    - Risk-free arbitrage$\implies$ infinite leverage. 
+2. Arbitraging a claim consists of constructing a <span style="color:blue">self-financing, tradable portfolio which replicates the claim's payoff</span>. 
+    - For forward contracts, the tradable portfolio is static. 
+    - [Binomial branch example](#binomialBranch): in this case, pricing is possible _without knowing the underlying distribution_. 
+3. The general construction of arbitrage portfolios is _dynamic_ but _self-financing. 
+    - Empirical approach: we know the arbitrage price of a binomial branch; then work backward. Results in a dynamic replicating portfolio. 
+    - Principled approach: use the binomial representation theorem to write the claim's martingale process $\mbb E_{\mbb Q}[X]$ in terms of the stock process under martingale measure $\mbb Q$, and use the previsible process as stock allocation. 
+4. Proof of the binomial representation theorem: two branches are related by a (previsible) scale and offset; both martingales $\implies$ offset is uniformly zero, so martingales are "equivalent" up to dynamic scaling by a previsible process. 
+5. High-level takeaway: arbitrary claims on a binomial tree model can be priced by arbitrage. 
+    - Convergent limit of binomial process $\to$ Brownian motion with drift. 
 
-## Teaser: forward contracts {-}
+## Teaser: forward contracts {#forwardExample -}
 
 A **forward** contract at price $K$ allows the holder to buy an asset at a specified price at a future time for price $K$. 
 Assuming interest rate $r$ so that cash grows as $e^{rt}$, let $\mbf S_t$ denote the price of the asset at time $t$
@@ -40,7 +50,7 @@ A few salient points:
 4. Suppose $\Exp[S_t]<S_0e^{rt}$ and that this is known by the contract counterparty, they will long the contract and gain $K-S_0e^{rt}>0$. The stock counterparty will lose in expectation. 
 5. Assuming rational behavior, trade only happens when <span style="color:blue">**stock and contract counterparties disagree on** the relative size of $\Exp[S_t]$ compared to $K$)</span>. 
 
-## Binomial branch model {-}
+## Binomial branch model {#binomialBranch -}
 
 Assume a simple model where: 
 
@@ -68,7 +78,7 @@ Looking at $q$, w.l.o.g. assume $s_3>s_2$. This suggests that the risk-free stri
 - For $q\leq 0$, we have $s_3>s_2>s_1e^{rt}$. This means that the stock strictly dominates cash (even in the worst payoff). 
 - For $q\geq 1$, rearranging yields $s_1 e^r \geq s_3>s_2$, making cash dominate the stock. 
 
-## Binomial tree model {-}
+## Binomial tree model {#binTreeModel -}
 
 1. Stock price starts at $s_1$ at $t=0$. If the stock price $\mbf S_t=s_j$, then $\mbf S_{t+1}$ is $s_{2j+1}$ w.p. $p_j$ or $s_{2j}$ w.p. $\bar p_j$.
 2. The cash bond has, for simplicity, constant interest rate $r$. 
@@ -124,15 +134,15 @@ In other words, any $\mbb Q$-martingale is equivalent (up to constant) to the ac
 2. The martingale property eliminates the price-dependent "constant" degrees of freedom, leaving only the previsible, scaling degrees of freedom which are *only dependent upon the price change*. The scaling process $\phi$ denotes the previsible stock allocation. 
 </div>
 
-_Proof:_ For the simple $2$-branch case, denote $s_{\mrm{now}}, s_{\mrm{up}}, s_{\mrm{down}}$ and $n_{\mrm{now}}, n_{\mrm{up}}, n_{\mrm{down}}$, solve for 
+_Proof:_ For $j=0$ the equation holds trivially. Inductively, assuming the equation holds up to $j-1$; at time $j$, knowing the taken path and possible values of $S_j\in \{S_j^{\mrm{up}}, S_j^{\mrm{down}}$ (resp. $N_j$), construct the previsible quantity (previsible since its value does not depend on the choice of $S_j, N_j$ in their crystallizations above: 
 \[ 
-    n_{\mrm{up}} = N_0 + \phi_1 (s_{\mrm{up}} - s_{\mrm{now}}), \quad n_{\mrm{down}} = N_0 + \phi_1 (s_{\mrm{down}} - s_{\mrm{now}})
+    \phi_j = \dfrac{N_j^{\mrm{up}} - N_j^{\mrm{down}}}{S_j^{\mrm{up}} - S_j^{\mrm{down}}}
 \] 
-The scaling $\phi_1$ will be $(n_{\mrm{up}} - n_{\mrm{down}}) / (s_{\mrm{up}} - s_{\mrm{down}})$. Inductively, consider 
+It finally remains to determine the offset $k$ which completes the degrees of freedom in relating $N_j$ in terms of $S_j$ at the binomial branch: 
 \[ 
     \Delta N_j = \phi_j \Delta S_j + k 
 \] 
-where $\phi_j$ is the ratio of the up-down difference of $N$ versus $S$ at the node under consideration at time $j$. Next, take the expectation of both sides and use the martingale property 
+Take the expectation of both sides and use the martingale property 
 \[ 
     \mbb E_{\mbb Q} \left[ \Delta N_j \big| \mca F_{j-1} \right]_{=0} = \mbb E_{\mbb Q} \left[ \phi_j \Delta S_j\big| \mca F_{j-1} \right]_{=0} + k \implies k = 0 
 \] 
@@ -142,7 +152,7 @@ where $\phi_j$ is the ratio of the up-down difference of $N$ versus $S$ at the n
 Assume in full generality a stock process $S$ and a bond process $B$ (with $B_0=1$). Fixing claim $X$ and time horizon $T$: 
 
 1. First, annul the time growth of money: define the discounted claim $B_T^{-1}X$ and the discounted stock process $Z_j=(B_j^{-1}S_j)$. 
-2. <u> Assumption </u>: in a sensible world, there is a measure $\mbb Q$ such that the discounted stock process $Z_j$ is a $\mbb Q$-martingale (see discussion in branch case). This is known as the **fundamental theorem of asset pricing** and provable by the separating hyperplane theorem, which introduces the existence of a positive linear functional. 
+2. <u> Assumption</u>: in a sensible world, there is a measure $\mbb Q$ such that the discounted stock process $Z_j$ is a $\mbb Q$-martingale (see discussion in branch case). This is known as the **fundamental theorem of asset pricing** and provable by the separating hyperplane theorem, which introduces the existence of a positive linear functional. 
 3. Extend the discounted claim $B_T^{-1}X$ to a $\mbb Q$-martingale $E$ (proposition \@ref(prp:condExpMartingale)). 
 4. Write $E_j = E_0 + \sum_{k=1}^j \phi_k \Delta Z_k$ by theorem \@ref(thm:binRepTheorem). Here $E_0 = \mbb E_{\mbb Q}(B_T^{-1}X) = \mbb E_{\mbb Q}(E)$. 
 5. Construction as follows: at time $j$, but portfolio $\Pi_j$ consisting of $\phi_{j+1}$ units of stock and $\psi_{j+1} = E_j - \phi_{j+1} Z_j$ units of cash. 

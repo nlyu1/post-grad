@@ -1,6 +1,18 @@
 # Continuous models
 
-## Preliminaries {-}
+This section develops the continuous-world machinery for applying the discrete-model intuitions. 
+
+1. Definition of stochastic processes, independence, and filtration. measure-theoretic [details](#measurePrelim).
+2. Standard Brownian motion as the convergent limit of binomial flips. 
+    - Brownian property is _dependent upon measure_ (definition \@ref(def:brownianProcess)). The sample space is $C_0([0, \infty)\to \R)$ and the canonical process sends $(\omega, t)\mapsto \omega(t)$. 
+3. Stochastic calculus: $dW_t\sim \sqrt{dt}$, and derivation of Itô's formula (definition \@ref(def:itoFormula)). Product rule (proposition \@ref(prp:productRule)). 
+    - Taylor expansion argument for the behavior of $d(W_t^2)$ ([section](#stochasticCalculus)): this is where the perennial $\sigma^2/2$ term comes from. 
+4. Expectations under different processes are given by the Radon-Nikodym derivative process. Important conditional expectation formula (proposition \@ref(prp:rdChangeMeasure)). 
+5. CMG theorem \@ref(thm:cmg): previsible drift is exchangeable with measure change. 
+6. Martingale representation theorem \@ref(thm:martRep): continuous version of binomial representation theorem. 
+7. Driftlessness characterization of martingales: theorems \@ref(thm:martingaleChar) and \@ref(thm:expMartingaleChar). 
+
+## Preliminaries {#measurePrelim -}
 
 :::{.definition name="stochastic process"}
 Given a probability space $(\Omega, \mca F, \mbb P)$, where 
@@ -68,7 +80,7 @@ A process $(W_{t\geq 0})$ is a $\mbb P$-Brownian process iff
 An **exponential Brownian process** is defined by $X_t = \exp(\sigma W_t + \mu t)$. 
 :::
 
-:::{.definition name="standard Brownian process"}
+:::{.definition #brownianProcess name="standard Brownian process"}
 The **standard Brownian process** (also known as the **Wiener process**) consists of the following components:
 
 - <u>Sample space $\Omega$ </u>: $C_0([0, \infty)\to \R)$
@@ -83,7 +95,7 @@ A Brownian process is a **process-measure pair**! Alternative Brownian processs 
 </span>
 :::
 
-## Stochastic calculus {-}
+## Stochastic calculus {#stochasticCalculus -}
 
 Recall the classical, Newtonian differential notations: 
 
@@ -203,7 +215,7 @@ This gives $dY_t = d f(X_t)$, where the RHS is no longer dependent upon $Y_t$.
 \end{align}
 </details>
 
-:::{.proposition name="product rule"}
+:::{.proposition #productRule name="product rule"}
 When $X_t, Y_t$ are adapted to the **same** Brownian process 
 \[ 
     dX_t = \sigma_t\, dW_t + \mu_t\, dt, \quad 
