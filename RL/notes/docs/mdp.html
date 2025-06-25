@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Markov Decision Processes | CS 184, Summer 2025</title>
+  <meta name="description" content="1 Markov Decision Processes | CS 184, Summer 2025" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Markov Decision Processes | CS 184, Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Markov Decision Processes | CS 184, Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="bibliography.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="mdp.html"><a href="mdp.html"><i class="fa fa-check"></i><b>1</b> Markov Decision Processes</a>
+<ul>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#MDP"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#vFunctions"><i class="fa fa-check"></i>Value functions</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#optimalityMDP"><i class="fa fa-check"></i>Optimality</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#policyEval"><i class="fa fa-check"></i>Policy evaluation</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#optimalSolutions"><i class="fa fa-check"></i>Optimal solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">CS 184, Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="mdp" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Markov Decision Processes<a href="mdp.html#mdp" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This section explores solutions to finite and infinite-horizon MDPs with finite state and action spaces, assuming their <span style="color:blue"> dynamics and rewards are totally known.</span></p>
+<ol style="list-style-type: decimal">
+<li>MDP definition <a href="mdp.html#def:finiteMDP">1.1</a> and trajectory measure <span class="math inline">\(\rho^\pi\)</span> <a href="mdp.html#def:policyTrajectory">1.2</a>.</li>
+<li>Definition of value <span class="math inline">\(V(s)\)</span> and action-value <span class="math inline">\(Q(s, a)\)</span> functions <a href="mdp.html#def:vqfunctions">1.3</a>; their inter-relation yields recursive definitions <a href="mdp.html#prp:vqRelations">1.1</a>, which are succinctly encoded in the <strong>Bellman consistency operators</strong> <a href="mdp.html#def:consistencyOp">1.4</a>.
+<ul>
+<li>Note that <span class="math inline">\(\mathcal J^\pi_v\)</span> samples <span class="math inline">\(a\)</span>, then <span class="math inline">\(s&#39;\)</span> dependent upon <span class="math inline">\(a\)</span>. On the other hand, <span class="math inline">\(\tilde {\mathcal J}^\pi_q\)</span> samples <span class="math inline">\(s&#39;\)</span>, then <span class="math inline">\(a&#39;\)</span> dependent upon <span class="math inline">\(s&#39;\)</span>.</li>
+<li><span style="color:blue"> This difference allows <span class="math inline">\(Q\)</span>-function relations (<span class="math inline">\(s&#39;\)</span> first) to be conveniently sampled from the environment, justifying its prominence in fitted-DP methods.</span> In a sense, <span class="math inline">\(Q(s, a)\)</span> natively encodes “one more layer” of the environment dynamics.</li>
+</ul></li>
+<li>The <strong>policy-evaluation</strong> problem <span class="math inline">\(\pi \mapsto V^\pi\)</span> is solved by backward induction (finite horizon) or iterated convergence (infinite horizon); the latter case results from the contraction properties of consistency operators (theorem <a href="mdp.html#thm:contraction">1.3</a>).</li>
+<li>Optimality relations for <span class="math inline">\(V^*, Q^*\)</span> (theorem <a href="mdp.html#thm:optimalVQRelation">1.1</a>), which are encoded in optimality operators <a href="mdp.html#def:optimalityOp">1.6</a>; optimality operators are also shown to be contractions <a href="mdp.html#thm:contraction">1.3</a>.</li>
+<li>Greedy policy (definition <a href="mdp.html#def:greedyPolicy">1.7</a>). It is also shown that <span class="math inline">\(V^{\pi^{V^*}} = V^*\)</span>: acting greedily w.r.t. <span class="math inline">\(V^*\)</span> accumulates value <span class="math inline">\(V^*\)</span>.
+<ul>
+<li>Note that <span class="math inline">\(\pi^q\)</span> can be computed <em>without knowledge of environment dynamics</em>.</li>
+</ul></li>
+<li>Finite-horizon MDPs are solved by backward induction using the optimality relations (definition <a href="mdp.html#def:finiteVI">1.9</a>).<br />
+</li>
+<li>Infinite-horizon MDPS are solved by iterative approaches:
+<ul>
+<li><strong>Value iteration</strong> (proposition <a href="mdp.html#prp:infVI">1.2</a>) iterate <span class="math inline">\(v_j\to V^*\)</span> using the optimality operator, then act greedily w.r.t. <span class="math inline">\(v_T\)</span>.
+<ul>
+<li>Acting greedily w.r.t. a candidate value evaluation (which might not be a consistent value function) does not guarantee the payoff: <span class="math inline">\(\gamma\)</span>-dependent bound <a href="mdp.html#thm:greedyPolicyValueBound">1.4</a>.<br />
+</li>
+</ul></li>
+<li><strong>Policy iteration</strong> (theorem <a href="mdp.html#thm:infPolicyIterProof">1.5</a>): iterate <span class="math inline">\(\pi \mapsto \pi^{V^\pi}\)</span>, i.e. compute value of current policy, then update policy with one more step of foresight by making locally optimal choices according to the computed value.</li>
+<li>Intuitively, each iteration gives “one more step of foresight” to the associated quantities.</li>
+</ul></li>
+</ol>
+<div id="MDP" class="section level2 unnumbered hasAnchor">
+<h2>Preliminaries<a href="mdp.html#MDP" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:finiteMDP" class="definition"><strong>Definition 1.1  (finite-horizon Markov decision processes (MDP)) </strong></span>A finite MDP component consists of:</p>
+<ol style="list-style-type: decimal">
+<li>A <strong>time horizon</strong> <span class="math inline">\(H\in \mathbb N\cup \{+\infty\}\)</span> which specifies the number of interactions.</li>
+<li><strong>State space</strong> <span class="math inline">\(\mathcal S\)</span>. A single state is denoted <span class="math inline">\(s\)</span>.</li>
+<li><strong>Action space</strong> <span class="math inline">\(\mathcal A\)</span>.</li>
+<li>An <strong>initial distribution</strong> <span class="math inline">\(\mu \in \Delta(\mathcal S)\)</span>.</li>
+<li><strong>State transition</strong> <span class="math inline">\(P:\mathcal S\times \mathcal A\to \Delta(\mathcal S)\)</span>.</li>
+<li>A <strong>reward function</strong> <span class="math inline">\(r:\mathcal S\times \mathcal A\to \mathbb R\)</span>. We consider deterministic reward functions.</li>
+</ol>
+</div>
+<div class="definition">
+<p><span id="def:policyTrajectory" class="definition"><strong>Definition 1.2  (policy, trajectory) </strong></span>A <strong>policy</strong> is a mapping from state to action:
+<span class="math display">\[
+    \pi:\mathcal S\to \Delta(\mathcal A)
+\]</span>
+A <strong>trajectory</strong> is a tuple of interactions:
+<span class="math display">\[
+    \tau = (s_0, a_0, r_0, \dots, s_{H-1}, a_{H-1}, r_{H-1})
+\]</span>
+A policy <span class="math inline">\(\pi\)</span> induces a measure <span class="math inline">\(\rho^\pi\)</span> on trajectories given by
+<span class="math display">\[\begin{align}
+    \log \rho^\pi(\tau)
+    &amp;= \log \left[\mathbb P(s_0, a_0, r_0) \prod_{t=1}^{H-1} \mathbb P(s_t, a_t, r_t | s_{t-1}, a_{t-1})\right] \\
+    &amp;= \log \mu(s_0) + \log \pi(a_0|s_0) + \sum_{t=1}^{H-1} \log P(s_t|s_{t-1}, a_{t-1}) + \log \pi(a_t|s_{t-1})
+\end{align}\]</span></p>
+</div>
+<p>To accomodate <span class="math inline">\(H=\infty\)</span>, we can also introduce a <strong>discount factor</strong> <span class="math inline">\(\gamma\in [0, 1]\)</span>. <span style="color:blue">The core goal of an RL algorithm is to find the policy </span>
+<span class="math display">\[
+    \pi^* = \operatorname*{arg\,max}_{\pi }\mathop{\mathbb{E}}\limits_{\rho^\pi}[R(\tau)], \quad R(\tau) = \sum_{t=0}^H \gamma^t r_t
+\]</span>
+Note that the total reward <span class="math inline">\(R\)</span> is a <span class="math inline">\(\tau\)</span>-dependent random variable.</p>
+</div>
+<div id="vFunctions" class="section level2 unnumbered hasAnchor">
+<h2>Value functions<a href="mdp.html#vFunctions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Given a policy, we need to evaluate its utility.</p>
+<div class="definition">
+<p><span id="def:vqfunctions" class="definition"><strong>Definition 1.3  ((action-) value function) </strong></span><em>Given policy <span class="math inline">\(\pi\)</span></em>, its value function <span class="math inline">\(V^\pi:\mathcal S\to \mathbb R\)</span> is defined by
+<span class="math display">\[
+    V^\pi_h(s) = \mathop{\mathbb{E}}\limits_{\tau\sim \rho^\pi}[R_h(\tau)\mid s_h=s]
+\]</span>
+here <span class="math inline">\(R_h=r_h+\dots+\gamma^{\dots} r_{H-1}\)</span> is the truncated reward. Similarly, the action-value function is
+<span class="math display">\[
+    Q^\pi_h(s, a) = \mathop{\mathbb{E}}\limits_{\tau\sim \rho^\pi}[R_h(\tau)\mid s_h=s, a_h=a]
+\]</span>
+Note that the finite horizon makes <span class="math inline">\(V^\pi_h\neq V^\pi_{h-1}\)</span>; <span style="color:green">the <span class="math inline">\(h\)</span>-dependence can be dropped when <span class="math inline">\(h=\infty\)</span></span>.</p>
+</div>
+<div class="proposition">
+<p><span id="prp:vqRelations" class="proposition"><strong>Proposition 1.1  </strong></span><span class="math inline">\(V\)</span> and <span class="math inline">\(Q\)</span> are related by <span class="math inline">\(Q_h\to V_h, V_{h+1}\to Q_h\)</span>
+<span class="math display">\[\begin{align}
+    V^\pi_h(s)
+    &amp;= \mathop{\mathbb{E}}\limits_{a\in \pi(\cdot\mid s)}Q^\pi_h(s, a) \\
+    Q^\pi_h(s, a)
+    &amp;= r(s, a) + \gamma \mathop{\mathbb{E}}\limits_{s&#39;\in P(\cdot\mid s, a)}[V^\pi_{h+1}(s&#39;)]
+\end{align}\]</span>
+Substituting again yields the recursive relations <span class="math inline">\(V_{h+1}\to V_h, Q_{h+1}\to Q_h\)</span>.
+<span class="math display">\[\begin{align}
+    V^\pi_h(s)
+    &amp;= %
+  \mathop{\mathbb{E}}\limits_{\substack{a\in \pi(\cdot\mid s) \\ s&#39;\in P(\cdot\mid s, a)}}[r(s, a) + \gamma\, V^\pi_{h+1}(s&#39;)] \\
+    Q^\pi_h(s, a)
+    &amp;= r(s, a) + \gamma %
+  \mathop{\mathbb{E}}\limits_{\substack{s&#39;\in P(\cdot\mid s, a) \\ a&#39;\in \pi(\cdot\mid s&#39;)}} Q^\pi_{h+1}(s&#39;, a&#39;)
+\end{align}\]</span>
+These are known as the <strong>Bellman consistency relations</strong>.</p>
+</div>
+<div class="definition">
+<p><span id="def:consistencyOp" class="definition"><strong>Definition 1.4  (Bellman consistency operators) </strong></span>We can rewrite the consistency relations in terms of consistency operators. Define the (value-) consistency operator <span class="math inline">\(v\mapsto \mathcal J^\pi_v\)</span> of type <span class="math inline">\(\mathcal J^\pi_{(-)}: (\mathcal S\to \mathbb R)\to (\mathcal S\to \mathbb R)\)</span>. The action-value consistency operator <span class="math inline">\(\tilde{\mathcal J}_{(-)}^\pi\)</span> is defined similarly:
+<span class="math display">\[\begin{align}
+    \mathcal J^\pi_v(s)
+    &amp;= %
+  \mathop{\mathbb{E}}\limits_{\substack{a\in \pi(\cdot\mid s) \\ s&#39;\in P(\cdot\mid s, a)}}[r(s, a) + \gamma\, v(s&#39;)] \\
+    \tilde{\mathcal J}_{q}^\pi(s, a)
+    &amp;= r(s, a) + \gamma %
+  \mathop{\mathbb{E}}\limits_{\substack{s&#39;\in P(\cdot\mid s, a) \\ a&#39;\in \pi(\cdot\mid s&#39;)}} q(s&#39;, a&#39;)
+\end{align}\]</span>
+It consumes a state-evaluation <span class="math inline">\(v\)</span> and computes a state evaluation.
+<span style="color:green"> Note that <span class="math inline">\(\mathcal J^\pi_{(-)}\)</span> requires the environment dynamics <span class="math inline">\(P(\cdot\mid s, a)\)</span> to be known. </span>
+The consistency operators simplify the recursive definitions
+<span class="math display">\[
+    V^\pi_h = \mathcal J^\pi_{V^\pi_{h+1}},\quad Q^\pi_h = \tilde {\mathcal J}^\pi_{Q^\pi_{h+1}}
+\]</span></p>
+</div>
+</div>
+<div id="optimalityMDP" class="section level2 unnumbered hasAnchor">
+<h2>Optimality<a href="mdp.html#optimalityMDP" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:unlabeled-div-1" class="definition"><strong>Definition 1.5  (optimal policy) </strong></span>A policy <span class="math inline">\(\pi^*\)</span> is optimal if
+<span class="math display">\[
+    \mathop{\mathbb{E}}\limits_{s_0\sim \mu} V^{\pi^*}_h(s_0) \geq \mathop{\mathbb{E}}\limits_{s_0\sim \mu} V^{\pi}_0(s_0), \quad \forall \pi \in \Pi
+\]</span>
+The optimal (action-) value function is defined analogously
+<span class="math display">\[\begin{align}
+    V^*_h(s) = \max_\pi V^\pi_h(s), \quad Q^*_h(s, a) = \max_\pi Q^\pi_h(s, a)
+\end{align}\]</span></p>
+</div>
+<div class="theorem">
+<p><span id="thm:optimalVQRelation" class="theorem"><strong>Theorem 1.1  (optimality relations) </strong></span><span class="math inline">\(V^*\)</span> and <span class="math inline">\(Q^*\)</span> again satisfy the recursive relations
+<span class="math display">\[\begin{align}
+    V^*_h(s)
+    &amp;= \max_a Q^*_h(s, a) \\
+    &amp;= \max_a \left[
+    r(s, a) + \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} V^*_{h+1}(s&#39;)
+    \right] \\
+    Q^*_h(s, a)
+    &amp;= r(s, a) + \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} V^*_{h+1}(s&#39;)  \\
+    &amp;= r(s, a) + \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} \max_{a&#39;} Q^*_{h+1}(s&#39;, a&#39;)
+\end{align}\]</span></p>
+</div>
+<details>
+<summary>
+Proof
+</summary>
+It suffices to prove <span class="math inline">\(V^*_h(s) = \max_a Q^*_h(s, a)\)</span> since the rest of the results follow from <span class="math inline">\(V\)</span>-<span class="math inline">\(Q\)</span> relations. Substitute the definition of <span class="math inline">\(Q^*\)</span> to yield
+<span class="math display">\[\begin{align}
+    V^*_h(s)
+    &amp;= \max_\pi V^\pi_h(s) = \max_{\pi_h} \max_{\pi_{h+}} \mathop{\mathbb{E}}\limits_{a\sim \pi_h} Q^{\pi_{h+}}_{h+1}(s, a) \\
+    &amp;= \max_{\pi_h} \mathop{\mathbb{E}}\limits_{a\sim \pi_h} \left[
+        \max_{\pi_{h+}} Q^{\pi_{h+}}_{h+1}(s, a)
+    \right] = \max_a Q^*_h(s, a)
+\end{align}\]</span>
+</details>
+<div class="definition">
+<p><span id="def:optimalityOp" class="definition"><strong>Definition 1.6  (optimality operators) </strong></span>Analogous to the consistency operators, define the <span class="math inline">\(V\)</span>-optimality operator <span class="math inline">\(\mathcal J^*_{(-)}\)</span> and <span class="math inline">\(Q\)</span>-optimality operator <span class="math inline">\(\tilde{\mathcal J}^*_{(-)}\)</span> so that
+<span class="math display">\[\begin{align}
+    \mathcal J^*_v(s)
+    &amp;= \max_a \left[
+    r(s, a) + \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} v_{h+1}(s&#39;)
+    \right] \\
+    \tilde {\mathcal J}^*_q(s, a)
+    &amp;= r(s, a) + \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)}
+        \max_{a&#39;} q(s&#39;, a&#39;)
+\end{align}\]</span></p>
+</div>
+<div style="color:green">
+<div class="remark">
+<p><span id="unlabeled-div-2" class="remark"><em>Remark</em>. </span>Note that the optimality equations have a very heavy dynamic programming flavor: solving <span class="math inline">\(V^*\)</span> (or <span class="math inline">\(Q\)</span>) at time <span class="math inline">\(h+1\)</span> yields solutions for time <span class="math inline">\(t\)</span>.</p>
+</div>
+<div>
+
+<div class="definition">
+<p><span id="def:greedyPolicy" class="definition"><strong>Definition 1.7  (greedy policy) </strong></span></p>
+Given action-value candidate <span class="math inline">\(q:\mathcal S\times \mathcal A\to \mathbb R\)</span>, define the greedy policy <span class="math inline">\(\pi^q(a\mid s) = 1_{a=\operatorname*{arg\,max}_{q}(s, a)}\)</span>. <span style="color:blue"> Note that <span class="math inline">\(q\)</span> doesn’t even have to satisfy the consistency equations.
+</style>
+</div>
+<div class="theorem">
+<p><span id="thm:greedyPolicyOptimal" class="theorem"><strong>Theorem 1.2  ($Q^*$-greedy policy is optimal) </strong></span>Given optimal <span class="math inline">\(Q^*\)</span>, the greedy policy <span class="math inline">\(\pi^{Q^*}\)</span> is an optimal policy. This is nontrivial because greedy is a local behavior. In other words,
+<span class="math display">\[
+    V^{\pi^{Q^*}} = V^*
+\]</span></p>
+</div>
+<details>
+<summary>
+Proof
+</summary>
+We prove this for the finite-horizon case. Optimality is trivial for terminal <span class="math inline">\(t=H-1\)</span> Fix any <span class="math inline">\(\pi\)</span>, inductively,
+<span class="math display">\[\begin{align}
+    \mathop{\mathbb{E}}\limits_{\tau \sim \rho^\pi} [r_h + \dots + \gamma^{\dots}\, r_{H+1}\mid \tau_h]
+    &amp;= %
+  \mathop{\mathbb{E}}\limits_{\substack{a_h\sim \pi_h(s_h) \\ s&#39;\sim P(\cdot\mid s_h, a_h)}}\left[
+        r_h(s_h, a_h) + \gamma V^\pi_{h+1}(s&#39;)
+    \right] \\
+    &amp;\leq %
+  \mathop{\mathbb{E}}\limits_{\substack{a_h\sim \pi_h(s_h) \\ s&#39;\sim P(\cdot\mid s_h, a_h)}}\left[
+        r_h(s_h, a_h) + \gamma V^{\pi^{Q^*}}_{h+1}(s&#39;)
+    \right] \\
+    &amp;= \mathop{\mathbb{E}}\limits_{a_h\sim \pi_h(s_h)}Q^*_h(s, a)  \leq \max_a Q^{\pi^{Q^*}}_h(s, a) \\
+    &amp;= V^{\pi^{Q^*}}_h(s)
+\end{align}\]</span>
+In short: expand to rewrite using <span class="math inline">\(V_{h+1}\)</span>, apply inductive inequality, then regroup.
+</details>
+<div class="definition">
+<p><span id="def:unlabeled-div-3" class="definition"><strong>Definition 1.8  (contraction) </strong></span>We equip the space of <span class="math inline">\(v\)</span> and <span class="math inline">\(q\)</span> functions with the <span class="math inline">\(\sup\)</span>-norm <span class="math inline">\(\|\cdot\|_\infty\)</span> given by
+<span class="math display">\[
+    \|v\|_\infty = \sup_s |v(s)|, \quad \|q\|_\infty = \sup_{s, a} |q(s, a)|
+\]</span>
+An operator <span class="math inline">\(\mathcal J\)</span> is a <span class="math inline">\(\gamma\in (0, 1)\)</span> contraction if for any <span class="math inline">\(u, v\)</span>, we have
+<span class="math display">\[
+    \|\mathcal J(v) - \mathcal J(u)\| \leq \gamma \|v-u\|
+\]</span></p>
+</div>
+<div class="theorem">
+<p><span id="thm:contraction" class="theorem"><strong>Theorem 1.3  (contraction properties) </strong></span>For any policy <span class="math inline">\(\pi\)</span>, the consistency operators <span class="math inline">\(\mathcal J^\pi_{(-)}\)</span> and <span class="math inline">\(\mathcal{\tilde J}^\pi_{(-)}\)</span> are <span class="math inline">\(\gamma\)</span>-contractions. The optimality operators <span class="math inline">\(\mathcal J^*_{(-)}\)</span> and <span class="math inline">\(\mathcal{\tilde J}^*_{(-)}\)</span> are also <span class="math inline">\(\gamma\)</span> contractions.</p>
+</div>
+<details>
+<summary>
+Proof
+</summary>
+Recall the consistency operator definition <a href="mdp.html#def:consistencyOp">1.4</a>; apply Jenson’s inequality and definition of the <span class="math inline">\(\sup\)</span>-norm:
+<span class="math display">\[\begin{align}
+    |\tilde {\mathcal J}^\pi_q(s, a) - \tilde {\mathcal J}^\pi_{q&#39;}(s, a)|
+    &amp;= \gamma \left|
+        %
+  \mathop{\mathbb{E}}\limits_{\substack{s&#39;\in P(\cdot\mid s, a) \\ a&#39;\in \pi(\cdot\mid s&#39;)}} q(s&#39;, a&#39;)
+        - q&#39;(s&#39;, a&#39;)
+    \right| \\
+    &amp;\leq \gamma
+        %
+  \mathop{\mathbb{E}}\limits_{\substack{s&#39;\in P(\cdot\mid s, a) \\ a&#39;\in \pi(\cdot\mid s&#39;)}} \left| q(s&#39;, a&#39;)
+        - q&#39;(s&#39;, a&#39;)
+    \right| \leq \gamma \|q-q&#39;\|
+\end{align}\]</span>
+The argument for <span class="math inline">\(V\)</span> follows similarly. For optimality operators, recall definition <a href="mdp.html#def:optimalityOp">1.6</a> and apply lemma <a href="mdp.html#lem:pairAbsDiff">1.1</a> (fixing <span class="math inline">\(s&#39;)\)</span>:
+<span class="math display">\[\begin{align}
+    \left| \tilde {\mathcal J}^*_q(s, a) - \tilde {\mathcal J}^*_{q&#39;}(s, a)\right|
+    &amp;= \gamma \left|\mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} \left[
+        \max_{a_0} q(s&#39;, a_0) - \max_{a_1} q&#39;(s&#39;, a_1)
+        \right]\right| \\
+    &amp;\leq \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} \left|
+        \max_{a_0} q(s&#39;, a_0) - \max_{a_1} q&#39;(s&#39;, a_1)
+        \right|
+    \leq \gamma \|q-q&#39;\|
+\end{align}\]</span>
+</details>
+<div class="lemma">
+<p><span id="lem:pairAbsDiff" class="lemma"><strong>Lemma 1.1  </strong></span><span class="math inline">\(|\max_i a_i - \max_j b_j| \leq \max_j |a_j - b_j|\)</span>.</p>
+</div>
+<details>
+<summary>
+Proof
+</summary>
+Let <span class="math inline">\(\max_j a_j = a_{j^*}\)</span>, then
+<span class="math display">\[
+    \max_i a_i - \max_j b_j = a_{j^*} - \max_j b_j \leq a_{j^*} - b_{j^*} \leq \max_j |a_j - b_j|
+\]</span>
+Swap <span class="math inline">\(a\leftrightarrow b\)</span> to obtain the desired inequality.
+</details>
+</div>
+<div id="policyEval" class="section level2 unnumbered hasAnchor">
+<h2>Policy evaluation<a href="mdp.html#policyEval" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Policy evaluation answers the following question:</p>
+<ul>
+<li>Given a policy <span class="math inline">\(\pi\)</span>, what is <span class="math inline">\(V^\pi\)</span> and <span class="math inline">\(Q^\pi\)</span>?</li>
+</ul>
+<div class="remark">
+<p><span id="unlabeled-div-4" class="remark"><em>Remark</em> (finite-horizon policy evaluation). </span>In the finite horizon case, apply the consistency operators inductively to the trivial base case (terminal timestep). Algorithm:</p>
+<ol style="list-style-type: decimal">
+<li>For <span class="math inline">\(t=H-1\dots 0\)</span> do:</li>
+</ol>
+<ul>
+<li>For each state <span class="math inline">\(s\)</span>, compute <span class="math inline">\(\mathcal J^\pi_v(s)\)</span> (definition <a href="mdp.html#def:consistencyOp">1.4</a>) by iterating over <span class="math inline">\(a\in \mathcal A\)</span> and <span class="math inline">\(s&#39;\in \mathcal S\)</span>.</li>
+</ul>
+<p>The algorithmic complexity is <span class="math inline">\(O(H\cdot |\mathcal A|\cdot |\mathcal S|^2)\)</span>. The action-value function is defined similarly.</p>
+</div>
+<div class="remark">
+<p><span id="policyEvalBound" class="remark"><em>Remark</em> (infinite-horizon policy evaluation). </span>For the infinite horizon case, We use the fixed-point relation
+<span class="math inline">\(Q^\pi = \tilde{\mathcal J}^\pi_{Q^\pi}\)</span>
+Since the consistency operator is a contraction, iterative contraction converges with rate <span class="math inline">\(\gamma\)</span>. Algorithm: initialize <span class="math inline">\(q_0(s, a)=0\)</span> and iteratively apply <span class="math inline">\(q_{t+1} = \tilde{\mathcal J}^\pi_{q_t}\)</span>.</p>
+</div>
+<p>Note that <span class="math inline">\(\|q_0 - Q^\pi\|\leq R/(1-\gamma)\)</span>, where <span class="math inline">\(R\)</span> is the uniform reward bound.
+To achieve <span class="math inline">\(\epsilon\)</span>-error, we need
+<span class="math display">\[\begin{align}
+    \|q_t - Q^\pi\|
+    &amp;\leq \gamma^{T(\epsilon)} \|q_0 - Q^\pi\| \leq \epsilon \implies  
+    T(\epsilon) \geq \dfrac 1 {1-\gamma} \log \dfrac{R}{\epsilon(1-\gamma)}
+\end{align}\]</span></p>
+</div>
+<div id="optimalSolutions" class="section level2 unnumbered hasAnchor">
+<h2>Optimal solutions<a href="mdp.html#optimalSolutions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The ultimate goal of RL is to answer the following question:</p>
+<ul>
+<li>Given a MDP, how to compute the optimal policy?</li>
+</ul>
+<div class="definition">
+<p><span id="def:finiteVI" class="definition"><strong>Definition 1.9  (finite-horizon value iteration) </strong></span>By theorem <a href="mdp.html#thm:greedyPolicyOptimal">1.2</a>, computing <span class="math inline">\(Q^*\)</span> suffices to yield the optimal policy. The <strong>value-iteration</strong> method uses the optimality recursion (definition <a href="mdp.html#def:optimalityOp">1.6</a>) to compute <span class="math inline">\(Q^*\)</span>:</p>
+</div>
+<p>Algorithm complexity is <span class="math inline">\(O(H\cdot |\mathcal S|^2 \cdot |\mathcal A|)\)</span> when we compute <span class="math inline">\(V^*\)</span>. When computing <span class="math inline">\(Q^*\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(Q^*_{H-1}(s, a)=r(s, a)\)</span>; this is the base case.<br />
+</li>
+<li>For <span class="math inline">\(t=H-2, \dots, 0\)</span> do:
+<ul>
+<li>For each <span class="math inline">\(s, a\)</span>, compute <span class="math inline">\(Q^*_t(s, a) = \tilde {\mathcal J}^*_{Q^*_{t+1}}(s, a)\)</span> by iterating over <span class="math inline">\(s&#39;\sim P(\cdot\mid s, a)\)</span> and <span class="math inline">\(a&#39;\in \mathcal A\)</span>.</li>
+</ul></li>
+<li>Output the <span class="math inline">\(Q^*\)</span>-greedy policy.</li>
+</ol>
+<div class="proposition">
+<p><span id="prp:infVI" class="proposition"><strong>Proposition 1.2  (infinite-horizon value iteration) </strong></span>For infinite MDPs, value iteration (VI) proceeds as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(v_0 = 0\)</span>.</li>
+<li>Repeat until convergence:
+<ul>
+<li><span class="math inline">\(v_{t+1} = \mathcal J^*_{v_t}\)</span>.</li>
+</ul></li>
+<li>Output the <span class="math inline">\(v_T\)</span>-greedy policy <span class="math inline">\(\pi^{v_T}\)</span>.</li>
+</ol>
+</div>
+<div style="color:blue">
+<p>Two remarks:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(v_T\)</span> might not be a consistent Bellman value function.</li>
+<li>Moreover, the value function of the <span class="math inline">\(v_T\)</span>-greedy policy is, in general, different from <span class="math inline">\(v\)</span>
+<ul>
+<li>We only have equality <span class="math inline">\(V^{\pi^{V^*}} = V^*\)</span> in the optimal case.</li>
+</ul></li>
+</ol>
+</div>
+<p>We can derive an explicit bound on how well greedy policy “reconstructs” its value function:</p>
+<div class="theorem">
+<p><span id="thm:greedyPolicyValueBound" class="theorem"><strong>Theorem 1.4  (greedy policy value bound) </strong></span>Let <span class="math inline">\(\pi^*v\)</span> be the greedy policy w.r.t. <span class="math inline">\(v:\mathcal S\to \mathbb R\)</span> (note that <span class="math inline">\(v\)</span> need not satisfy consistency relations), then
+<span class="math display">\[
+    \|V^{\pi^v} - V^* \| \leq \dfrac{2\gamma}{1-\gamma} \|v-V^*\|
+\]</span></p>
+</div>
+<details>
+<summary>
+Proof
+</summary>
+Assuming deterministic policy and denote <span class="math inline">\(\hat \pi = \pi^v,\hat V = V^{\hat \pi}\)</span>
+<span class="math display">\[\begin{align}
+    V^*(s) - \hat V(s)
+    &amp;= Q^*(s, \pi^*(s)) - Q^{\hat \pi}(s, \hat \pi(s)) \\
+    &amp;= \left[
+        Q^*(s, \pi^*(s)) -
+        Q^*(s, \hat \pi(s))
+    \right] + \left[
+        Q^*(s, \hat \pi(s))
+        - Q^{\hat \pi}(s, \hat \pi(s))
+    \right]
+\end{align}\]</span>
+Let <span class="math inline">\(q(s, a) = r(s, a) + \gamma\, \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} v(s&#39;)\)</span> so that <span class="math inline">\(\hat \pi(a\mid s) = 1_{a=\operatorname*{arg\,max}_{a} q(s, a)}\)</span>, then note that by greedy construction of <span class="math inline">\(\hat \pi\)</span>, we have
+<span class="math display">\[
+    q(s, \hat \pi(s)) \geq q(s, \pi^*(s)) \implies q(s, \hat \pi(s)) - q(s, \pi^*(s)) \geq 0
+\]</span>
+Add this to the first square bracket to obtain
+<span class="math display">\[\begin{align}
+    Q^*(s, \pi^*(s)) -
+        Q^*(s, \hat \pi(s))  
+    &amp;\leq \left[
+        Q^*(s, \pi^*(s)) - q(s, \pi^*(s))
+    \right] + \left[
+        q(s, \hat \pi(s)) - Q^*(s, \hat \pi(s))  
+    \right] \\
+    &amp;\leq 2\gamma \|v-V^*\|
+\end{align}\]</span>
+The last inequality comes from expanding <span class="math inline">\(q\)</span> and <span class="math inline">\(Q^*\)</span>. The second term is bounded similarly:
+<span class="math display">\[\begin{align}
+    Q^*(s, \hat \pi(s))
+        - Q^{\hat \pi}(s, \hat \pi(s))
+    &amp;= \gamma\, \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, \hat \pi(s)} V^*(s&#39;) - v(s&#39;) \\
+    &amp;\leq \gamma \|v-V^*\|
+\end{align}\]</span>
+Combining the results yields below; rearranging proves inequality, as claimed.
+<span class="math display">\[\begin{align}
+    \|V^* - \hat V\| &amp;\leq 2\gamma \|v-V^*\| + \gamma \|V^* - \hat V\|
+\end{align}\]</span>
+</details>
+<p>We can alternatively iterate the policy.</p>
+<div class="definition">
+<p><span id="def:infPolicyIter" class="definition"><strong>Definition 1.10  (infinite-horizon policy iteration) </strong></span>Consider the following algorithm:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize a uniform policy <span class="math inline">\(\pi_0\)</span>.</li>
+<li>Repeat until convergence:
+<ul>
+<li><span class="math inline">\(\pi_{t+1} = \pi^{V^{\pi_t}}\)</span>.</li>
+<li>In human words: compute the value function of <span class="math inline">\(\pi_t\)</span> and act greedily w.r.t. the value function.</li>
+</ul></li>
+</ol>
+<p>The intuition behind this construction is that for the operator <span class="math inline">\(\mathcal G:\pi \mapsto \pi^{V_\pi}\)</span>, the greedy-optimal operator <span class="math inline">\(\pi^{V^*}\)</span> is a fixed point.</p>
+</div>
+<div class="theorem">
+<p><span id="thm:infPolicyIterProof" class="theorem"><strong>Theorem 1.5  (policy iteration converges optimally) </strong></span>Policy iteration converges to the optimal-greedy policy according to the rate
+<span class="math display">\[
+    \| V^{\mathcal G(\pi)} - V^* \| \leq \gamma \|V^\pi - V^*\|
+\]</span></p>
+</div>
+<details>
+<summary>
+Proof
+</summary>
+<p>The proof will be concluded if we show that <span class="math inline">\(V^{\mathcal G(\pi)} \geq \mathcal J^*_{V^\pi} \geq V^\pi\)</span>, since together with the contraction property of the Bellman optimality operator (theorem <a href="mdp.html#thm:contraction">1.3</a>), we have
+<span class="math display">\[
+    \| V^* - V^{\mathcal G(\pi)}\| \leq \| \mathcal J^*_{V^\pi} - V^* \| \leq \gamma \|V^\pi - V^*\|
+\]</span>
+First note that <span class="math inline">\(\mathcal J^*_{V^\pi} \geq V^\pi\)</span>, then
+<span class="math display">\[\begin{align}
+    V^{\mathcal G(\pi)}(s) - V^\pi(s)
+    &amp;\geq V^{\mathcal G(\pi)}(s) - \mathcal J^*_{V^\pi}(s) \\
+    &amp;= \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, \mathcal G_\pi(s))} \left[
+        V^{\mathcal G(\pi)}(s&#39;) - V^\pi(s)
+    \right]
+\end{align}\]</span>
+Apply this relationship recursively to yield <span class="math inline">\(V^{\mathcal G(\pi)} \geq V^\pi\)</span>.
+To see why the equation above holds, note that <span class="math inline">\(\mathcal G_\pi(s)\)</span> is exactly the value which maximizes <span class="math inline">\(Q^\pi(s, a)\)</span>, i.e. 
+<span class="math display">\[\begin{align}
+    \mathcal J^*_{V^\pi}(s)
+    &amp;= \max_a \left[
+        r(s, a) + \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, a)} V^\pi(s&#39;)
+    \right] \\
+    &amp;= r(s, \mathcal G_\pi(s)) + \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, \mathcal G_\pi(s))} V^\pi(s)
+\end{align}\]</span>
+Next, compute
+<span class="math display">\[\begin{align}
+    V^{\mathcal G(\pi)}(s) - \mathcal J^*_{V^\pi}(s)
+    &amp;= \gamma \mathop{\mathbb{E}}\limits_{s&#39;\sim P(\cdot\mid s, \mathcal G_\pi(s)}\left[
+        V^{\mathcal G(\pi)}(s&#39;) - V^\pi(s&#39;)
+    \right]_{\geq 0} \geq 0
+\end{align}\]</span>
+In short, the proof idea is:</p>
+<ol style="list-style-type: decimal">
+<li>We need to show that <span class="math inline">\(V^{\mathcal G(\pi)} \geq \mathcal J^*_{V^\pi}\)</span> to apply the convergence theorem.</li>
+<li>We note that <span class="math inline">\(V^{\mathcal G(\pi)} - J^*_{V^\pi}\)</span> s an expectation over <span class="math inline">\(V^{\mathcal G(\pi)} - V^\pi\)</span>, so it suffices to show that <span class="math inline">\(V^{\mathcal G(\pi)} \geq V^\pi\)</span>.</li>
+<li>To show the desired relation above, apply <span class="math inline">\(V^\pi \leq \mathcal J^*_{V^\pi}\)</span> recursively.</li>
+</ol>
+</details>
+<div class="remark">
+<p><span id="unlabeled-div-5" class="remark"><em>Remark</em>. </span>Note that the value function of a <strong>deterministic</strong> policy can be computed inclosed form for an infinite-horizon, finite-space MDP with deterministic rewards. Consider quantities of types
+<span class="math display">\[
+    P^\pi\in \mathbb R^{|\mathcal S|\times |\mathcal S|}, \quad r, \mu\in \mathbb R^{|\mathcal S|}
+\]</span>
+Here <span class="math inline">\(\langle s&#39;|P^\pi|s\rangle= P(s&#39;\mid s, \pi(s))\)</span>. In this notation, the Bellman consistency conditions can be solved in closed form as
+<span class="math display">\[
+    V^\pi = r + \gamma\, P^\pi V^\pi \implies V^\pi = (I - \gamma\, P^\pi)^{-1} r^\pi
+\]</span></p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bibliography.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
