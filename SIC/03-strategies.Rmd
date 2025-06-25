@@ -10,6 +10,7 @@ In this section, we apply the stochastic calculus and martingale machinery to in
     d. Hold $\phi_t$ stock and $E_t-\phi_t Z_t$ bond; <u>all holding quantities are calculated in discounted world</u>. 
 3. The Black-Scholes portfolio is self-financing even when bond process is stochastic: proposition \@ref(prp:blackScholesFinancing). 
 4. Terminal value pricing (proposition \@ref(prp:terminalValuePricing)): stock holding process should reflect the discounted claim process's sensitivity to stock process: $\phi_t = \pd s V_t \big|_{s_t, t}$. 
+    - Note that this only holds in the discounted world. 
 5. Two approaches to the Black-Scholes equation: they are related by the Feynmann-Kac framework: 
     a. **Top-down approach**: martingale measure, representation theorem, and self-financing proof. 
     b. [**Differential approach**](#blackScholesMiscellany): derive $dS_t$ from Black-Scholes assumptions and compute $dV_t$. Match with $\phi_t\, dS_t + \psi_t\, (dB_t)_{=rB_t\, dt}$; matching the drift term yields the pricing equation. 
