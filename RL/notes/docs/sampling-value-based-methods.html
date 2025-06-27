@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Sampling Value-based Methods | CS 184, Summer 2025</title>
   <meta name="description" content="2 Sampling Value-based Methods | CS 184, Summer 2025" />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Sampling Value-based Methods | CS 184, Summer 2025" />
   <meta property="og:type" content="book" />
@@ -59,6 +59,29 @@
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 </head>
 
@@ -94,7 +117,7 @@
 <li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#pgBaseline"><i class="fa fa-check"></i>Baseline</a></li>
 <li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#advEstimate"><i class="fa fa-check"></i>Generalized Advantage Estimation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Proximal Policy Optimization</a></li>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Off-policy, conservative updates</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 </ul>
@@ -277,7 +300,9 @@ One can also imagine “unrolling” the consistency relations twice (or more) b
 <li>Repeat until convergence:
 <ul>
 <li>Observe <span class="math inline">\((s_t, a_t, r_t, s_{t+1}, a_{t+1})\)</span>.</li>
-<li>Update <span class="math inline">\(Q(s_t, a_t) = \bar \alpha Q(s_t, a_t) + \alpha \left[  r_t + \gamma Q(s_{t+1}, a_{t+1})  \right]\)</span>.
+<li>Update <span class="math inline">\(Q(s_t, a_t) = \bar \alpha Q(s_t, a_t) + \alpha \left[
+  r_t + \gamma Q(s_{t+1}, a_{t+1})
+\right]\)</span>.
 <ul>
 <li>Note that alternatively, we only need <span class="math inline">\(s_{t+1}\)</span> and replace
 <span class="math inline">\(\gamma Q(s_{t+1}, a_{t+1}) \mapsto \gamma \mathop{\mathbb{E}}\limits_{a_{t+1}\sim \pi(s_{t+1})} Q(s_{t+1}, a_{t+1})\)</span>.</li>
@@ -295,7 +320,9 @@ One can also imagine “unrolling” the consistency relations twice (or more) b
 <li>Given a static list of trajectories, repeat until convergence:
 <ul>
 <li>For each <span class="math inline">\((s, a, r, s&#39;)\)</span>:</li>
-<li><span class="math inline">\(Q(s, a) \leftarrow \bar \alpha Q(s, a) + \alpha \left[  r + \gamma \max_{a&#39;} Q(s&#39;, a&#39;)  \right]\)</span>.</li>
+<li><span class="math inline">\(Q(s, a) \leftarrow \bar \alpha Q(s, a) + \alpha \left[
+  r + \gamma \max_{a&#39;} Q(s&#39;, a&#39;)
+\right]\)</span>.</li>
 </ul></li>
 <li>Repeat <span class="math inline">\(Q\)</span>-greedy policy.</li>
 </ol>

@@ -1,8 +1,25 @@
 # Policy Methods 
 
-In this section, we differentiably parameterize the policy; it turns out that the temporal structure of RL allows for gradient estimation. 
+In this section, we differentiably parameterize the policy and improve by gradient descent. While **value methods** solve control by computing the (action-) value functions, **policy methods** directly improve the policy. 
 
-1. While **value methods** solve control by computing the (action-) value functions, **policy methods** directly improve the policy. 
+1. The Policy Gradient (PG) theorem \@ref(thm:PG) establishes the general form of _score function_ $\nabla_\theta \log \pi_\theta(a_t\mid s_t)$ multiplied by signal $R(\tau)$. 
+2. Two problems with vanilla PG: <u>high variance of signal</u> and <u>low sample efficiency from online learning</u>
+3. Method to [reduce variance](#pgReduceVar): 
+    - **Baseline theorem \@ref(thm:pgBaseline)** establishes that <span style="color:blue">adjusting by a state and history-dependent function does not introduce bias. </span> 
+        - Baseline cannot depend on $a_t$; can be $\theta$-dependent; should be frozen during $\theta$-gradient calculation. 
+        - Remaining rewards, $Q(s, a)$, and advantage $A=Q-V$ are all valid signals (corollary \@ref(cor:lowvarPG)). 
+    - [Generalized advantage estimation](#advEstimate): interpolation between bootstrapping and sampling. 
+4. Using [off-policy data](#ppo): intuitively, similar policies should be able to share data. 
+    - <span style="color:blue">**Relative policy performance theorem \@ref(thm:relPerfBound)**: performance of $\pi'$ is lower bounded by (performance of $\pi$) + (a surrogate loss $\mca L_\pi(\pi')$) + (square root of KL). </span>
+        - Surrogate loss should be _maximized_ (confusing entymology).  
+        - <u>Surrogate loss gradient degenerates to online PG gradient </u> when $\pi'=\pi$. 
+        - Theorem proof: performance difference lemma \@ref(thm:PDL) + info-theory arguments (variational characterization of TV + Pinsker inequality). 
+    - Implication: <span style="color:blue"> off-policy PG = optimizing surrogate-loss subject to small KL deviation </span> 
+    - Approximately enforce small-KL constraint by clipping: PPO-Clip \@ref(def:ppoClip). 
+5. **Full off-policy PG algorithm** \@ref(def:surrogatePG). Moving parts include: 
+    - Estimating advantage: use MC or (how much) TD? Using another value-based approximation model is referred to as using a **critic**. 
+    - Enforcing KL-constraints: clipping, adaptive-KL, or other methods. 
+    - Balancing offline v. online: how many actor update steps prior to collecting a new batch of data? 
 
 The core problem of RL is **sampling efficiency**; key obstacles include: 
 
@@ -43,7 +60,7 @@ where $\df 1 {g(\theta)}\nabla_\theta g(\theta) = \nabla_\theta \log g(\theta)$.
 \begin{align}
     \nabla_\theta \log \rho^{\pi_\theta}(\tau) 
     &= \nabla_\theta \sum_{t=0}^{H-1} \log \pi_\theta(a_t\mid s_t) + \log P(s_{t+1}\mid s_{t-1}, a_{t-1}) + \text{ reward terms} \\ 
-    &= \sum_{t=0}^{H-1} \log \pi_\theta(a_t\mid s_t) 
+    &= \sum_{t=0}^{H-1} \nabla_\theta \log \pi_\theta(a_t\mid s_t) 
 \end{align}
 </details>
 
@@ -125,7 +142,7 @@ The remaining reward of a trajectory at time $t$ is defined as
 \] 
 :::
 
-:::{.corollary #lowvarPG name="valid PG weights with lower variance"}
+:::{.corollary #lowvarPG name="valid PG signals with lower variance"}
 Using **remaining rewards**, **$Q$-function**, or **advantage function** to reinforce action at time $t$ all result in an unbiased estimator with lower variance: 
 \begin{align}
 \nabla_\theta J(\theta) 
@@ -193,11 +210,40 @@ In these variations which introduce bootstrap, the policy model $\pi_\theta$ is 
 
 ### Generalized Advantage Estimation {#advEstimate -} 
 
-Another way of reducing bias is to introduce boot
+Another way of reducing bias is to introduce bootstrap the reinforcement signal. Consider the $N$-step advantage estimators: 
 
+\begin{align}
+    \hat A_t^{(1)} 
+    &= r_t + \gamma V(s_{t+1}) - \hat V(s_t) \\ 
+    \hat A_t^{(2)} 
+    &= r_t + \gamma r_{t+1} + \gamma^2 V(s_{t+2}) - \hat V(s_t) \\ 
+    \hat A_t^{(\infty)} 
+    &= r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots - \hat V(s_t) \\ 
+\end{align}
 
+- Note again that the reinforcement signal (advantage / Q-value / total reward) is frozen w.r.t. $\nabla_\theta$. 
 
-## Proximal Policy Optimization {#ppo -}
+More steps imply (closer to MC) + (higher variance) + (lower bias). In either case, however, advantage is consistent so long as $\hat V\to V$. Define the random variable 
+\[ 
+    \delta_t^V = r_t + \gamma V(s_{t+1}) - V(s_t)
+\] 
+It can be proven inductively that 
+\begin{align}
+    \hat A^{(k)}_t 
+    = \sum_{j=0}^{k-1} \gamma^j r_{t+j} \gamma^k \hat V(s_{t+k}) - \hat V(s_t)
+\end{align}
+
+:::{.definition #gae name="Generalized Advantage Estimator"}
+GAE is an exponentially-weighted average of $k$-step advantage estimators which happen to have a very simple, tractable form. 
+\begin{align}
+    \hat A_t^{\mrm{GAE}(\gamma, \lambda)} 
+    &= (1-\lambda) \left(\hat A_t^{(1)} + \lambda \hat A_t^{(2)} + \lambda^2 \hat A_t^{(3)} + \dots\right) = \dots \\ 
+    &= \sum_{l=0}^\infty (\lambda \gamma)^l \delta^V_{t+l}
+\end{align}
+Note that $\lambda=0$ reduces to TD while $\lambda=1$ corresponds to MC. 
+:::
+
+## Off-policy, conservative updates {#ppo -}
 
 The central improvements to PG all involve problems stemming from (1) high-variance of rewards, or (2) the online property: we only ever update policy based on trajectories collected _using the current policy_. 
 
@@ -206,11 +252,137 @@ The central improvements to PG all involve problems stemming from (1) high-varia
     - For example, when logits saturate in logistic / softmax parameterizations. 
 3. Performance collapse: if $\theta$-update results in bad policy, gradient samples and updates might be stuck. 
 
+As a result, we want improvements to be close to original policy in KL; this mitigates performance collapse and approximately allows us to use off-policy data. 
+
 <details>
 <summary>One solution to (2) </summary>
-One solution: natural gradients; coordinate-change by the ($\pi_\theta$-KL, $\theta$-$L_2$) Hessian, which is the Fisher information; this coordinate map has trivial Jacobian generally. 
+Natural gradints: coordinate-change by the ($\pi_\theta$-KL, $\theta$-$L_2$) Hessian, which is the Fisher information; this coordinate map has trivial Jacobian generally. 
 
 However, Fisher information matrix is prohibitive to compute generally. A more practical solution is to constrain the new policy to be close to the original in KL. 
 </details> 
 
-As a result, we want improvements to be close to original policy in KL; this mitigates performance collapse and approximately allows us to use off-policy data. 
+:::{.theorem #PDL name="performance difference lemma (PDL)"}
+Given policies $\pi, \pi'$, define the induced state distribution 
+\[ 
+    d^{\pi'}(s) 
+    = (1-\gamma)\sum_{t=0}^\infty \gamma^t \rho^{\pi'}(s_t=s) \quad \text{$H=\infty$} 
+\] 
+The policy performance difference can be written as 
+\begin{align}
+    J(\pi') - J(\pi) 
+    &= \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi'}} \left[\gamma^t A^\pi(s_t, a_t)\right] \\ 
+    &= \df{1}{1-\gamma} \EEV{a\sim \pi'}{s\sim d^{\pi'}} \left[A^\pi(s, a)\right] \quad \text{when $H=\infty$}
+\end{align}
+:::
+
+<details>
+<summary>Telescope proof: expand $A^\pi$ purely in terms of $V^\pi$</summary>
+\begin{align}
+    A^\pi(s_t, a_t) 
+    &= Q^\pi(s_t, a_t) - V^\pi(s_t) 
+    = r(s_t, a_t) + \gamma \EV{s_{t+1}\sim P(s_t, a_t)}[V^\pi(s_{t+1})] - V^\pi(s_t) 
+\end{align}
+Sustituting this into the sum yields 
+\begin{align}
+    \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi'}} \left[\gamma^t A^\pi(s_t, a_t)\right] &= 
+    \EV{\tau \sim \rho^{\pi'}} \sum_{t=0}^{H-1} \gamma^t \left[
+        r(s_t, a_t) + \gamma\, V^\pi(s_{t+1}) - V^\pi(s_t) 
+    \right] \\ 
+    &= \left(\EV{\tau \sim \rho^{\pi'}} \sum_{t=0}^{H-1} \gamma^t r_t \right) + \gamma^H V^\pi(s_H)_{=0} - \EV{s_0}\left[V^\pi(s_0)\right] \\ 
+    &= J(\pi') - J(\pi) 
+\end{align}
+</details> 
+
+1. For the finite-horizon case, PDL states that $J(\pi') - J(\pi)=$ sum of $\pi$'s advantage w.r.t the current state at each time step. 
+2. <span style="color:blue"> The key equation is $A^\pi(s_t, a_t) 
+    = r(s_t, a_t) + \left[\gamma \EV{\text{env}}[V^\pi(s_{t+1})] - V^\pi(s_t)\right]$. Under $\pi'$, the first term contributes $J(\pi')$, while the second term contributes $J(\pi)$ under telescoping. 
+
+:::{.definition #pgSurrogate name="surrogate loss"}
+Denote the <span style="color:blue"> estimated performance of $\pi'$ using $\pi$-trajectories by $\mca L_\pi(\pi')$:</span> 
+\begin{align}
+    \mca L_\pi(\pi') 
+    &= \df{1}{1-\gamma} \EEV{a\sim \pi}{s\sim d^{\pi}} \left[\df{\pi'(a\mid s)}{\pi(a\mid s)}A^\pi(s, a)\right]
+\end{align}
+The only difference from the analytic expression in theorem \@ref(thm:PDL) is $d^{\pi'}\mapsto d^\pi$. This is also known as the **surrogate loss** for off-policy PG. 
+:::
+
+:::{.theorem #relPerfBound name="relative policy performance bounds"}
+The performance difference estimate in theorem \@ref(thm:PDL) is accurate up to expected KL of the policies [@achiam2017constrained]. 
+\[ 
+    \left|\left[J(\pi') - J(\pi)\right] - \mca L_\pi(\pi')\right| \leq C\sqrt{\EV{s\sim d^\pi} D_{\mrm{KL}}\left(\pi'(\cdot\mid s)\| \pi(\cdot\mid s)\right)}
+\] 
+Rearranging and substituting $\mca L_\pi(\pi')$ yields the lower performance bound 
+\begin{align}
+    J(\pi') 
+    &\geq J(\pi) + \df{1}{1-\gamma} \EEV{a\sim \pi}{s\sim d^{\pi}} \left[\df{\pi'(a\mid s)}{\pi(a\mid s)}A^\pi(s, a)\right] - C\sqrt{\EV{s\sim d^\pi} D_{\mrm{KL}}\left(\pi'(\cdot\mid s)\| \pi(\cdot\mid s)\right)}
+\end{align}
+:::
+
+<details>
+<summary>Proof sketch</summary>
+Fixing $\pi$, define 
+\[ 
+    g(s) = \df{1}{1-\gamma} \EV{a\sim \pi} \left[\df{\pi(a\mid s)}{\pi'(a\mid s)}A^\pi(s, a)\right]
+\] 
+So that $\mca L_\pi(\pi') = \EV{s\sim d^\pi} g(s)$ and $J(\pi')-J(\pi) = \EV{s\sim d^{\pi'}}g(s)$. Next, recall the [variational characterization of total-variation distance](https://nlyu1.github.io/classical-info-theory/f-divergence.html#tv-and-hellinger-hypothesis-testing) [@polyanskiy2025information]: let 
+$\mca F = \{f:\mca X\to \mbb R, \|f\|_\infty \leq 1\}$, then 
+\[ 
+    \mrm{TV}(P, Q) = \df 1 2 \sup_{f\in \mca F} 
+    \left[\Exp_P f(X) - \Exp_Q f(X)\right]
+\] 
+Using a suitably chosen constant so that $g/D\in \mca F$, we have 
+\[ 
+    \left|\left[J(\pi') - J(\pi)\right] - \mca L_\pi(\pi')\right| \leq 2D \, \mrm{TV}(\pi, \pi') 
+\] 
+The bound follows from Pinsker's inequality $D(P\|Q)\geq 2\, \mrm{TV}(P, Q)^2$. 
+</details>
+
+:::{.corollary name="off-policy PG"}
+Taking a step back, we have proven that a lower bound on $J(\pi')$ can be obtained from samples from $\pi$: 
+\[ 
+    \text{Maximizing } J(\pi'_\theta) \text{  w.r.t. $\theta$}  \impliedby \text{ maximizing } \mca L_\pi(\pi'_\theta) \text{    w.r.t. $\theta$}
+\] 
+**when $D_{\mrm{KL}}\left(\pi'(\cdot\mid s)\| \pi(\cdot\mid s)\right)$ is small**. 
+:::
+
+1. Note that the parameter-dependence of the old policy $\pi$ is irrelevant since $\pi'$ uses new parameters. 
+2. Further note that $\nabla_\theta \mca L_\pi(\pi) = \nabla_\theta \EV{}[Q(s, a)] = \nabla_\theta J(\pi_\theta)$, so we can just use the surrogate loss: 
+\begin{align}
+    \nabla_\theta \EV{\pi_\theta} \left[
+        \df{\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)_{\text{frozen}}}
+        A^{\pi_\theta}(s, a)_{\text{frozen}}
+    \right] = \EV{\pi_\theta} \left[
+        A^{\pi_\theta}(s, a)_{\text{frozen}} \nabla_\theta \log \pi_\theta(a\mid s)
+    \right]
+\end{align}
+
+:::{.definition #surrogatePG name="off-policy PG with surrogate loss"}
+Consider the following algorithm:
+initialize $\pi_\phi$ and repeat until convergence: 
+
+1. Initialize $\theta = \phi$. 
+2. Collect $N$ trajectories $\tau_j$; also collect $\pi_\phi(a_{jt}\mid s_{jt})$ for each move. 
+3. Estimate advantages $A^{\pi_\phi}(s_{jt}\mid s_{jt})\approx Q^{\pi_\phi}(s_{jt}\mid a_{jt}) - V^{\pi_\phi}(a_{jt})$. 
+    - Advantages are treated as constants in gradient computation. 
+4. Repeat until convergence: 
+    - Update $\theta$ with gradient $\displaystyle \df{1}{(1-\gamma)N} \nabla_\theta\sum_{jt} [(1-\gamma)\gamma^t]\df{\pi_{\theta}(a_{jt}\mid s_{jt})}{\pi_\phi(a_{jt}\mid s_{jt})}A^{\pi_\phi}(s_{jt}\mid s_{jt})$. 
+        - Optimization is performed **subject to small KL**. 
+        - For finite-horizon tasks, replace $1/(1-\gamma)\mapsto H$ and $[(1-\gamma)\gamma^t]\mapsto H$ 
+5. Update $\phi \leftarrow \theta$. 
+:::
+
+Proceeding to solve the optimization problem subject to small $D_{\mrm{KL}}\left(\pi'(\cdot\mid s)\| \pi(\cdot\mid s)\right)$. Recall that 
+\[ 
+    D(P\|Q) = \EV{P}\log \df{dP}{dQ}
+\] 
+We will be assured small KL if $\pi'(a|s)/\pi(a|s)\approx 1$. One way to do so is to withold reinforcing feedback to increase (resp. decrease) $\pi'(a|s)$ when $\pi'(a|s)/\pi(a|s)$ is greater (resp. less) than $\pi(a|s)$ by some amount. This results in PPO-clip. 
+
+:::{.definition #ppoClip name="PPO-Clip"}
+Choose hyperparameter $\epsilon<1$ (usually $0.1-0.3$); same as algorithm \@ref(def:surrogatePG) except with 
+\[ 
+    r^\theta_{jt} A^{\pi_\phi}(s_{jt}\mid s_{jt})
+    \mapsto \min \left[
+        r^\theta_{jt} A_{jt}, \mrm{clip}(r^\theta_{jt}, 1\pm \epsilon) A_{jt}
+    \right], \quad r^\theta_{jt} = \df{\pi_{\theta}(a_{jt}\mid s_{jt})}{\pi_\phi(a_{jt}\mid s_{jt})}
+\] 
+:::

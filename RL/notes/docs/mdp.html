@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Markov Decision Processes | CS 184, Summer 2025</title>
   <meta name="description" content="1 Markov Decision Processes | CS 184, Summer 2025" />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Markov Decision Processes | CS 184, Summer 2025" />
   <meta property="og:type" content="book" />
@@ -59,6 +59,29 @@
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 </head>
 
@@ -94,7 +117,7 @@
 <li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#pgBaseline"><i class="fa fa-check"></i>Baseline</a></li>
 <li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#advEstimate"><i class="fa fa-check"></i>Generalized Advantage Estimation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Proximal Policy Optimization</a></li>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Off-policy, conservative updates</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 </ul>
@@ -288,8 +311,7 @@ It suffices to prove <span class="math inline">\(V^*_h(s) = \max_a Q^*_h(s, a)\)
 <div class="remark">
 <p><span id="unlabeled-div-2" class="remark"><em>Remark</em>. </span>Note that the optimality equations have a very heavy dynamic programming flavor: solving <span class="math inline">\(V^*\)</span> (or <span class="math inline">\(Q\)</span>) at time <span class="math inline">\(h+1\)</span> yields solutions for time <span class="math inline">\(t\)</span>.</p>
 </div>
-<div>
-
+</div>
 <div class="definition">
 <p><span id="def:greedyPolicy" class="definition"><strong>Definition 1.7  (greedy policy) </strong></span></p>
 Given action-value candidate <span class="math inline">\(q:\mathcal S\times \mathcal A\to \mathbb R\)</span>, define the greedy policy <span class="math inline">\(\pi^q(a\mid s) = 1_{a=\operatorname*{arg\,max}_{q}(s, a)}\)</span>. <span style="color:blue"> Note that <span class="math inline">\(q\)</span> doesn’t even have to satisfy the consistency equations.

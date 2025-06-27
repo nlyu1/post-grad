@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Policy Methods | CS 184, Summer 2025</title>
   <meta name="description" content="3 Policy Methods | CS 184, Summer 2025" />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Policy Methods | CS 184, Summer 2025" />
   <meta property="og:type" content="book" />
@@ -59,6 +59,29 @@
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 </head>
 
@@ -94,7 +117,7 @@
 <li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#pgBaseline"><i class="fa fa-check"></i>Baseline</a></li>
 <li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#advEstimate"><i class="fa fa-check"></i>Generalized Advantage Estimation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Proximal Policy Optimization</a></li>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Off-policy, conservative updates</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 </ul>
@@ -116,9 +139,37 @@
             <section class="normal" id="section-">
 <div id="policy-methods" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">3</span> Policy Methods<a href="policy-methods.html#policy-methods" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In this section, we differentiably parameterize the policy; it turns out that the temporal structure of RL allows for gradient estimation.</p>
+<p>In this section, we differentiably parameterize the policy and improve by gradient descent. While <strong>value methods</strong> solve control by computing the (action-) value functions, <strong>policy methods</strong> directly improve the policy.</p>
 <ol style="list-style-type: decimal">
-<li>While <strong>value methods</strong> solve control by computing the (action-) value functions, <strong>policy methods</strong> directly improve the policy.</li>
+<li>The Policy Gradient (PG) theorem <a href="policy-methods.html#thm:PG">3.1</a> establishes the general form of <em>score function</em> <span class="math inline">\(\nabla_\theta \log \pi_\theta(a_t\mid s_t)\)</span> multiplied by signal <span class="math inline">\(R(\tau)\)</span>.</li>
+<li>Two problems with vanilla PG: <u>high variance of signal</u> and <u>low sample efficiency from online learning</u></li>
+<li>Method to <a href="policy-methods.html#pgReduceVar">reduce variance</a>:
+<ul>
+<li><strong>Baseline theorem <a href="policy-methods.html#thm:pgBaseline">3.2</a></strong> establishes that <span style="color:blue">adjusting by a state and history-dependent function does not introduce bias. </span>
+<ul>
+<li>Baseline cannot depend on <span class="math inline">\(a_t\)</span>; can be <span class="math inline">\(\theta\)</span>-dependent; should be frozen during <span class="math inline">\(\theta\)</span>-gradient calculation.</li>
+<li>Remaining rewards, <span class="math inline">\(Q(s, a)\)</span>, and advantage <span class="math inline">\(A=Q-V\)</span> are all valid signals (corollary <a href="policy-methods.html#cor:lowvarPG">3.1</a>).</li>
+</ul></li>
+<li><a href="policy-methods.html#advEstimate">Generalized advantage estimation</a>: interpolation between bootstrapping and sampling.</li>
+</ul></li>
+<li>Using <a href="policy-methods.html#ppo">off-policy data</a>: intuitively, similar policies should be able to share data.
+<ul>
+<li><span style="color:blue"><strong>Relative policy performance theorem <a href="policy-methods.html#thm:relPerfBound">3.4</a></strong>: performance of <span class="math inline">\(\pi&#39;\)</span> is lower bounded by (performance of <span class="math inline">\(\pi\)</span>) + (a surrogate loss <span class="math inline">\(\mathcal L_\pi(\pi&#39;)\)</span>) + (square root of KL). </span>
+<ul>
+<li>Surrogate loss should be <em>maximized</em> (confusing entymology).<br />
+</li>
+<li><u>Surrogate loss gradient degenerates to online PG gradient </u> when <span class="math inline">\(\pi&#39;=\pi\)</span>.</li>
+<li>Theorem proof: performance difference lemma <a href="policy-methods.html#thm:PDL">3.3</a> + info-theory arguments (variational characterization of TV + Pinsker inequality).</li>
+</ul></li>
+<li>Implication: <span style="color:blue"> off-policy PG = optimizing surrogate-loss subject to small KL deviation </span></li>
+<li>Approximately enforce small-KL constraint by clipping: PPO-Clip <a href="policy-methods.html#def:ppoClip">3.8</a>.</li>
+</ul></li>
+<li><strong>Full off-policy PG algorithm</strong> <a href="policy-methods.html#def:surrogatePG">3.7</a>. Moving parts include:
+<ul>
+<li>Estimating advantage: use MC or (how much) TD? Using another value-based approximation model is referred to as using a <strong>critic</strong>.</li>
+<li>Enforcing KL-constraints: clipping, adaptive-KL, or other methods.</li>
+<li>Balancing offline v. online: how many actor update steps prior to collecting a new batch of data?</li>
+</ul></li>
 </ol>
 <p>The core problem of RL is <strong>sampling efficiency</strong>; key obstacles include:</p>
 <ul>
@@ -159,7 +210,7 @@ where <span class="math inline">\(\dfrac 1 {g(\theta)}\nabla_\theta g(\theta) = 
 <span class="math display">\[\begin{align}
     \nabla_\theta \log \rho^{\pi_\theta}(\tau)
     &amp;= \nabla_\theta \sum_{t=0}^{H-1} \log \pi_\theta(a_t\mid s_t) + \log P(s_{t+1}\mid s_{t-1}, a_{t-1}) + \text{ reward terms} \\
-    &amp;= \sum_{t=0}^{H-1} \log \pi_\theta(a_t\mid s_t)
+    &amp;= \sum_{t=0}^{H-1} \nabla_\theta \log \pi_\theta(a_t\mid s_t)
 \end{align}\]</span>
 </details>
 <ol style="list-style-type: decimal">
@@ -243,7 +294,7 @@ The remaining reward of a trajectory at time <span class="math inline">\(t\)</sp
 \]</span></p>
 </div>
 <div class="corollary">
-<p><span id="cor:lowvarPG" class="corollary"><strong>Corollary 3.1  (valid PG weights with lower variance) </strong></span>Using <strong>remaining rewards</strong>, <strong><span class="math inline">\(Q\)</span>-function</strong>, or <strong>advantage function</strong> to reinforce action at time <span class="math inline">\(t\)</span> all result in an unbiased estimator with lower variance:
+<p><span id="cor:lowvarPG" class="corollary"><strong>Corollary 3.1  (valid PG signals with lower variance) </strong></span>Using <strong>remaining rewards</strong>, <strong><span class="math inline">\(Q\)</span>-function</strong>, or <strong>advantage function</strong> to reinforce action at time <span class="math inline">\(t\)</span> all result in an unbiased estimator with lower variance:
 <span class="math display">\[\begin{align}
 \nabla_\theta J(\theta)
 &amp;= \sum_{t=0}^{H-1} \mathop{\mathbb{E}}\limits_{\tau \sim \rho^{\pi_\theta}}\left[G_t(\tau)\, \nabla_\theta \log \pi_\theta(a_t\mid s_t)\right] \\
@@ -310,11 +361,40 @@ Applying the baseline theorem to the result above proves the validity of the adv
 </div>
 <div id="advEstimate" class="section level3 unnumbered hasAnchor">
 <h3>Generalized Advantage Estimation<a href="policy-methods.html#advEstimate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Another way of reducing bias is to introduce boot</p>
+<p>Another way of reducing bias is to introduce bootstrap the reinforcement signal. Consider the <span class="math inline">\(N\)</span>-step advantage estimators:</p>
+<p><span class="math display">\[\begin{align}
+    \hat A_t^{(1)}
+    &amp;= r_t + \gamma V(s_{t+1}) - \hat V(s_t) \\
+    \hat A_t^{(2)}
+    &amp;= r_t + \gamma r_{t+1} + \gamma^2 V(s_{t+2}) - \hat V(s_t) \\
+    \hat A_t^{(\infty)}
+    &amp;= r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots - \hat V(s_t) \\
+\end{align}\]</span></p>
+<ul>
+<li>Note again that the reinforcement signal (advantage / Q-value / total reward) is frozen w.r.t. <span class="math inline">\(\nabla_\theta\)</span>.</li>
+</ul>
+<p>More steps imply (closer to MC) + (higher variance) + (lower bias). In either case, however, advantage is consistent so long as <span class="math inline">\(\hat V\to V\)</span>. Define the random variable
+<span class="math display">\[
+    \delta_t^V = r_t + \gamma V(s_{t+1}) - V(s_t)
+\]</span>
+It can be proven inductively that
+<span class="math display">\[\begin{align}
+    \hat A^{(k)}_t
+    = \sum_{j=0}^{k-1} \gamma^j r_{t+j} \gamma^k \hat V(s_{t+k}) - \hat V(s_t)
+\end{align}\]</span></p>
+<div class="definition">
+<p><span id="def:gae" class="definition"><strong>Definition 3.5  (Generalized Advantage Estimator) </strong></span>GAE is an exponentially-weighted average of <span class="math inline">\(k\)</span>-step advantage estimators which happen to have a very simple, tractable form.
+<span class="math display">\[\begin{align}
+    \hat A_t^{\mathrm{GAE}(\gamma, \lambda)}
+    &amp;= (1-\lambda) \left(\hat A_t^{(1)} + \lambda \hat A_t^{(2)} + \lambda^2 \hat A_t^{(3)} + \dots\right) = \dots \\
+    &amp;= \sum_{l=0}^\infty (\lambda \gamma)^l \delta^V_{t+l}
+\end{align}\]</span>
+Note that <span class="math inline">\(\lambda=0\)</span> reduces to TD while <span class="math inline">\(\lambda=1\)</span> corresponds to MC.</p>
+</div>
 </div>
 </div>
 <div id="ppo" class="section level2 unnumbered hasAnchor">
-<h2>Proximal Policy Optimization<a href="policy-methods.html#ppo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2>Off-policy, conservative updates<a href="policy-methods.html#ppo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The central improvements to PG all involve problems stemming from (1) high-variance of rewards, or (2) the online property: we only ever update policy based on trajectories collected <em>using the current policy</em>.</p>
 <ol style="list-style-type: decimal">
 <li>The on-policy update rule results in low data efficiency.</li>
@@ -324,15 +404,157 @@ Applying the baseline theorem to the result above proves the validity of the adv
 </ul></li>
 <li>Performance collapse: if <span class="math inline">\(\theta\)</span>-update results in bad policy, gradient samples and updates might be stuck.</li>
 </ol>
+<p>As a result, we want improvements to be close to original policy in KL; this mitigates performance collapse and approximately allows us to use off-policy data.</p>
 <details>
 <summary>
 One solution to (2)
 </summary>
-<p>One solution: natural gradients; coordinate-change by the (<span class="math inline">\(\pi_\theta\)</span>-KL, <span class="math inline">\(\theta\)</span>-<span class="math inline">\(L_2\)</span>) Hessian, which is the Fisher information; this coordinate map has trivial Jacobian generally.</p>
+<p>Natural gradints: coordinate-change by the (<span class="math inline">\(\pi_\theta\)</span>-KL, <span class="math inline">\(\theta\)</span>-<span class="math inline">\(L_2\)</span>) Hessian, which is the Fisher information; this coordinate map has trivial Jacobian generally.</p>
 However, Fisher information matrix is prohibitive to compute generally. A more practical solution is to constrain the new policy to be close to the original in KL.
 </details>
-<p>As a result, we want improvements to be close to original policy in KL; this mitigates performance collapse and approximately allows us to use off-policy data.</p>
+<div class="theorem">
+<p><span id="thm:PDL" class="theorem"><strong>Theorem 3.3  (performance difference lemma (PDL)) </strong></span>Given policies <span class="math inline">\(\pi, \pi&#39;\)</span>, define the induced state distribution
+<span class="math display">\[
+    d^{\pi&#39;}(s)
+    = (1-\gamma)\sum_{t=0}^\infty \gamma^t \rho^{\pi&#39;}(s_t=s) \quad \text{$H=\infty$}
+\]</span>
+The policy performance difference can be written as
+<span class="math display">\[\begin{align}
+    J(\pi&#39;) - J(\pi)
+    &amp;= \sum_{t=0}^{H-1} \mathop{\mathbb{E}}\limits_{\tau \sim \rho^{\pi&#39;}} \left[\gamma^t A^\pi(s_t, a_t)\right] \\
+    &amp;= \dfrac{1}{1-\gamma} %
+  \mathop{\mathbb{E}}\limits_{\substack{a\sim \pi&#39; \\ s\sim d^{\pi&#39;}}} \left[A^\pi(s, a)\right] \quad \text{when $H=\infty$}
+\end{align}\]</span></p>
+</div>
+<details>
+<summary>
+Telescope proof: expand <span class="math inline">\(A^\pi\)</span> purely in terms of <span class="math inline">\(V^\pi\)</span>
+</summary>
+<span class="math display">\[\begin{align}
+    A^\pi(s_t, a_t)
+    &amp;= Q^\pi(s_t, a_t) - V^\pi(s_t)
+    = r(s_t, a_t) + \gamma \mathop{\mathbb{E}}\limits_{s_{t+1}\sim P(s_t, a_t)}[V^\pi(s_{t+1})] - V^\pi(s_t)
+\end{align}\]</span>
+Sustituting this into the sum yields
+<span class="math display">\[\begin{align}
+    \sum_{t=0}^{H-1} \mathop{\mathbb{E}}\limits_{\tau \sim \rho^{\pi&#39;}} \left[\gamma^t A^\pi(s_t, a_t)\right] &amp;=
+    \mathop{\mathbb{E}}\limits_{\tau \sim \rho^{\pi&#39;}} \sum_{t=0}^{H-1} \gamma^t \left[
+        r(s_t, a_t) + \gamma\, V^\pi(s_{t+1}) - V^\pi(s_t)
+    \right] \\
+    &amp;= \left(\mathop{\mathbb{E}}\limits_{\tau \sim \rho^{\pi&#39;}} \sum_{t=0}^{H-1} \gamma^t r_t \right) + \gamma^H V^\pi(s_H)_{=0} - \mathop{\mathbb{E}}\limits_{s_0}\left[V^\pi(s_0)\right] \\
+    &amp;= J(\pi&#39;) - J(\pi)
+\end{align}\]</span>
+</details>
+<ol style="list-style-type: decimal">
+<li>For the finite-horizon case, PDL states that <span class="math inline">\(J(\pi&#39;) - J(\pi)=\)</span> sum of <span class="math inline">\(\pi\)</span>’s advantage w.r.t the current state at each time step.</li>
+<li><span style="color:blue"> The key equation is <span class="math inline">\(A^\pi(s_t, a_t)
+= r(s_t, a_t) + \left[\gamma \mathop{\mathbb{E}}\limits_{\text{env}}[V^\pi(s_{t+1})] - V^\pi(s_t)\right]\)</span>. Under <span class="math inline">\(\pi&#39;\)</span>, the first term contributes <span class="math inline">\(J(\pi&#39;)\)</span>, while the second term contributes <span class="math inline">\(J(\pi)\)</span> under telescoping.</li>
+</ol>
+<div class="definition">
+<p><span id="def:pgSurrogate" class="definition"><strong>Definition 3.6  (surrogate loss) </strong></span>Denote the <span style="color:blue"> estimated performance of <span class="math inline">\(\pi&#39;\)</span> using <span class="math inline">\(\pi\)</span>-trajectories by <span class="math inline">\(\mathcal L_\pi(\pi&#39;)\)</span>:</span>
+<span class="math display">\[\begin{align}
+    \mathcal L_\pi(\pi&#39;)
+    &amp;= \dfrac{1}{1-\gamma} %
+  \mathop{\mathbb{E}}\limits_{\substack{a\sim \pi \\ s\sim d^{\pi}}} \left[\dfrac{\pi&#39;(a\mid s)}{\pi(a\mid s)}A^\pi(s, a)\right]
+\end{align}\]</span>
+The only difference from the analytic expression in theorem <a href="policy-methods.html#thm:PDL">3.3</a> is <span class="math inline">\(d^{\pi&#39;}\mapsto d^\pi\)</span>. This is also known as the <strong>surrogate loss</strong> for off-policy PG.</p>
+</div>
+<div class="theorem">
+<p><span id="thm:relPerfBound" class="theorem"><strong>Theorem 3.4  (relative policy performance bounds) </strong></span>The performance difference estimate in theorem <a href="policy-methods.html#thm:PDL">3.3</a> is accurate up to expected KL of the policies <span class="citation">(<a href="#ref-achiam2017constrained">Achiam et al. 2017</a>)</span>.
+<span class="math display">\[
+    \left|\left[J(\pi&#39;) - J(\pi)\right] - \mathcal L_\pi(\pi&#39;)\right| \leq C\sqrt{\mathop{\mathbb{E}}\limits_{s\sim d^\pi} D_{\mathrm{KL}}\left(\pi&#39;(\cdot\mid s)\| \pi(\cdot\mid s)\right)}
+\]</span>
+Rearranging and substituting <span class="math inline">\(\mathcal L_\pi(\pi&#39;)\)</span> yields the lower performance bound
+<span class="math display">\[\begin{align}
+    J(\pi&#39;)
+    &amp;\geq J(\pi) + \dfrac{1}{1-\gamma} %
+  \mathop{\mathbb{E}}\limits_{\substack{a\sim \pi \\ s\sim d^{\pi}}} \left[\dfrac{\pi&#39;(a\mid s)}{\pi(a\mid s)}A^\pi(s, a)\right] - C\sqrt{\mathop{\mathbb{E}}\limits_{s\sim d^\pi} D_{\mathrm{KL}}\left(\pi&#39;(\cdot\mid s)\| \pi(\cdot\mid s)\right)}
+\end{align}\]</span></p>
+</div>
+<details>
+<summary>
+Proof sketch
+</summary>
+Fixing <span class="math inline">\(\pi\)</span>, define
+<span class="math display">\[
+    g(s) = \dfrac{1}{1-\gamma} \mathop{\mathbb{E}}\limits_{a\sim \pi} \left[\dfrac{\pi(a\mid s)}{\pi&#39;(a\mid s)}A^\pi(s, a)\right]
+\]</span>
+So that <span class="math inline">\(\mathcal L_\pi(\pi&#39;) = \mathop{\mathbb{E}}\limits_{s\sim d^\pi} g(s)\)</span> and <span class="math inline">\(J(\pi&#39;)-J(\pi) = \mathop{\mathbb{E}}\limits_{s\sim d^{\pi&#39;}}g(s)\)</span>. Next, recall the <a href="https://nlyu1.github.io/classical-info-theory/f-divergence.html#tv-and-hellinger-hypothesis-testing">variational characterization of total-variation distance</a> <span class="citation">(<a href="#ref-polyanskiy2025information">Polyanskiy and Wu 2025</a>)</span>: let
+<span class="math inline">\(\mathcal F = \{f:\mathcal X\to \mathbb R, \|f\|_\infty \leq 1\}\)</span>, then
+<span class="math display">\[
+    \mathrm{TV}(P, Q) = \dfrac 1 2 \sup_{f\in \mathcal F}
+    \left[\mathbb{E}_P f(X) - \mathbb{E}_Q f(X)\right]
+\]</span>
+Using a suitably chosen constant so that <span class="math inline">\(g/D\in \mathcal F\)</span>, we have
+<span class="math display">\[
+    \left|\left[J(\pi&#39;) - J(\pi)\right] - \mathcal L_\pi(\pi&#39;)\right| \leq 2D \, \mathrm{TV}(\pi, \pi&#39;)
+\]</span>
+The bound follows from Pinsker’s inequality <span class="math inline">\(D(P\|Q)\geq 2\, \mathrm{TV}(P, Q)^2\)</span>.
+</details>
+<div class="corollary">
+<p><span id="cor:unlabeled-div-14" class="corollary"><strong>Corollary 3.2  (off-policy PG) </strong></span>Taking a step back, we have proven that a lower bound on <span class="math inline">\(J(\pi&#39;)\)</span> can be obtained from samples from <span class="math inline">\(\pi\)</span>:
+<span class="math display">\[
+    \text{Maximizing } J(\pi&#39;_\theta) \text{  w.r.t. $\theta$}  \impliedby \text{ maximizing } \mathcal L_\pi(\pi&#39;_\theta) \text{    w.r.t. $\theta$}
+\]</span>
+<strong>when <span class="math inline">\(D_{\mathrm{KL}}\left(\pi&#39;(\cdot\mid s)\| \pi(\cdot\mid s)\right)\)</span> is small</strong>.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Note that the parameter-dependence of the old policy <span class="math inline">\(\pi\)</span> is irrelevant since <span class="math inline">\(\pi&#39;\)</span> uses new parameters.</li>
+<li>Further note that <span class="math inline">\(\nabla_\theta \mathcal L_\pi(\pi) = \nabla_\theta \mathop{\mathbb{E}}\limits_{}[Q(s, a)] = \nabla_\theta J(\pi_\theta)\)</span>, so we can just use the surrogate loss:
+<span class="math display">\[\begin{align}
+\nabla_\theta \mathop{\mathbb{E}}\limits_{\pi_\theta} \left[
+     \dfrac{\pi_\theta(a\mid s)}{\pi_\theta(a\mid s)_{\text{frozen}}}
+     A^{\pi_\theta}(s, a)_{\text{frozen}}
+\right] = \mathop{\mathbb{E}}\limits_{\pi_\theta} \left[
+     A^{\pi_\theta}(s, a)_{\text{frozen}} \nabla_\theta \log \pi_\theta(a\mid s)
+\right]
+\end{align}\]</span></li>
+</ol>
+<div class="definition">
+<p><span id="def:surrogatePG" class="definition"><strong>Definition 3.7  (off-policy PG with surrogate loss) </strong></span>Consider the following algorithm:
+initialize <span class="math inline">\(\pi_\phi\)</span> and repeat until convergence:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(\theta = \phi\)</span>.</li>
+<li>Collect <span class="math inline">\(N\)</span> trajectories <span class="math inline">\(\tau_j\)</span>; also collect <span class="math inline">\(\pi_\phi(a_{jt}\mid s_{jt})\)</span> for each move.</li>
+<li>Estimate advantages <span class="math inline">\(A^{\pi_\phi}(s_{jt}\mid s_{jt})\approx Q^{\pi_\phi}(s_{jt}\mid a_{jt}) - V^{\pi_\phi}(a_{jt})\)</span>.
+<ul>
+<li>Advantages are treated as constants in gradient computation.</li>
+</ul></li>
+<li>Repeat until convergence:
+<ul>
+<li>Update <span class="math inline">\(\theta\)</span> with gradient <span class="math inline">\(\displaystyle \dfrac{1}{(1-\gamma)N} \nabla_\theta\sum_{jt} [(1-\gamma)\gamma^t]\dfrac{\pi_{\theta}(a_{jt}\mid s_{jt})}{\pi_\phi(a_{jt}\mid s_{jt})}A^{\pi_\phi}(s_{jt}\mid s_{jt})\)</span>.
+<ul>
+<li>Optimization is performed <strong>subject to small KL</strong>.</li>
+<li>For finite-horizon tasks, replace <span class="math inline">\(1/(1-\gamma)\mapsto H\)</span> and <span class="math inline">\([(1-\gamma)\gamma^t]\mapsto H\)</span></li>
+</ul></li>
+</ul></li>
+<li>Update <span class="math inline">\(\phi \leftarrow \theta\)</span>.</li>
+</ol>
+</div>
+<p>Proceeding to solve the optimization problem subject to small <span class="math inline">\(D_{\mathrm{KL}}\left(\pi&#39;(\cdot\mid s)\| \pi(\cdot\mid s)\right)\)</span>. Recall that
+<span class="math display">\[
+    D(P\|Q) = \mathop{\mathbb{E}}\limits_{P}\log \dfrac{dP}{dQ}
+\]</span>
+We will be assured small KL if <span class="math inline">\(\pi&#39;(a|s)/\pi(a|s)\approx 1\)</span>. One way to do so is to withold reinforcing feedback to increase (resp. decrease) <span class="math inline">\(\pi&#39;(a|s)\)</span> when <span class="math inline">\(\pi&#39;(a|s)/\pi(a|s)\)</span> is greater (resp. less) than <span class="math inline">\(\pi(a|s)\)</span> by some amount. This results in PPO-clip.</p>
+<div class="definition">
+<p><span id="def:ppoClip" class="definition"><strong>Definition 3.8  (PPO-Clip) </strong></span>Choose hyperparameter <span class="math inline">\(\epsilon&lt;1\)</span> (usually <span class="math inline">\(0.1-0.3\)</span>); same as algorithm <a href="policy-methods.html#def:surrogatePG">3.7</a> except with
+<span class="math display">\[
+    r^\theta_{jt} A^{\pi_\phi}(s_{jt}\mid s_{jt})
+    \mapsto \min \left[
+        r^\theta_{jt} A_{jt}, \mathrm{clip}(r^\theta_{jt}, 1\pm \epsilon) A_{jt}
+    \right], \quad r^\theta_{jt} = \dfrac{\pi_{\theta}(a_{jt}\mid s_{jt})}{\pi_\phi(a_{jt}\mid s_{jt})}
+\]</span></p>
+</div>
 
+</div>
+</div>
+<h3>Bibliography<a href="bibliography.html#bibliography" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-achiam2017constrained" class="csl-entry">
+Achiam, Joshua, David Held, Aviv Tamar, and Pieter Abbeel. 2017. <span>“Constrained Policy Optimization.”</span> In <em>International Conference on Machine Learning</em>, 22–31. PMLR.
+</div>
+<div id="ref-polyanskiy2025information" class="csl-entry">
+Polyanskiy, Yury, and Yihong Wu. 2025. <em>Information Theory: From Coding to Learning</em>. Cambridge university press.
 </div>
 </div>
             </section>

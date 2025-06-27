@@ -161,7 +161,7 @@ Analogous to the consistency operators, define the $V$-optimality operator $\mca
 :::{.remark}
 Note that the optimality equations have a very heavy dynamic programming flavor: solving $V^*$ (or $Q$) at time $h+1$ yields solutions for time $t$. 
 :::
-<div>
+</div>
 
 :::{.definition #greedyPolicy name="greedy policy"}
 Given action-value candidate $q:\mca S\times \mca A\to \R$, define the greedy policy $\pi^q(a\mid s) = 1_{a=\argmax q(s, a)}$. <span style="color:blue"> Note that $q$ doesn't even have to satisfy the consistency equations.</style>

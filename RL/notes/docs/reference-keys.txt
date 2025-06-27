@@ -35,6 +35,13 @@ def:advantage
 cor:lowvarPG
 def:unlabeled-div-12
 def:pgMC
+def:gae
+thm:PDL
+def:pgSurrogate
+thm:relPerfBound
+cor:unlabeled-div-14
+def:surrogatePG
+def:ppoClip
 mdp
 sampling-value-based-methods
 policy-methods
