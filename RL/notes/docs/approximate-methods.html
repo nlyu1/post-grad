@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Approximate Methods | CS 184, Summer 2025</title>
+  <meta name="description" content="2 Approximate Methods | CS 184, Summer 2025" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Approximate Methods | CS 184, Summer 2025" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Approximate Methods | CS 184, Summer 2025" />
+  
+  
+  
+
+<meta name="author" content="Nicholas Lyu" />
+
+
+<meta name="date" content="2025-06-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mdp.html"/>
+<link rel="next" href="gradient-methods.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="mdp.html"><a href="mdp.html"><i class="fa fa-check"></i><b>1</b> Markov Decision Processes</a>
+<ul>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#MDP"><i class="fa fa-check"></i>Preliminaries</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#vFunctions"><i class="fa fa-check"></i>Value functions</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#optimalityMDP"><i class="fa fa-check"></i>Optimality</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#policyEval"><i class="fa fa-check"></i>Policy evaluation</a></li>
+<li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#optimalSolutions"><i class="fa fa-check"></i>Optimal solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="approximate-methods.html"><a href="approximate-methods.html"><i class="fa fa-check"></i><b>2</b> Approximate Methods</a>
+<ul>
+<li class="chapter" data-level="" data-path="approximate-methods.html"><a href="approximate-methods.html#polEval"><i class="fa fa-check"></i>Model-free policy evaluation</a></li>
+<li class="chapter" data-level="" data-path="approximate-methods.html"><a href="approximate-methods.html#modelFreeControl"><i class="fa fa-check"></i>Model free control</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="gradient-methods.html"><a href="gradient-methods.html"><i class="fa fa-check"></i><b>3</b> Gradient Methods</a>
+<ul>
+<li class="chapter" data-level="" data-path="gradient-methods.html"><a href="gradient-methods.html#pg"><i class="fa fa-check"></i>Policy gradient</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">CS 184, Summer 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="approximate-methods" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Approximate Methods<a href="approximate-methods.html#approximate-methods" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This section explores RL solutions when the environment dynamics <span class="math inline">\(P(\cdot\mid s, a)\)</span> and rewards are <strong>not known</strong>. This is also known as the <strong>model-free</strong> regime.</p>
+<ol style="list-style-type: decimal">
+<li>We overcome the model-free constraint by using <strong>sampling</strong> (and consistent estimations) to replace expectations.
+<ul>
+<li>TD learning is the direct extension of iteration-convergence methods.</li>
+</ul></li>
+<li><u>Policy evaluation + greedy improvement = solving the control problem</u> (recall policy iteration). Policy evaluation methods:
+<ol style="list-style-type: lower-alpha">
+<li><strong>Monte-Carlo</strong>: high variance, no Markov conditions; converges to MSE-optimal estimates.</li>
+<li><strong>Temporal Difference (TD)</strong>: low variance, need Markov conditions; converges asymptotically (when run against static data) to DP solution on empirical distribution of data.</li>
+<li>TD in asymptotic batched setting = analytic solution of policy evaluation under empirical distribution.</li>
+</ol></li>
+<li>Difference between on-policy v. off-policy (definition <a href="approximate-methods.html#def:policyStatus">2.4</a>), and online v. offline methods (definition <a href="approximate-methods.html#def:onlineStatus">2.5</a>.
+<ul>
+<li>Action-value iteration is offline since we do not need to sample-approximate any <span class="math inline">\(\mathop{\mathbb{E}}\limits_{a\sim \pi(s)}\)</span>.</li>
+<li>Policy-iteration is online since it involves policy evaluation.</li>
+</ul></li>
+<li>The three methods explored here are <em>sampling approximations</em> of the <a href="mdp.html#mdp">previous chapter’s</a> methods:
+<ul>
+<li><em>Monte-Carlo policy iteration</em> = (policy evaluation using MC) + policy iteration: online &amp; on-policy.</li>
+<li><em>Temporal-Difference policy iteration</em> (SARSA) = (policy evaluation using TD) + policy iteration: online &amp; on-policy.</li>
+<li><em><span class="math inline">\(Q\)</span>-learning</em> <a href="approximate-methods.html#def:qLearning">2.9</a> = action-value iteration.</li>
+</ul></li>
+<li><span class="math inline">\(Q\)</span>-learning is fundamentally a <strong>action-value iteration</strong> engine; online versions (@ref{prp:qVariants}) merely serve to obtain more relevant samples.</li>
+<li>Deep <span class="math inline">\(Q\)</span>-learning = (<span class="math inline">\(Q\)</span>-function approximation) + (sampling approximation) + (incremental online iteration to obtain relevant samples) + (action-value iteration).
+<ul>
+<li>Target network &amp; experience replay buffers.</li>
+</ul></li>
+</ol>
+<div id="polEval" class="section level2 unnumbered hasAnchor">
+<h2>Model-free policy evaluation<a href="approximate-methods.html#polEval" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We first consider the policy evaluation problem <span class="math inline">\(\pi \mapsto Q^\pi\)</span>. We are more interested in <span class="math inline">\(Q^\pi\)</span> since <span class="math inline">\(\mathrm{argmax}\)</span> directly yields a greedy policy; in contrast, there’s no way to build a greedy policy from <span class="math inline">\(V^\pi\)</span> in the model-free regime.</p>
+<div class="definition">
+<p><span id="def:polEvalCriteria" class="definition"><strong>Definition 2.1  (evaluation criteria) </strong></span>We want our evaluation (estimation) protocol to be:</p>
+<ol style="list-style-type: decimal">
+<li>Consistent: with enough data, estimate converges to the true value.
+<span class="math display">\[
+\lim_{n\to \infty} \mathbb P(|\hat \theta_n - \theta|&gt;\epsilon_{\forall}) = 0
+\]</span></li>
+<li>Computationally feasible: updating estimates is easy.</li>
+<li>Empirically estimate: MSE, bias, and variance.</li>
+</ol>
+</div>
+<p>Recall that the return is defined as
+<span class="math display">\[
+    G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots
+\]</span></p>
+<div class="definition">
+<p><span id="def:mcPolEval" class="definition"><strong>Definition 2.2  (Monte-Carlo Policy Evaluation) </strong></span>Given the following assumptions:</p>
+<ol style="list-style-type: decimal">
+<li>All trajectories are finite.</li>
+<li>States and dynamics need not be Markov.</li>
+</ol>
+<p>Compute <span class="math inline">\(V(s)\)</span> as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Sample episode <span class="math inline">\(j = ((s_{jk}, a_{jk}, r_{jk}))_k\)</span>.</li>
+<li>For the <strong>first</strong> occurence of each <span class="math inline">\(s\)</span> in each episode, accumulate the empirical reward <span class="math inline">\(G_{jt}\mid s_{jt}=s\)</span>. Return the average.</li>
+</ol>
+<p>Alternative to the <strong>first-visit</strong> method above, we can also compute the <strong>every-visit</strong> MC: e.g. for the first trajectory <span class="math inline">\(s_0, s_1, s_0, \dots\)</span>, we’ll accumulate two samples <span class="math inline">\(G_0, G_2\)</span> for <span class="math inline">\(V(s_0)\)</span>. We may also consider <strong>incremental</strong> MC by choosing a LR and set
+<span class="math display">\[
+    V^\pi(s_{jt}) \leftarrow V^\pi(s_{jt}) + \alpha[G_{jt} - V^\pi(s_{jt})]
+\]</span></p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-7" class="remark"><em>Remark</em>. </span>Monte-Carlo properties:</p>
+<ol style="list-style-type: decimal">
+<li>First-visit MC is unbiased and consistent.</li>
+<li>Every-visit MC is biased but consistent, and usually smaller MSE (better sample efficiency).</li>
+<li>Incremental MC converges for <span class="math inline">\(\sum \alpha_j = \infty, \quad \sum \alpha_j^2 &lt; \infty\)</span>.</li>
+<li>Limitations of MC: (1) <strong>high-variance</strong>, and (2) requires finite horizon: trajectories must end before updates can be computed.</li>
+</ol>
+</div>
+<p>Recall the consistency relations
+<span class="math display">\[\begin{align}
+    V^\pi_h(s)
+    &amp;= %
+  \mathop{\mathbb{E}}\limits_{\substack{a\in \pi(\cdot\mid s) \\ s&#39;\in P(\cdot\mid s, a)}}[r(s, a) + \gamma\, V^\pi_{h+1}(s&#39;)] \\
+    Q^\pi_h(s, a)
+    &amp;= r(s, a) + \gamma %
+  \mathop{\mathbb{E}}\limits_{\substack{s&#39;\in P(\cdot\mid s, a) \\ a&#39;\in \pi(\cdot\mid s&#39;)}} Q^\pi_{h+1}(s&#39;, a&#39;)
+\end{align}\]</span>
+This suggests that we should nudge <span class="math inline">\(V^\pi(s) \leftarrow \mathcal J^\pi_{V^\pi}(s)\)</span>; expectations can be replaced by sampling.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-8" class="definition"><strong>Definition 2.3  (TD(0) algorithm) </strong></span>Given <span class="math inline">\(\pi\)</span>, estimate <span class="math inline">\(V^\pi\)</span> as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(V^\pi =0\)</span>.</li>
+<li>Repeatedly sample tuple <span class="math inline">\((s_t, a_t, r_t, s_{t+1})\)</span> and compute
+<span class="math display">\[
+V^\pi(s_t) \leftarrow V^\pi + \alpha([r_t + \gamma V^\pi(s_{t+1})] - V^\pi(s_t))
+\]</span>
+One can also imagine “unrolling” the consistency relations twice (or more) before replacing expectations with sampling. This is the idea behind TD(<span class="math inline">\(\lambda\)</span>) learning. More unrolls nudge the algorithm closer to MC sampling, which has lower bias but higher variance. The same can be done for <span class="math inline">\(Q^\pi\)</span> by sampling <span class="math inline">\((s_t, a_t, r_t, s_{t+1}\)</span>; the expectation over <span class="math inline">\(a&#39;\)</span> can be computed analytically since we have access to <span class="math inline">\(\pi\)</span>.</li>
+</ol>
+</div>
+<ol style="list-style-type: decimal">
+<li>TD is a combination of Monte-Carlo (one-step) and dynamic programming methods!</li>
+<li>TD can be used for episodic or infinite-horizon settings.</li>
+<li><strong>Markov condition</strong> is necessary since this underpins the validity of the Bellman consistency relations.</li>
+<li>Generally lower variance.</li>
+<li>Converges for <span class="math inline">\(\alpha_j\)</span> subject to the same conditions in MC.</li>
+<li>If <span class="math inline">\(\alpha=1\)</span>, then TD in MDPs with stochastic choices of actions might oscillate forever (<span class="math inline">\(\alpha=1\)</span> results in really bad.</li>
+</ol>
+<p>Let us consider the <strong>batch learning</strong> scenario, where we have collected a finite number of samples and run the policy evaluation algorithms to convergence.</p>
+<ul>
+<li>Note that running TD twice on the same trajectory still generally updates the policy.</li>
+<li>The two methods will have different behaviors!</li>
+</ul>
+<div class="example">
+<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 2.1  (Sutton &amp; Barto Ex 6.4) </strong></span>Consider two states <span class="math inline">\(A, B\)</span> with <span class="math inline">\(\gamma=1\)</span>. Suppose we have collected the following <span class="math inline">\(8\)</span> episodes:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(A, 0, B, 0\)</span>.</li>
+<li><span class="math inline">\(B, 1\)</span> colleted <span class="math inline">\(6\)</span> times.</li>
+<li><span class="math inline">\(B, 0\)</span>.</li>
+</ol>
+<p>Then both TD and MC converge to <span class="math inline">\(V(B)=0.75\)</span>. However, <span class="math inline">\(V_{\mathrm{MC}}(A)=0\)</span> while <span class="math inline">\(V_{\mathrm{TD}}(A)=0.75\)</span>.</p>
+</div>
+<div class="theorem">
+<p><span id="thm:batchMCTDBehavior" class="theorem"><strong>Theorem 2.1  (asymptotic batch MC and TD) </strong></span>In a batched setting, MC converges to values with minimum squared error, while TD(0) converges to DP policy for the MDP with MLE model estimates.</p>
+</div>
+<p>To see why, recall that TD with convergent <span class="math inline">\(\alpha\)</span> is equivalent to iterated convergence using the consistency operator. Then running TD on batched data is equivalent to iterated policy evaluation on the empirical (MLE) distribution of the environment. In the example above, the DP structure “baked in” to the TD algorithm empowered more data-efficient results.</p>
+</div>
+<div id="modelFreeControl" class="section level2 unnumbered hasAnchor">
+<h2>Model free control<a href="approximate-methods.html#modelFreeControl" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="definition">
+<p><span id="def:policyStatus" class="definition"><strong>Definition 2.4  (on (off)-policy algorithms) </strong></span>A learning algorithm is <strong>on policy</strong> if its update rule depends on samples using the current policy.</p>
+</div>
+<div class="definition">
+<p><span id="def:onlineStatus" class="definition"><strong>Definition 2.5  (online (offline) algorithms) </strong></span>An online learning algorithm requires interaction with the environment <strong>during learning</strong>, while an offline algorithm operates with a static dataset.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Online (offline) asks the question: does this interact with the environment during learning?</li>
+<li>On-policy asks the question: must update depend on data computed using the latest policy?</li>
+</ol>
+<p>In the <a href="approximate-methods.html#polEval">previous section</a>, we have seen how Monte-Carlo and TD can help evaluate policies; we have also seen how policy iteration <a href="mdp.html#def:infPolicyIter">1.10</a> implies that <span style="color:blue"> policy evaluation + policy improvement (acting greedily w.r.t. evaluation) iterates to solve the control problem </u>.</p>
+<div class="definition">
+<p><span id="def:MCPI" class="definition"><strong>Definition 2.6  (Monte-Carlo policy iteration) </strong></span>MCPI combines <span class="math inline">\(Q\)</span>-evaluation using MC with policy iteration; it is <strong>online, on-policy</strong>. Algorithm:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(Q=0\)</span> and <span class="math inline">\(\pi\)</span> acting <span class="math inline">\(\epsilon\)</span>-greedily w.r.t. <span class="math inline">\(Q\)</span>.</li>
+<li>Repeat until convergence:
+<ul>
+<li>Sample trajectory <span class="math inline">\(\tau\sim \rho^\pi\)</span> and extract <span class="math inline">\(\{(s_t, a_t, G_t)\}\)</span> from trajectory.</li>
+<li>Update <span class="math inline">\(Q(s_t, a_t) \leftarrow \bar \alpha Q(s_t, a_t) + \alpha G_t\)</span> (these two steps can be repeated before proceeding).</li>
+<li>Update <span class="math inline">\(\pi \leftarrow \epsilon\text{-greedy}(\pi^{Q})\)</span>.</li>
+</ul></li>
+</ol>
+<p><u>GLIE Monte-Carlo PI is guaranteed to converge to the optimal policy. </u></p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-10" class="definition"><strong>Definition 2.7  (GLIE property) </strong></span>A learning strategy is Greedy in the Limit of Infinite Exploration (GLIE)if</p>
+<ol style="list-style-type: decimal">
+<li>All state-action pairs are visited an infinite number of times.</li>
+<li>Behavior policy converges to greedy policy.</li>
+</ol>
+<p>A simple <span class="math inline">\(\epsilon\)</span>_scheduling GLIE policy sets <span class="math inline">\(\epsilon_k = 1/k\)</span>.</p>
+</div>
+<div class="definition">
+<p><span id="def:TDPI" class="definition"><strong>Definition 2.8  (temporal-difference policy iteration) </strong></span>(policy eval using TD) + (policy iteration) is also known as SARSA. It is an <strong>online, on-policy</strong> algorithm:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(Q=0\)</span> and <span class="math inline">\(\epsilon\)</span>-greedy <span class="math inline">\(\pi\)</span>.</li>
+<li>Repeat until convergence:
+<ul>
+<li>Observe <span class="math inline">\((s_t, a_t, r_t, s_{t+1}, a_{t+1})\)</span>.</li>
+<li>Update <span class="math inline">\(Q(s_t, a_t) = \bar \alpha Q(s_t, a_t) + \alpha \left[  r_t + \gamma Q(s_{t+1}, a_{t+1})  \right]\)</span>.
+<ul>
+<li>Note that alternatively, we only need <span class="math inline">\(s_{t+1}\)</span> and replace
+<span class="math inline">\(\gamma Q(s_{t+1}, a_{t+1}) \mapsto \gamma \mathop{\mathbb{E}}\limits_{a_{t+1}\sim \pi(s_{t+1})} Q(s_{t+1}, a_{t+1})\)</span>.</li>
+</ul></li>
+<li>The previous two steps can be repeated multiple times before proceeding.</li>
+<li>Update <span class="math inline">\(\pi \leftarrow \epsilon\text{-greedy}(\pi^{Q})\)</span>.</li>
+</ul></li>
+</ol>
+<p>SARSA converges optimally assuming <span class="math inline">\(\pi_t\)</span> is GLIE (e.g. if <span class="math inline">\(\epsilon_t \propto 1/t\)</span>) and if <span class="math inline">\(\alpha_t\)</span> is Robbins-Munro (<span class="math inline">\(\|\alpha_t\|_2 &lt; \infty = \|\alpha_t\|_1\)</span>).</p>
+</div>
+<div class="definition">
+<p><span id="def:qLearning" class="definition"><strong>Definition 2.9  (Q-learning) </strong></span><span class="math inline">\(Q\)</span>-learning is the sampling variant of action-value iteration (definition <a href="mdp.html#def:finiteVI">1.9</a>). In its original form, it is <strong>offline, off-policy</strong>.</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(Q=0\)</span>.</li>
+<li>Given a static list of trajectories, repeat until convergence:
+<ul>
+<li>For each <span class="math inline">\((s, a, r, s&#39;)\)</span>:</li>
+<li><span class="math inline">\(Q(s, a) \leftarrow \bar \alpha Q(s, a) + \alpha \left[  r + \gamma \max_{a&#39;} Q(s&#39;, a&#39;)  \right]\)</span>.</li>
+</ul></li>
+<li>Repeat <span class="math inline">\(Q\)</span>-greedy policy.</li>
+</ol>
+<p>Note that <span class="math inline">\(Q\)</span>-learning in the asymptotic batch-setting limit is conceptually equivalent to solving MDP control on the empirical environment distribution.</p>
+</div>
+<div class="proposition">
+<p><span id="prp:qVariants" class="proposition"><strong>Proposition 2.1  (variants of Q-learning) </strong></span>Although <span class="math inline">\(Q\)</span>-learning (sampling action-value iteration) is offline, to obtain more effective samples, a more prominent online version combines value iteration with policy iteration; this version is <strong>online, off-policy</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize <span class="math inline">\(Q=0\)</span> and random policy <span class="math inline">\(\pi\)</span>.</li>
+<li>Repeat until convergence:
+<ul>
+<li>Generate trajectories using <span class="math inline">\(\pi\)</span>.</li>
+<li>Repeat for a certain number of steps (or until convergence):
+<ul>
+<li>For each <span class="math inline">\((s, a, r, s&#39;)\)</span> in trajectory, update <span class="math inline">\(Q(s, a)\)</span>.</li>
+</ul></li>
+<li>Update <span class="math inline">\(\pi\)</span> to be an <span class="math inline">\(\epsilon\)</span>-greedy policy w.r.t. <span class="math inline">\(Q\)</span>.</li>
+</ul></li>
+</ol>
+</div>
+<p>DQN (Deep Q Networks) build on the online version above with:</p>
+<ol style="list-style-type: decimal">
+<li>Function approximation of <span class="math inline">\(Q\)</span> using neural networks.</li>
+<li>To mitigate the non-i.i.d. data, use experience replay buffers.</li>
+<li>To mitigate nonstationary target in the Bellman optimality operator, update the <span class="math inline">\(Q\)</span>-target slowly to improve stability.
+<ul>
+<li>Intuition: while the Bellman optimality operator is a contraction, using functional approximation might break this property and lead to oscillation / divergence.</li>
+</ul></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mdp.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="gradient-methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

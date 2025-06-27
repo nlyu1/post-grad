@@ -23,7 +23,7 @@
 <meta name="author" content="Nicholas Lyu" />
 
 
-<meta name="date" content="2025-06-25" />
+<meta name="date" content="2025-06-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="bibliography.html"/>
+<link rel="next" href="sampling-value-based-methods.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -81,6 +81,21 @@
 <li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#policyEval"><i class="fa fa-check"></i>Policy evaluation</a></li>
 <li class="chapter" data-level="" data-path="mdp.html"><a href="mdp.html#optimalSolutions"><i class="fa fa-check"></i>Optimal solutions</a></li>
 </ul></li>
+<li class="chapter" data-level="2" data-path="sampling-value-based-methods.html"><a href="sampling-value-based-methods.html"><i class="fa fa-check"></i><b>2</b> Sampling Value-based Methods</a>
+<ul>
+<li class="chapter" data-level="" data-path="sampling-value-based-methods.html"><a href="sampling-value-based-methods.html#polEval"><i class="fa fa-check"></i>Model-free policy evaluation</a></li>
+<li class="chapter" data-level="" data-path="sampling-value-based-methods.html"><a href="sampling-value-based-methods.html#modelFreeControl"><i class="fa fa-check"></i>Model free control</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="policy-methods.html"><a href="policy-methods.html"><i class="fa fa-check"></i><b>3</b> Policy Methods</a>
+<ul>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#pg"><i class="fa fa-check"></i>Vanilla policy gradient</a></li>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#pgReduceVar"><i class="fa fa-check"></i>Reducing variance</a>
+<ul>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#pgBaseline"><i class="fa fa-check"></i>Baseline</a></li>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#advEstimate"><i class="fa fa-check"></i>Generalized Advantage Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="policy-methods.html"><a href="policy-methods.html#ppo"><i class="fa fa-check"></i>Proximal Policy Optimization</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 </ul>
 
@@ -117,7 +132,7 @@
 </ul></li>
 <li>Finite-horizon MDPs are solved by backward induction using the optimality relations (definition <a href="mdp.html#def:finiteVI">1.9</a>).<br />
 </li>
-<li>Infinite-horizon MDPS are solved by iterative approaches:
+<li>Infinite-horizon MDP <strong>control problems</strong> are solved by iterative approaches:
 <ul>
 <li><strong>Value iteration</strong> (proposition <a href="mdp.html#prp:infVI">1.2</a>) iterate <span class="math inline">\(v_j\to V^*\)</span> using the optimality operator, then act greedily w.r.t. <span class="math inline">\(v_T\)</span>.
 <ul>
@@ -126,6 +141,11 @@
 </ul></li>
 <li><strong>Policy iteration</strong> (theorem <a href="mdp.html#thm:infPolicyIterProof">1.5</a>): iterate <span class="math inline">\(\pi \mapsto \pi^{V^\pi}\)</span>, i.e. compute value of current policy, then update policy with one more step of foresight by making locally optimal choices according to the computed value.</li>
 <li>Intuitively, each iteration gives “one more step of foresight” to the associated quantities.</li>
+</ul></li>
+<li>VI and PI highlight two fundamentally different methods to solving the control problem:
+<ul>
+<li>VI: recurse the optimality operator, then propose a greedy policy.</li>
+<li>PI: evaluate the current policy, then act greedily w.r.t. the evaluation (fundamentally online).</li>
 </ul></li>
 </ol>
 <div id="MDP" class="section level2 unnumbered hasAnchor">
@@ -159,7 +179,7 @@ A policy <span class="math inline">\(\pi\)</span> induces a measure <span class=
 </div>
 <p>To accomodate <span class="math inline">\(H=\infty\)</span>, we can also introduce a <strong>discount factor</strong> <span class="math inline">\(\gamma\in [0, 1]\)</span>. <span style="color:blue">The core goal of an RL algorithm is to find the policy </span>
 <span class="math display">\[
-    \pi^* = \operatorname*{arg\,max}_{\pi }\mathop{\mathbb{E}}\limits_{\rho^\pi}[R(\tau)], \quad R(\tau) = \sum_{t=0}^H \gamma^t r_t
+    \pi^* = \operatorname*{arg\,max}_{\pi }\mathop{\mathbb{E}}\limits_{\rho^\pi}[G(\tau)], \quad G(\tau) = \sum_{t=0}^H \gamma^t r_t
 \]</span>
 Note that the total reward <span class="math inline">\(R\)</span> is a <span class="math inline">\(\tau\)</span>-dependent random variable.</p>
 </div>
@@ -394,7 +414,7 @@ To achieve <span class="math inline">\(\epsilon\)</span>-error, we need
 <li>Given a MDP, how to compute the optimal policy?</li>
 </ul>
 <div class="definition">
-<p><span id="def:finiteVI" class="definition"><strong>Definition 1.9  (finite-horizon value iteration) </strong></span>By theorem <a href="mdp.html#thm:greedyPolicyOptimal">1.2</a>, computing <span class="math inline">\(Q^*\)</span> suffices to yield the optimal policy. The <strong>value-iteration</strong> method uses the optimality recursion (definition <a href="mdp.html#def:optimalityOp">1.6</a>) to compute <span class="math inline">\(Q^*\)</span>:</p>
+<p><span id="def:finiteVI" class="definition"><strong>Definition 1.9  (finite-horizon (action-)value iteration) </strong></span>By theorem <a href="mdp.html#thm:greedyPolicyOptimal">1.2</a>, computing <span class="math inline">\(Q^*\)</span> suffices to yield the optimal policy. The <strong>value-iteration</strong> method uses the optimality recursion (definition <a href="mdp.html#def:optimalityOp">1.6</a>) to compute <span class="math inline">\(Q^*\)</span>:</p>
 </div>
 <p>Algorithm complexity is <span class="math inline">\(O(H\cdot |\mathcal S|^2 \cdot |\mathcal A|)\)</span> when we compute <span class="math inline">\(V^*\)</span>. When computing <span class="math inline">\(Q^*\)</span>:</p>
 <ol style="list-style-type: decimal">
@@ -545,6 +565,12 @@ Here <span class="math inline">\(\langle s&#39;|P^\pi|s\rangle= P(s&#39;\mid s, 
     V^\pi = r + \gamma\, P^\pi V^\pi \implies V^\pi = (I - \gamma\, P^\pi)^{-1} r^\pi
 \]</span></p>
 </div>
+<div class="remark">
+<p><span id="unlabeled-div-6" class="remark"><em>Remark</em> (VI vs PI). </span>Note that policy iteration (PI) cannot take more than <span class="math inline">\(|\mathcal A|^{|\mathcal S|}\)</span> iterations since there are only so many deterministic policies. On the other hand, value iteration might take more since <em>different value evaluations <span class="math inline">\(\neq\)</span> different greedy policies</em>.</p>
+<ul>
+<li>Consider single-state MDP with <span class="math inline">\(r(s, a)=1, \gamma=.9\)</span> and <span class="math inline">\(V_0=0\)</span>. Then <span class="math inline">\(V_1(s)=1\)</span> while <span class="math inline">\(V^*(s)=10\)</span>.</li>
+</ul>
+</div>
 
 </div>
 </div>
@@ -554,7 +580,7 @@ Here <span class="math inline">\(\langle s&#39;|P^\pi|s\rangle= P(s&#39;\mid s, 
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bibliography.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="sampling-value-based-methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

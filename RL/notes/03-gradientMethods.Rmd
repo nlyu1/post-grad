@@ -1,0 +1,216 @@
+# Policy Methods 
+
+In this section, we differentiably parameterize the policy; it turns out that the temporal structure of RL allows for gradient estimation. 
+
+1. While **value methods** solve control by computing the (action-) value functions, **policy methods** directly improve the policy. 
+
+The core problem of RL is **sampling efficiency**; key obstacles include: 
+
+- Estimation efficacy: when estimating quantities such as policy-gradients, $V$, or $Q$, need to consider bias-variance tradeoff. 
+- On-policy data reuse: it takes nontrivial effort for data to be reusable for on-policy methods. 
+
+## Vanilla policy gradient {#pg -}
+
+1. Policy-based RL has better convergence properties, learns stochastic policies, and are often effective in high-dimensional or continuous spaces. 
+2. On the other hand, convergence is local and evaluating a policy is often **high-variance**. 
+
+:::{.definition name="policy value"}
+Fixing a MDP and parameterization $\pi_\theta$, the policy value is written 
+\[ 
+    J(\theta) = \EV{\tau\sim \rho^{\pi_\theta}}[R(\tau)] 
+    = \EV{\tau\sim \rho^{\pi_\theta}}\left[
+    \sum_{t=0}^{H-1} r_t(\tau)\right] 
+\] 
+:::
+
+The theorem below is foundational in policy methods. In particular, it does not require $R(\tau)=\sum \gamma^t r_t$ to be differentiable. Note that the $\theta$-dependence is implicit through the trajectory measure $\rho^{\pi_\theta}$. 
+
+:::{.theorem #PG name="Policy-Gradient"}
+$\nabla_\theta J(\theta) = \EV{\tau \sim \rho^{\pi_\theta}}\left[R(\tau) \sum_{t=0}^{H-1} \nabla \log \pi_\theta(a_t\mid s_t)\right]$. 
+:::
+
+<details>
+<summary>Proof (log-EV trick)</summary>
+Note that $\nabla_\theta R(\tau)=0$ since the reward function $R$ itself is independent of $\theta$, then 
+\begin{align}
+    \nabla_\theta J(\theta) 
+    &= \nabla_\theta \int R(\tau) \rho^{\pi_\theta}(\tau) \, d\tau \\ 
+    &= \int R(\tau) \nabla_\theta \rho^{\pi_\theta}(\tau)\, d\tau \\ 
+    &= \int R(\tau) \rho^{\pi_\theta}(\tau) \df{\nabla_\theta \rho^{\pi_\theta}(\tau)}{\rho^{\pi_\theta}(\tau)}\, d\tau \\ 
+    &= \EV{\tau}\left[R(\theta) \nabla_\theta \log \rho^{\pi_\theta}(\tau)\right]
+\end{align}
+where $\df 1 {g(\theta)}\nabla_\theta g(\theta) = \nabla_\theta \log g(\theta)$. Proceeding to compute $\nabla_\theta \log \rho^{\pi_\theta}(\tau)$, the environment-dynamics log-probs are $\theta$-independent, so 
+\begin{align}
+    \nabla_\theta \log \rho^{\pi_\theta}(\tau) 
+    &= \nabla_\theta \sum_{t=0}^{H-1} \log \pi_\theta(a_t\mid s_t) + \log P(s_{t+1}\mid s_{t-1}, a_{t-1}) + \text{ reward terms} \\ 
+    &= \sum_{t=0}^{H-1} \log \pi_\theta(a_t\mid s_t) 
+\end{align}
+</details>
+
+1. The $\nabla_\theta \log \pi_\theta(a_t\mid s_t)$ is the parameter-space "direction" which will increase the policy's popensity to choose $\pi_\theta(a_t\mid s_t)$, **inversely weighted** by the likelihood of the policy selecting that action. 
+    - This normalization is necessary to offset the sampling weight in $\mbb E$. 
+    - The _direction_ $\nabla_\theta \log \pi_\theta(a_t\mid s_t)$ is also known as the **score function**. 
+2. Interpretation: <span style="color:blue">the normalized policy directions $\nabla \log \pi_\theta(a_t\mid s_t)$ should be "reinforced" by the accumulated reward on the trajectory $R(\theta)$. </span> 
+3. The trajectory reward $R(\tau)$ is extremely high-variance. 
+
+Intuition tells us that the reinforce signal for the action at time $t$ _should not be dependent_ upon past rewards $r_t, \dots, r_{t-1}$. This is in fact the case. We prove a more general result in the next subsection. 
+
+## Reducing variance {#pgReduceVar -}
+
+### Baseline {#pgBaseline -} 
+
+To reduce variance, we prove that the gradient direction of $\pi_\theta(a_t\mid s_t)$ can be adjusted by a $(s_0, \dots, s_{t-1}, a_{t-1}, r_{t-1}, s_t)$-dependent baseline $B_t$ without introducing bias, so that: 
+
+1. $B_t=$ accumulated rewards: $R_t-B_t=$ remaining rewards is a valid signal. 
+2. Taking expectation of remaining rewards: $Q^\pi(s_t, a_t)$ is a valid signal. 
+3. $B_t$ additionally includes $V(s_t)$: the advantage function $A^\pi=Q^\pi-V^\pi$ is a valid signal.  
+
+:::{.theorem #pgBaseline name="baseline trick"}
+Fixing $t$, given any deterministic function $B_t(\sigma_t)$ where $\sigma_t(\tau)=(s_0, a_0, r_0, \dots, s_{t-1}, a_{t-1}, r_{t-1}, s_t)$ is a slice of trajectory, we have 
+\[ 
+    \EV{\tau \sim \rho^{\pi_\theta}} \left[
+        B_t(\sigma_t(\tau)) \nabla_\theta \log \pi_\theta(a_t\mid s_t)
+    \right] = 0 
+\] 
+Note that inside the expectation, $\sigma_t(\tau)$ will still be a random slice of the trajectory. 
+:::
+<details>
+<summary>_Important proof_: condition upon $s_0, \dots, s_t$</summary>
+<span style="color:blue"> Let $\mca F_t=\sigma(s_0, a_0, r_0, \dots, s_t)=\mca F_t(\sigma_t)$ denote the history. The **key property** here is that the baseline $B_t(\sigma_t)$ is a constant w.r.t. this conditioning:
+\[ 
+    \EV{\tau \sim \rho^{\pi_\theta}} \left[
+        B_t(\sigma_t) \nabla_\theta \log \pi_\theta(a_t\mid s_t)
+    \mid \mca F_t \right]
+    = B_t(\sigma_t) \EV{\tau \sim \rho^{\pi_\theta}} \left[
+        \nabla_\theta \log \pi_\theta(a_t\mid s_t)
+    \mid \mca F_t \right]
+\] 
+</span>
+The remaining expectation vanishes, completing the proof: 
+\begin{align}
+    \EV{\tau \sim \rho^{\pi_\theta}} \left[\nabla_\theta \log \pi_\theta(a_t\mid s_t)\mid \mca F_t\right]
+    &= \nabla_\theta \sum_{a_t, s_t} \left[P(s_t\mid s_{t-1}, a_{t-1}) \pi_\theta(a_t\mid s_t)\right] \nabla_\theta \log \pi_\theta(a_t\mid s_t) \\ 
+    &= \nabla_\theta \sum_{a_t, s_t} P(s_t\mid s_{t-1}, a_{t-1}) = 0 \\ 
+    \EV{\tau \sim \rho^{\pi_\theta}}\left[
+        \nabla \log \pi_\theta(a_t\mid s_t)\, B_t(\tau) 
+    \right]
+    &= \EV{\tau \sim \rho^{\pi_\theta}}\left[
+        \EV{\tau \sim \rho^{\pi_\theta}} \left[\nabla \log \pi_\theta(a_t\mid s_t)\mid \mca F_t\right]_{=0} \, B_t(\tau)
+    \right]
+    = 0 
+\end{align}
+</details> 
+
+<span style="color:blue">
+Note that the baseline function for the "reinforcement direction" (aka score function) of the conditional action $\pi_\theta(a_t\mid s_t)$ at time $t$  can only depend on $s_t$, not $a_t$ or $r_t$. The available variables $\sigma_t(\tau)$ are chosen to satisfy the key equation 
+\[ 
+    \EV{\tau \sim \rho^{\pi_\theta}} \left[
+        B_t(\sigma_t) \nabla_\theta \log \pi_\theta(a_t\mid s_t)
+    \mid \mca F_t \right]
+    = B_t(\sigma_t) \EV{\tau \sim \rho^{\pi_\theta}} \left[
+        \nabla_\theta \log \pi_\theta(a_t\mid s_t)
+    \mid \mca F_t \right]
+\] 
+Here the baseline $B_t(\sigma_t)$ must be a constant w.r.t. the conditioned variables while the score function remains r.v. 
+</span> 
+
+:::{.definition #advantage name="advantage function, remaining rewards"}
+Given a policy $\pi$, the advantage function is defined as 
+\[ 
+    A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s, a)
+\] 
+The remaining reward of a trajectory at time $t$ is defined as 
+\[ 
+    G_t(\tau) = \sum_{t'=t}^{H-1} \gamma^{t'-t} r_{t'}(\tau)
+\] 
+:::
+
+:::{.corollary #lowvarPG name="valid PG weights with lower variance"}
+Using **remaining rewards**, **$Q$-function**, or **advantage function** to reinforce action at time $t$ all result in an unbiased estimator with lower variance: 
+\begin{align}
+\nabla_\theta J(\theta) 
+&= \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi_\theta}}\left[G_t(\tau)\, \nabla_\theta \log \pi_\theta(a_t\mid s_t)\right] \\ 
+&= \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi_\theta}}\left[Q^\pi(s_t, a_t)\,  \nabla_\theta \log \pi_\theta(a_t\mid s_t)\right] \\ 
+&= \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi_\theta}}\left[A^\pi(s_t, a_t)\,  \nabla_\theta \log \pi_\theta(a_t\mid s_t)\right]
+\end{align}
+:::
+
+<details>
+<summary>Proof </summary>
+The first equation follows from the baseline theorem \@ref(thm:pgBaseline) by setting $B_t(\sigma_t)$ to be the accumulated rewards. We furnish another slick proof here: 
+
+Assume for simplicity $\gamma=1$. Let $J_t(\theta)=\EV{\tau}[r_t(\tau)]$, then applying the REINFORCE theorem to the single reward term $J_t=\EV{\tau}[r_t(\tau)]$ yields 
+\begin{align}
+    \nabla_\theta J_t(\theta) 
+    &= \EV{\tau_{:t+1}}\left[r_t(\theta) \nabla_\theta \log \rho^{\pi_\theta}_{:t+1}(\tau_{:t+1})\right]
+\end{align}
+Note that here $r_t$ is only dependent upon $\tau_{:t+1}$ (so includes up to $\tau_t$). Since we've only sampled up to time $t$, the $\nabla_\theta \log \rho^{\pi_\theta}_{:t+1}(\tau_{:t+1})=\sum_{t'=0}^{t} \nabla \log \pi_\theta(a_{t'}\mid s_{t'})$. Rearranging sums and summing over all $t$ completes the proof. 
+
+To prove the validity of using $Q$, invoke tower law w.r.t $\mca F_t=\sigma(s_0, \dots, s_t, a_t)$. Note that $\mbb E[G_t(\tau)\mid \mca F_t] = \mbb E[r_{t}+\dots\mid s_t, a_t] = Q(s_t, a_t)$: 
+\begin{align}
+    \nabla_\theta J(\theta) 
+    &= \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi_\theta}}\left[\EV{}[G_t(\tau)\mid \mca F_t]\, 
+    \nabla_\theta \log \pi_\theta(a_t\mid s_t)\right] \\ 
+    &= \sum_{t=0}^{H-1} \EV{\tau \sim \rho^{\pi_\theta}}\left[Q(s_t, a_t) 
+    \nabla_\theta \log \pi_\theta(a_t\mid s_t)\right]
+\end{align} 
+
+Applying the baseline theorem to the result above proves the validity of the advantage function. 
+</details> 
+
+:::{.definition name="REINFORCE algorithm"}
+Using corollary \@ref(cor:lowvarPG) above, consider the **online, on-policy** algorithm: 
+
+1. Initialize stochastic policy $\pi_\theta$. 
+2. Repeat until convergence: 
+    - Sample episode $\{s_1, a_1, r_1, \dots, s_H, a_H, r_H\}\sim \rho^{\pi_\theta}$: 
+    - Compute $G_1, \dots, G_H$; note that these are treated as constants w.r.t. $\theta$. 
+    - For $t=1\dots H$ update $\theta\mapsto \theta + \alpha \nabla_\theta \log \pi_\theta(s_t, a_t)G_t$. 
+3. Return $\pi_\theta$. 
+:::
+
+:::{.definition #pgMC name="Monte-Carlo PG"}
+Using the methods above, consider the following control algorithm: 
+
+1. Initialize $\pi_\theta, B_\phi$. 
+2. Repeat until convergence: 
+    - Collect trajectories $(\tau_j)$ on-policy. 
+    - Compute $G_{jt}$ for each policy and timestep.
+    - Fit the baseline by minimizing $\sum_{j, t} |B_\phi(s_{jt}) - G_{jt}|^2$ (or use TD methods). 
+    - Update policy $\theta \leftarrow \theta + \alpha\, \sum_{j, t} [G_{jt} - B_\phi(s_{jt})]\nabla_\theta \log \pi_\theta(a_{jt}\mid s_{jt})$. 
+:::
+
+:::{.remark}
+The algorithm above is equivalent to PG with (MC returns estimate + MC value baseline estimate). Other alternatives include: 
+
+- Estimate value baseline using TD. 
+- Bootstrap $G_{jt}$ using TD instead of using MC. 
+
+In these variations which introduce bootstrap, the policy model $\pi_\theta$ is known as the **actor**, and the value model $B_\phi$ the **critic**. 
+
+<span style="color:blue"> Also note that the baseline estimate _can_ be $\theta$-dependent, since the baseline trick does not require $B_t$ to be $\theta$-independent</span> 
+:::
+
+### Generalized Advantage Estimation {#advEstimate -} 
+
+Another way of reducing bias is to introduce boot
+
+
+
+## Proximal Policy Optimization {#ppo -}
+
+The central improvements to PG all involve problems stemming from (1) high-variance of rewards, or (2) the online property: we only ever update policy based on trajectories collected _using the current policy_. 
+
+1. The on-policy update rule results in low data efficiency. 
+2. Parameterization: the norm in $\theta$-space might be drastically different from that in $\pi_\theta$ space. 
+    - For example, when logits saturate in logistic / softmax parameterizations. 
+3. Performance collapse: if $\theta$-update results in bad policy, gradient samples and updates might be stuck. 
+
+<details>
+<summary>One solution to (2) </summary>
+One solution: natural gradients; coordinate-change by the ($\pi_\theta$-KL, $\theta$-$L_2$) Hessian, which is the Fisher information; this coordinate map has trivial Jacobian generally. 
+
+However, Fisher information matrix is prohibitive to compute generally. A more practical solution is to constrain the new policy to be close to the original in KL. 
+</details> 
+
+As a result, we want improvements to be close to original policy in KL; this mitigates performance collapse and approximately allows us to use off-policy data. 

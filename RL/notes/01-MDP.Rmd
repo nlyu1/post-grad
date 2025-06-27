@@ -11,11 +11,14 @@ This section explores solutions to finite and infinite-horizon MDPs with finite 
 5. Greedy policy (definition \@ref(def:greedyPolicy)). It is also shown that $V^{\pi^{V^*}} = V^*$: acting greedily w.r.t. $V^*$ accumulates value $V^*$. 
     - Note that $\pi^q$ can be computed _without knowledge of environment dynamics_. 
 6. Finite-horizon MDPs are solved by backward induction using the optimality relations (definition \@ref(def:finiteVI)).  
-7. Infinite-horizon MDPS are solved by iterative approaches: 
+7. Infinite-horizon MDP **control problems** are solved by iterative approaches: 
     - **Value iteration** (proposition \@ref(prp:infVI)) iterate $v_j\to V^*$ using the optimality operator, then act greedily w.r.t. $v_T$. 
         - Acting greedily w.r.t. a candidate value evaluation (which might not be a consistent value function) does not guarantee the payoff: $\gamma$-dependent bound \@ref(thm:greedyPolicyValueBound).  
     - **Policy iteration** (theorem \@ref(thm:infPolicyIterProof)): iterate $\pi \mapsto \pi^{V^\pi}$, i.e. compute value of current policy, then update policy with one more step of foresight by making locally optimal choices according to the computed value. 
     - Intuitively, each iteration gives "one more step of foresight" to the associated quantities. 
+8. VI and PI highlight two fundamentally different methods to solving the control problem: 
+    - VI: recurse the optimality operator, then propose a greedy policy. 
+    - PI: evaluate the current policy, then act greedily w.r.t. the evaluation (fundamentally online). 
 
 ## Preliminaries {#MDP -}
 
@@ -49,9 +52,9 @@ A policy $\pi$ induces a measure $\rho^\pi$ on trajectories given by
 
 To accomodate $H=\infty$, we can also introduce a **discount factor** $\gamma\in [0, 1]$. <span style="color:blue">The core goal of an RL algorithm is to find the policy </span>
 \[ 
-    \pi^* = \argmax\pi \EV{\rho^\pi}[R(\tau)], \quad R(\tau) = \sum_{t=0}^H \gamma^t r_t
+    \pi^* = \argmax\pi \EV{\rho^\pi}[G(\tau)], \quad G(\tau) = \sum_{t=0}^H \gamma^t r_t
 \] 
-Note that the total reward $R$ is a $\tau$-dependent random variable. 
+Note that the total reward $R$ is a $\tau$-dependent random variable.  
 
 ## Value functions {#vFunctions -}
 
@@ -275,7 +278,7 @@ The ultimate goal of RL is to answer the following question:
 
 - Given a MDP, how to compute the optimal policy? 
 
-:::{.definition #finiteVI name="finite-horizon value iteration"}
+:::{.definition #finiteVI name="finite-horizon (action-)value iteration"}
 By theorem \@ref(thm:greedyPolicyOptimal), computing $Q^*$ suffices to yield the optimal policy. The **value-iteration** method uses the optimality recursion (definition \@ref(def:optimalityOp)) to compute $Q^*$: 
 :::
 Algorithm complexity is $O(H\cdot |\mca S|^2 \cdot |\mca A|)$ when we compute $V^*$. When computing $Q^*$: 
@@ -417,4 +420,10 @@ Here $\la s'|P^\pi|s\ra = P(s'\mid s, \pi(s))$. In this notation, the Bellman co
 \[ 
     V^\pi = r + \gamma\, P^\pi V^\pi \implies V^\pi = (I - \gamma\, P^\pi)^{-1} r^\pi 
 \] 
+:::
+
+:::{.remark name="VI vs PI"}
+Note that policy iteration (PI) cannot take more than $|\mca A|^{|\mca S|}$ iterations since there are only so many deterministic policies. On the other hand, value iteration might take more since _different value evaluations $\neq$ different greedy policies_. 
+
+- Consider single-state MDP with $r(s, a)=1, \gamma=.9$ and $V_0=0$. Then $V_1(s)=1$ while $V^*(s)=10$. 
 :::

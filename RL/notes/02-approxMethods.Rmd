@@ -1,0 +1,200 @@
+# Sampling Value-based Methods
+
+This section explores RL solutions when the environment dynamics $P(\cdot\mid s, a)$ and rewards are **not known**. This is also known as the **model-free** regime. 
+
+1. We overcome the model-free constraint by using **sampling** (and consistent estimations) to replace expectations. 
+    - TD learning is the direct extension of iteration-convergence methods.
+2. <u>Policy evaluation + greedy improvement = solving the control problem</u> (recall policy iteration). Policy evaluation methods:   
+    a. **Monte-Carlo**: high variance, no Markov conditions; converges to MSE-optimal estimates. 
+    b. **Temporal Difference (TD)**: low variance, need Markov conditions; converges asymptotically (when run against static data) to DP solution on empirical distribution of data. 
+    c. TD in asymptotic batched setting = analytic solution of policy evaluation under empirical distribution. 
+3. Difference between on-policy v. off-policy (definition \@ref(def:policyStatus)), and online v. offline methods (definition \@ref(def:onlineStatus). 
+    - Action-value iteration is offline since we do not need to sample-approximate any $\EV{a\sim \pi(s)}$. 
+    - Policy-iteration is online since it involves policy evaluation. 
+4. The three methods explored here are _sampling approximations_ of the [previous chapter's](#mdp) methods:
+    - _Monte-Carlo policy iteration_ = (policy evaluation using MC) + policy iteration: online & on-policy. 
+    - _Temporal-Difference policy iteration_ (SARSA) = (policy evaluation using TD) + policy iteration: online & on-policy. 
+    - _$Q$-learning_ \@ref(def:qLearning) = action-value iteration. 
+5. $Q$-learning is fundamentally a **action-value iteration** engine; online versions (\@ref{prp:qVariants}) merely serve to obtain more relevant samples. 
+5. Deep $Q$-learning = ($Q$-function approximation) + (sampling approximation) + (incremental online iteration to obtain relevant samples) + (action-value iteration). 
+    - Target network & experience replay buffers. 
+
+## Model-free policy evaluation {#polEval -}
+
+We first consider the policy evaluation problem $\pi \mapsto Q^\pi$. We are more interested in $Q^\pi$ since $\mrm{argmax}$ directly yields a greedy policy; in contrast, there's no way to build a greedy policy from $V^\pi$ in the model-free regime. 
+
+:::{.definition #polEvalCriteria name="evaluation criteria"}
+We want our evaluation (estimation) protocol to be: 
+
+1. Consistent: with enough data, estimate converges to the true value. 
+\[ 
+    \lim_{n\to \infty} \mbb P(|\hat \theta_n - \theta|>\epsilon_{\forall}) = 0 
+\] 
+2. Computationally feasible: updating estimates is easy. 
+3. Empirically estimate: MSE, bias, and variance. 
+:::
+
+Recall that the return is defined as 
+\[ 
+    G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots 
+\] 
+
+:::{.definition #mcPolEval name="Monte-Carlo Policy Evaluation"}
+Given the following assumptions:
+
+1. All trajectories are finite. 
+2. States and dynamics need not be Markov. 
+
+Compute $V(s)$ as follows: 
+
+1. Sample episode $j = ((s_{jk}, a_{jk}, r_{jk}))_k$. 
+2. For the **first** occurence of each $s$ in each episode, accumulate the empirical reward $G_{jt}\mid s_{jt}=s$. Return the average. 
+
+Alternative to the **first-visit** method above, we can also compute the **every-visit** MC: e.g. for the first trajectory $s_0, s_1, s_0, \dots$, we'll accumulate two samples $G_0, G_2$ for $V(s_0)$. We may also consider **incremental** MC by choosing a LR and set 
+\[ 
+    V^\pi(s_{jt}) \leftarrow V^\pi(s_{jt}) + \alpha[G_{jt} - V^\pi(s_{jt})]
+\] 
+:::
+
+:::{.remark}
+Monte-Carlo properties:
+
+1. First-visit MC is unbiased and consistent. 
+2. Every-visit MC is biased but consistent, and usually smaller MSE (better sample efficiency). 
+3. Incremental MC converges for $\sum \alpha_j = \infty, \quad \sum \alpha_j^2 < \infty$. 
+4. Limitations of MC: (1) **high-variance**, and (2) requires finite horizon: trajectories must end before updates can be computed. 
+:::
+
+Recall the consistency relations 
+\begin{align}
+    V^\pi_h(s) 
+    &= \EEV{a\in \pi(\cdot\mid s)}{s'\in P(\cdot\mid s, a)}[r(s, a) + \gamma\, V^\pi_{h+1}(s')] \\ 
+    Q^\pi_h(s, a) 
+    &= r(s, a) + \gamma \EEV{s'\in P(\cdot\mid s, a)}{a'\in \pi(\cdot\mid s')} Q^\pi_{h+1}(s', a')
+\end{align}
+This suggests that we should nudge $V^\pi(s) \leftarrow \mca J^\pi_{V^\pi}(s)$; expectations can be replaced by sampling. 
+
+:::{.definition name="TD(0) algorithm"}
+Given $\pi$, estimate $V^\pi$ as follows:
+
+1. Initialize $V^\pi =0$. 
+2. Repeatedly sample tuple $(s_t, a_t, r_t, s_{t+1})$ and compute 
+\[ 
+    V^\pi(s_t) \leftarrow V^\pi + \alpha([r_t + \gamma V^\pi(s_{t+1})] - V^\pi(s_t))
+\] 
+One can also imagine "unrolling" the consistency relations twice (or more) before replacing expectations with sampling. This is the idea behind TD($\lambda$) learning. More unrolls nudge the algorithm closer to MC sampling, which has lower bias but higher variance. The same can be done for $Q^\pi$ by sampling $(s_t, a_t, r_t, s_{t+1}$; the expectation over $a'$ can be computed analytically since we have access to $\pi$. 
+:::
+
+1. TD is a combination of Monte-Carlo (one-step) and dynamic programming methods! 
+2. TD can be used for episodic or infinite-horizon settings. 
+3. **Markov condition** is necessary since this underpins the validity of the Bellman consistency relations. 
+4. Generally lower variance. 
+5. Converges for $\alpha_j$ subject to the same conditions in MC. 
+6. If $\alpha=1$, then TD in MDPs with stochastic choices of actions might oscillate forever ($\alpha=1$ results in really bad. 
+
+Let us consider the **batch learning** scenario, where we have collected a finite number of samples and run the policy evaluation algorithms to convergence. 
+
+- Note that running TD twice on the same trajectory still generally updates the policy. 
+- The two methods will have different behaviors! 
+
+:::{.example name="Sutton & Barto Ex 6.4"}
+Consider two states $A, B$ with $\gamma=1$. Suppose we have collected the following $8$ episodes: 
+
+1. $A, 0, B, 0$. 
+2. $B, 1$ colleted $6$ times. 
+3. $B, 0$. 
+
+Then both TD and MC converge to $V(B)=0.75$. However, $V_{\mrm{MC}}(A)=0$ while $V_{\mrm{TD}}(A)=0.75$. 
+:::
+
+:::{.theorem #batchMCTDBehavior name="asymptotic batch MC and TD"}
+In a batched setting, MC converges to values with minimum squared error, while TD(0) converges to DP policy for the MDP with MLE model estimates. 
+:::
+
+To see why, recall that TD with convergent $\alpha$ is equivalent to iterated convergence using the consistency operator. Then running TD on batched data is equivalent to iterated policy evaluation on the empirical (MLE) distribution of the environment. In the example above, the DP structure "baked in" to the TD algorithm empowered more data-efficient results. 
+
+## Model free control {#modelFreeControl -}
+
+:::{.definition #policyStatus name="on (off)-policy algorithms"}
+A learning algorithm is **on policy** if its update rule depends on samples using the current policy. 
+:::
+
+:::{.definition #onlineStatus name="online (offline) algorithms"}
+An online learning algorithm requires interaction with the environment **during learning**, while an offline algorithm operates with a static dataset. 
+:::
+
+1. Online (offline) asks the question: does this interact with the environment during learning? 
+2. On-policy asks the question: must update depend on data computed using the latest policy? 
+
+In the [previous section](#polEval), we have seen how Monte-Carlo and TD can help evaluate policies; we have also seen how policy iteration \@ref(def:infPolicyIter) implies that <span style="color:blue"> policy evaluation + policy improvement (acting greedily w.r.t. evaluation) iterates to solve the control problem </u>. 
+
+:::{.definition #MCPI name="Monte-Carlo policy iteration"}
+MCPI combines $Q$-evaluation using MC with policy iteration; it is **online, on-policy**. Algorithm: 
+
+1. Initialize $Q=0$ and $\pi$ acting $\epsilon$-greedily w.r.t. $Q$. 
+2. Repeat until convergence: 
+    - Sample trajectory $\tau\sim \rho^\pi$ and extract $\{(s_t, a_t, G_t)\}$ from trajectory. 
+    - Update $Q(s_t, a_t) \leftarrow \bar \alpha Q(s_t, a_t) + \alpha G_t$ (these two steps can be repeated before proceeding). 
+    - Update $\pi \leftarrow \epsilon\text{-greedy}(\pi^{Q})$. 
+
+<u>GLIE Monte-Carlo PI is guaranteed to converge to the optimal policy. </u> 
+:::
+
+:::{.definition name="GLIE property"}
+A learning strategy is Greedy in the Limit of Infinite Exploration (GLIE)if 
+
+1. All state-action pairs are visited an infinite number of times. 
+2. Behavior policy converges to greedy policy. 
+
+A simple $\epsilon$_scheduling GLIE policy sets $\epsilon_k = 1/k$. 
+:::
+
+
+:::{.definition #TDPI name="temporal-difference policy iteration"}
+(policy eval using TD) + (policy iteration) is also known as SARSA. It is an **online, on-policy** algorithm: 
+
+1. Initialize $Q=0$ and $\epsilon$-greedy $\pi$. 
+2. Repeat until convergence: 
+    - Observe $(s_t, a_t, r_t, s_{t+1}, a_{t+1})$. 
+    - Update $Q(s_t, a_t) = \bar \alpha Q(s_t, a_t) + \alpha \left[
+        r_t + \gamma Q(s_{t+1}, a_{t+1}) 
+    \right]$. 
+        - Note that alternatively, we only need $s_{t+1}$ and replace 
+        $\gamma Q(s_{t+1}, a_{t+1}) \mapsto \gamma \EV{a_{t+1}\sim \pi(s_{t+1})} Q(s_{t+1}, a_{t+1})$. 
+    - The previous two steps can be repeated multiple times before proceeding. 
+    - Update $\pi \leftarrow \epsilon\text{-greedy}(\pi^{Q})$. 
+
+SARSA converges optimally assuming $\pi_t$ is GLIE (e.g. if $\epsilon_t \propto 1/t$) and if $\alpha_t$ is Robbins-Munro ($\|\alpha_t\|_2 < \infty = \|\alpha_t\|_1$). 
+:::
+
+:::{.definition #qLearning name="Q-learning"}
+$Q$-learning is the sampling variant of action-value iteration (definition \@ref(def:finiteVI)). In its original form, it is **offline, off-policy**. 
+
+1. Initialize $Q=0$. 
+2. Given a static list of trajectories, repeat until convergence: 
+    - For each $(s, a, r, s')$: 
+    - $Q(s, a) \leftarrow \bar \alpha Q(s, a) + \alpha \left[
+        r + \gamma \max_{a'} Q(s', a') 
+    \right]$. 
+3. Repeat $Q$-greedy policy. 
+
+Note that $Q$-learning in the asymptotic batch-setting limit is conceptually equivalent to solving MDP control on the empirical environment distribution. 
+:::
+
+:::{.proposition #qVariants name="variants of Q-learning"}
+Although $Q$-learning (sampling action-value iteration) is offline, to obtain more effective samples, a more prominent online version combines value iteration with policy iteration; this version is **online, off-policy**:  
+
+1. Initialize $Q=0$ and random policy $\pi$. 
+2. Repeat until convergence: 
+    - Generate trajectories using $\pi$. 
+    - Repeat for a certain number of steps (or until convergence):
+        - For each $(s, a, r, s')$ in trajectory, update $Q(s, a)$. 
+    - Update $\pi$ to be an $\epsilon$-greedy policy w.r.t. $Q$. 
+:::
+
+DQN (Deep Q Networks) build on the online version above with: 
+
+1. Function approximation of $Q$ using neural networks. 
+2. To mitigate the non-i.i.d. data, use experience replay buffers. 
+3. To mitigate nonstationary target in the Bellman optimality operator, update the $Q$-target slowly to improve stability. 
+    - Intuition: while the Bellman optimality operator is a contraction, using functional approximation might break this property and lead to oscillation / divergence. 
