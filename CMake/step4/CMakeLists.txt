@@ -1,11 +1,8 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.10)
 project(Tutorial VERSION 1.0)
 
 # set(CMAKE_CXX_STANDARD 11)
 # set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
-set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 
 # configure a header file to pass some of the CMake settings to the source code
 configure_file(TutorialConfig.h.in TutorialConfig.h)
@@ -19,10 +16,6 @@ add_executable(Tutorial tutorial.cc)
 # Instead of directly specifying cpp standardds, alternatively make into separate library 
 add_library(compiler_flags INTERFACE)
 target_compile_features(compiler_flags INTERFACE cxx_std_11) 
-target_compile_options(tutorial_compiler_flags INTERFACE
-  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
-  "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
-)
 # CMAKE stop 
 
 # Tells **linker** where to find compiled object code / implementations. 

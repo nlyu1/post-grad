@@ -1,16 +1,10 @@
 1. Put makefile on the top level
-2. Go to build folder and run `cmake ../`
+2. Initialize cmake: **Go to build folder** and run `cmake ../`
 3. Make cache & files would have been written to the build folder. 
     - Run `make .` to use native make, or 
     - Run `cmake --build .`
-4. Sample whole-chain command: `cmake ../ && cmake --build . && ./Tutorial 100`
-5. Building and testing: 
-```
-cmake ../ && cmake --install . 
-
-# Optional: installation prefix 
-cmake --install . --prefix "/home/myuser/installdir"
-```
+4. Build and install: `cmake --build . && cmake --install . --prefix "/home/nlyu/Code/post-grad/CMake/step5/installation"`
+5. Build and pack: `cmake --build . && cpack`. 
 
 Miscellaneous notes: 
 

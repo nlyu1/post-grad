@@ -3,14 +3,6 @@
 3. Make cache & files would have been written to the build folder. 
     - Run `make .` to use native make, or 
     - Run `cmake --build .`
-4. Sample whole-chain command: `cmake ../ && cmake --build . && ./Tutorial 100`
-5. Building and testing: 
-```
-cmake ../ && cmake --install . 
-
-# Optional: installation prefix 
-cmake --install . --prefix "/home/myuser/installdir"
-```
 
 Miscellaneous notes: 
 
